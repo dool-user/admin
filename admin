@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案件票自動生成ツール</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- ヘッダー -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-file-alt text-blue-600 mr-2"></i>
+                案件票自動生成ツール
+            </h1>
+            <p class="text-gray-600">業務委託案件の情報を入力して、統一フォーマットの案件票を自動生成</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- 入力フォーム -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-edit text-green-600 mr-2"></i>
+                    案件情報入力
+                </h2>
+
+                <form id="projectForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">案件名</label>
+                        <input type="text" id="projectName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：電子チケットのメールサポート・電話サポート業務">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">業務内容</label>
+                        <textarea id="jobDescription" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：某大手チケット会社の電子チケットのサポート業務　※8割メールサポート"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">時間</label>
+                        <input type="text" id="workHours" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：176時間以上">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">休み</label>
+                        <input type="text" id="holidays" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：シフト制">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">時間帯</label>
+                        <input type="text" id="workTime" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：10:30〜19:30（実働8時間、休憩1時間）">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">単価</label>
+                        <input type="text" id="rate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：時間単価（1,900円）">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">交通費</label>
+                        <input type="text" id="transportation" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：込み">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">稼働場所</label>
+                        <input type="text" id="location" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：池袋　※一定期間大崎での稼働の可能性有">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">採用フロー</label>
+                        <textarea id="recruitmentFlow" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：2回 web弊社1回(10分程度)+エンドクライアントとの面談1回（30分程度）※webになる可能性もあり"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">契約</label>
+                        <input type="text" id="contract" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：業務委託（1ヶ月更新）">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">備考</label>
+                        <textarea id="remarks" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="例：・勤怠や実績不振による即契約終了の可能性あり"></textarea>
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="generateTicket()" class="flex-1 bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 flex items-center justify-center">
+                            <i class="fas fa-magic mr-2"></i>
+                            案件票作成
+                        </button>
+                        <button type="button" onclick="clearForm()" class="bg-gray-500 text-white py-3 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200">
+                            <i class="fas fa-eraser"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 出力エリア -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+                    <i class="fas fa-file-text text-purple-600 mr-2"></i>
+                    生成された案件票
+                </h2>
+
+                <div class="relative">
+                    <textarea id="outputTicket" rows="20" class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 font-mono text-sm" readonly placeholder="左側のフォームに入力して「案件票作成」ボタンを押してください。"></textarea>
+                    
+                    <button id="copyButton" onclick="copyToClipboard()" class="absolute top-2 right-2 bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 opacity-0 pointer-events-none" disabled>
+                        <i class="fas fa-copy mr-1"></i>
+                        コピー
+                    </button>
+                </div>
+
+                <div id="copyStatus" class="mt-2 text-sm text-green-600 opacity-0 transition-opacity duration-300">
+                    <i class="fas fa-check mr-1"></i>
+                    クリップボードにコピーしました！
+                </div>
+            </div>
+        </div>
+
+        <!-- 使い方ガイド -->
+        <div class="mt-8 bg-blue-50 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-blue-800 mb-3 flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                使い方ガイド
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div class="flex items-start">
+                    <span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3 mt-0.5">1</span>
+                    <div>
+                        <div class="font-medium text-blue-800">情報入力</div>
+                        <div class="text-blue-600">左側のフォームに案件情報を入力してください</div>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3 mt-0.5">2</span>
+                    <div>
+                        <div class="font-medium text-blue-800">案件票作成</div>
+                        <div class="text-blue-600">「案件票作成」ボタンで自動生成されます</div>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3 mt-0.5">3</span>
+                    <div>
+                        <div class="font-medium text-blue-800">コピー・活用</div>
+                        <div class="text-blue-600">「コピー」ボタンでテキストをコピーして使用</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateTicket() {
+            const formData = {
+                projectName: document.getElementById('projectName').value,
+                jobDescription: document.getElementById('jobDescription').value,
+                workHours: document.getElementById('workHours').value,
+                holidays: document.getElementById('holidays').value,
+                workTime: document.getElementById('workTime').value,
+                rate: document.getElementById('rate').value,
+                transportation: document.getElementById('transportation').value,
+                location: document.getElementById('location').value,
+                recruitmentFlow: document.getElementById('recruitmentFlow').value,
+                contract: document.getElementById('contract').value,
+                remarks: document.getElementById('remarks').value
+            };
+
+            let ticket = '';
+            
+            if (formData.projectName) ticket += `■案件：${formData.projectName}\n`;
+            if (formData.jobDescription) ticket += `■業務内容：${formData.jobDescription}\n`;
+            if (formData.workHours) ticket += `■時間：${formData.workHours}\n`;
+            if (formData.holidays) ticket += `■休み：${formData.holidays}\n`;
+            if (formData.workTime) ticket += `■時間帯：${formData.workTime}\n`;
+            if (formData.rate) ticket += `■単価：${formData.rate}\n`;
+            if (formData.transportation) ticket += `■交通費：${formData.transportation}\n`;
+            if (formData.location) ticket += `■稼働場所：${formData.location}\n`;
+            if (formData.recruitmentFlow) ticket += `■採用フロー：${formData.recruitmentFlow}\n`;
+            if (formData.contract) ticket += `■契約：${formData.contract}\n`;
+            if (formData.remarks) ticket += `■備考：\n${formData.remarks}`;
+
+            document.getElementById('outputTicket').value = ticket;
+            
+            // コピーボタンを表示
+            const copyButton = document.getElementById('copyButton');
+            copyButton.classList.remove('opacity-0', 'pointer-events-none');
+            copyButton.disabled = false;
+        }
+
+        function copyToClipboard() {
+            const outputText = document.getElementById('outputTicket');
+            outputText.select();
+            outputText.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                showCopyStatus();
+            } catch (err) {
+                console.error('コピーに失敗しました:', err);
+            }
+        }
+
+        function showCopyStatus() {
+            const status = document.getElementById('copyStatus');
+            status.classList.remove('opacity-0');
+            
+            setTimeout(() => {
+                status.classList.add('opacity-0');
+            }, 2000);
+        }
+
+        function clearForm() {
+            document.getElementById('projectForm').reset();
+            document.getElementById('outputTicket').value = '';
+            
+            // コピーボタンを非表示
+            const copyButton = document.getElementById('copyButton');
+            copyButton.classList.add('opacity-0', 'pointer-events-none');
+            copyButton.disabled = true;
+        }
+
+        // サンプルデータを自動入力する関数（デモ用）
+        function loadSampleData() {
+            document.getElementById('projectName').value = '電子チケットのメールサポート・電話サポート業務';
+            document.getElementById('jobDescription').value = '某大手チケット会社の電子チケットのサポート業務　※8割メールサポート';
+            document.getElementById('workHours').value = '176時間以上';
+            document.getElementById('holidays').value = 'シフト制';
+            document.getElementById('workTime').value = '10:30〜19:30（実働8時間、休憩1時間）';
+            document.getElementById('rate').value = '時間単価（1,900円）';
+            document.getElementById('transportation').value = '込み';
+            document.getElementById('location').value = '池袋　※一定期間大崎での稼働の可能性有';
+            document.getElementById('recruitmentFlow').value = '2回 web弊社1回(10分程度)+エンドクライアントとの面談1回（30分程度）\n※webになる可能性もあり';
+            document.getElementById('contract').value = '業務委託（1ヶ月更新）';
+            document.getElementById('remarks').value = '・勤怠や実績不振による即契約終了の可能性あり';
+        }
+    </script>
+</body>
+</html>
