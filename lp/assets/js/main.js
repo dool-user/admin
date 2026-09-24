@@ -85,17 +85,21 @@
     if (area) {
       $$('[data-area-name]').forEach(function (el) { el.textContent = area.name; });
       $$('[data-area-short]').forEach(function (el) { el.textContent = area.short; });
-      $$('[data-area-utility]').forEach(function (el) { el.textContent = area.utility; });
-      var list = $('[data-area-cities]');
-      if (list) {
-        list.innerHTML = '';
-        area.cities.forEach(function (c) {
-          var li = document.createElement('li');
-          li.textContent = c;
-          list.appendChild(li);
-        });
-      }
     }
+
+    // 対応エリア：短縮形（東京・神奈川…）と一覧（東京都／神奈川県…）
+    var prefs = CONFIG.serviceArea || [];
+    $$('[data-service-area-short]').forEach(function (el) {
+      el.textContent = prefs.map(function (n) { return n.replace(/[都道府県]$/, ''); }).join('・');
+    });
+    $$('[data-service-area]').forEach(function (list) {
+      list.innerHTML = '';
+      prefs.forEach(function (n) {
+        var li = document.createElement('li');
+        li.textContent = n;
+        list.appendChild(li);
+      });
+    });
   }
 
   /* ------------------------------------------------------------
@@ -149,7 +153,7 @@
     } else if (open) {
       text = 'ただいまお電話受付中（' + h.end + ':00まで）';
     } else {
-      text = '電話は' + h.start + ':00から／Webは24時間受付中';
+      text = 'Webなら24時間いつでも受付中';
     }
     els.forEach(function (el) {
       el.innerHTML = '<span class="dot" aria-hidden="true"></span>';

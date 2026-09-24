@@ -169,15 +169,17 @@
         <h1 class="mv__title">
           <span class="mv__title-main"><span class="nw">電気の<em>使用開始</em></span><span class="nw">のお申し込み</span></span>
         </h1>
-        <p class="mv__area"><span class="nw"><span data-area-utility>東京電力パワーグリッド</span>のエリア</span><span class="nw">（<span data-area-name>東京都</span>）の物件に対応</span></p>
+        <p class="mv__area" data-fit-line><span class="nw">対応エリア：</span><span class="nw" data-service-area-short>東京・神奈川・埼玉・千葉・茨城・群馬・栃木</span></p>
         <figure class="mv__visual">
           <img src="../assets/img/mv-illust.webp" width="1200" height="575" alt="引越し先の家に、電気と水道が使えるよう手配されるイメージのイラスト" fetchpriority="high">
         </figure>
         <ul class="mv__badges">
+          <li class="is-accent"><b>最短</b>即日<br>開通</li>
           <li><b>ご相談</b>無料</li>
           <li><b>土日祝も</b>受付</li>
           <li><b>ガス・水道も</b>同時に</li>
         </ul>
+        <p class="mv__badge-note">※即日開通は、スマートメーター設置済みの物件に受付時間内にお申し込みいただいた場合の目安です。物件の状況によってはお受けできない場合があります。</p>
         <p class="mv__note">新居の電気の申し込み、窓口ひとつで済ませませんか。<br>ガス・水道・ネットも同時にご依頼いただけます。</p>
       </div>
     </section>
@@ -186,7 +188,7 @@
     <section class="cta" aria-label="お申し込み">
       <div class="cta__inner">
         <p class="cta__catch">＼ 入居日が近い方はお電話がスムーズです ／</p>
-        <p class="cta__status" data-open-status hidden></p>
+        <p class="cta__status" data-open-status data-fit-line hidden></p>
         <div class="cta__buttons" data-cta-group>
           <a class="btn btn--tel" href="tel:0120000000" data-tel-link data-call data-cta="tel" data-track="tel_cta1">
             <span class="btn__sub">無料通話・年中無休</span>
@@ -307,11 +309,32 @@
       </div>
     </section>
 
+    <!-- ===== Trouble banner ===== -->
+    <div class="trouble">
+      <div class="container">
+        <div class="trouble__box">
+          <div class="trouble__visual" aria-hidden="true">
+            <svg class="trouble__ill"><use href="#ill-electric"/></svg>
+            <span class="trouble__q">?</span>
+          </div>
+          <div class="trouble__body">
+            <p class="trouble__bubble">あれ？電気止まっちゃった？</p>
+            <p class="trouble__title">そんな<em>急なお困りごと</em>にも<br class="sp">お応えします！</p>
+            <p class="trouble__text">入居したのに電気がつかない、手続きが済んでいるかわからない。そんなときもお気軽にお電話ください。状況をお伺いして、必要なお手続きをご案内します。</p>
+            <a class="btn btn--tel trouble__btn" href="tel:0120000000" data-tel-link data-call data-track="tel_trouble">
+              <span class="btn__main"><svg class="btn__icon" aria-hidden="true"><use href="#ico-tel"/></svg>電話で相談する</span>
+              <span class="btn__num" data-tel-display>0120-000-000</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== CTA (2) ===== -->
     <section class="cta cta--alt" aria-label="お申し込み">
       <div class="cta__inner">
         <p class="cta__catch">＼ 住所と入居日がわかればOK ／</p>
-        <p class="cta__status" data-open-status hidden></p>
+        <p class="cta__status" data-open-status data-fit-line hidden></p>
         <div class="cta__buttons" data-cta-group>
           <a class="btn btn--tel" href="tel:0120000000" data-tel-link data-call data-cta="tel" data-track="tel_cta2">
             <span class="btn__sub">無料通話・年中無休</span>
@@ -409,9 +432,10 @@
     <!-- ===== Area ===== -->
     <section class="section area">
       <div class="container">
-        <h2 class="section__title"><span class="section__title-en">AREA</span>ご依頼いただける地域（<span data-area-name>東京都</span>）</h2>
-        <p class="area__lead">一般送配電事業者：<span data-area-utility>東京電力パワーグリッド</span>エリア</p>
-        <ul class="area__list" data-area-cities></ul>
+        <h2 class="section__title"><span class="section__title-en">AREA</span>ご依頼いただける地域</h2>
+        <ul class="area__list area__list--pref" data-service-area>
+          <li>東京都</li><li>神奈川県</li><li>埼玉県</li><li>千葉県</li><li>茨城県</li><li>群馬県</li><li>栃木県</li>
+        </ul>
         <p class="area__note">※離島など一部地域はお時間をいただく場合があります。</p>
       </div>
     </section>
