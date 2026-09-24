@@ -60,23 +60,30 @@ em { font-style: normal; }
 .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--navy); margin-right: auto; min-width: 0; }
 .logo__img { display: block; height: 30px; width: auto; max-width: 100%; }
 .header__form { white-space: nowrap; }
-@media (max-width: 359px) { .logo__img { height: 24px; } .header__form { padding: 8px 12px; } }
 .header__cta { text-align: right; flex-shrink: 0; }
 .header__label { font-size: 10px; color: var(--muted); line-height: 1.2; }
 .header__tel { display: inline-flex; align-items: center; gap: 4px; font-size: 20px; font-weight: 900; color: var(--green); text-decoration: none; letter-spacing: .02em; line-height: 1.2; }
+.header__tel-label { display: none; }
 .header__form { display: none; }
 @media (max-width: 767px) {
+  .header__inner { gap: 8px; }
+  .logo__img { height: clamp(20px, 6.6vw, 28px); }
   .header__label { display: none; }
-  /* スマホは丸い電話アイコンのみ。番号の文字は font-size:0 ではなく確実に非表示にする
-     （端末の最小文字サイズ設定で文字が残り、アイコンがつぶれるのを防ぐ） */
-  .header__tel {
-    position: relative; width: 44px; height: 44px; padding: 0; border-radius: 50%; flex-shrink: 0;
-    background: var(--green); color: #fff; justify-content: center; overflow: hidden;
+  /* スマホは「電話受付」「Web受付」を同じ形・同じ大きさのボタンで並べる */
+  .header .header__tel, .header .header__form {
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: clamp(72px, 23vw, 92px); height: 36px; min-height: 0; padding: 0; border-radius: 999px;
+    font-size: clamp(12px, 3.6vw, 14px); font-weight: 900; line-height: 1; letter-spacing: 0; white-space: nowrap;
+    color: #fff; text-decoration: none;
   }
+  .header .header__tel { background: var(--green); box-shadow: 0 3px 0 var(--green-dark); }
+  .header .header__form { background: var(--orange); box-shadow: 0 3px 0 var(--orange-dark); }
+  .header__tel svg { display: none; }
+  .header__tel-label { display: inline; }
+  /* 番号の文字は font-size:0 ではなく確実に非表示にする（端末の最小文字サイズ対策） */
   .header__tel [data-tel-display] {
     position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
   }
-  .header__tel svg { width: 24px; height: 24px; min-width: 24px; flex-shrink: 0; }
 }
 @media (min-width: 768px) {
   .header__form { display: inline-flex; }
