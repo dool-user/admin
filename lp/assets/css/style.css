@@ -95,9 +95,13 @@ ul, ol { padding: 0; list-style: none; }
 /* ---------- Main Visual ---------- */
 .mv { background: var(--paper-2); border-bottom: 1px solid var(--line); }
 .mv__inner { max-width: 1000px; margin: 0 auto; padding: 28px 16px 32px; display: grid; gap: 24px; }
-.mv__lead { font-size: 14px; font-weight: 700; color: var(--ink-2); }
-.mv__title { margin-top: 8px; font-size: 28px; line-height: 1.45; font-weight: 700; letter-spacing: .01em; text-wrap: balance; }
-.mv__title mark { background: linear-gradient(transparent 62%, var(--marker) 62%); color: inherit; padding: 0 2px; }
+.mv__title { font-size: 32px; line-height: 1.35; font-weight: 700; letter-spacing: .01em; text-wrap: balance; }
+.mv__title { font-feature-settings: "palt"; }
+.mv__title span { display: inline-block; }
+.mv__area { margin-top: 10px; font-size: 15px; font-weight: 700; color: var(--ink-2); }
+.mv__sub { margin-top: 16px; font-size: 19px; font-weight: 700; line-height: 1.6; }
+.mv__sub mark { background: linear-gradient(transparent 62%, var(--marker) 62%); color: inherit; padding: 0 2px; }
+.mv__notice { margin-top: 16px; font-size: 12px; line-height: 1.7; color: var(--ink-2); background: var(--paper); border: 1px solid var(--line); padding: 8px 12px; max-width: 40em; }
 .mv__text { margin-top: 14px; font-size: 15px; color: var(--ink-2); max-width: 34em; }
 .mv__facts { margin-top: 20px; display: grid; border: 2px solid var(--ink); background: var(--paper); }
 .mv__facts div { display: grid; grid-template-columns: 4em 1fr; align-items: baseline; gap: 8px; padding: 6px 12px; border-bottom: 1px solid var(--line); }
@@ -112,8 +116,10 @@ ul, ol { padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) { .mv__lever { animation: none; } html { scroll-behavior: auto; } }
 @media (min-width: 768px) {
   .mv__inner { grid-template-columns: 1fr 260px; align-items: center; gap: 48px; padding: 56px 24px; }
-  .mv__lead { font-size: 16px; }
-  .mv__title { font-size: 44px; }
+  .mv__title { font-size: 48px; }
+  .mv__area { font-size: 17px; }
+  .mv__sub { font-size: 24px; }
+  .mv__notice { font-size: 13px; }
   .mv__text { font-size: 17px; }
   .mv__facts { display: flex; width: fit-content; }
   .mv__facts div { display: block; padding: 6px 14px; border-bottom: 0; border-right: 1px solid var(--line); }
