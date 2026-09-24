@@ -110,6 +110,13 @@ em { font-style: normal; }
 .btn--submit[disabled] { opacity: .6; cursor: wait; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
+/* ---------- Site note（運営者の明示） ---------- */
+.site-note {
+  margin: 0; padding: 7px 16px; background: var(--bg-soft); border-bottom: 1px solid var(--line);
+  font-size: 12px; line-height: 1.6; color: #555; text-align: center;
+}
+.site-note .nw { display: inline-block; }
+
 /* ---------- Main Visual ---------- */
 .mv { position: relative; overflow: hidden; color: var(--navy); background: #fff; }
 .mv__inner { position: relative; max-width: 1040px; margin: 0 auto; padding: 28px 16px 32px; }
