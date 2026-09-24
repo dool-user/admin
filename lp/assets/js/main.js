@@ -242,6 +242,12 @@
         if (err) err.textContent = '該当する住所が見つかりませんでした';
       }
     };
+    script.onerror = function () {
+      delete window[cb];
+      script.remove();
+      var err = $('[data-error-for="zip"]');
+      if (err) err.textContent = '住所を自動入力できませんでした。お手数ですが直接ご入力ください';
+    };
     script.src = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + zip + '&callback=' + cb;
     document.head.appendChild(script);
   }
