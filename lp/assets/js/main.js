@@ -116,6 +116,36 @@
   }
 
   /* ------------------------------------------------------------
+   * 受付状況の表示（ボタン上）
+   * 受付時間内は「ただいま受付中」、時間外はWeb申込へ誘導
+   * ---------------------------------------------------------- */
+  function applyStatus() {
+    var els = $$('[data-open-status]');
+    if (!els.length) return;
+    var h = CONFIG.businessHours;
+    var open = isOpenNow();
+    var text;
+    if (opts.callHide) {
+      text = 'Webなら24時間お申し込みいただけます';
+      open = true;
+    } else if (opts.telMode === 'yakan') {
+      text = 'ただいま夜間も受付中です';
+    } else if (open) {
+      text = 'ただいまお電話受付中（' + h.end + ':00まで）';
+    } else {
+      text = '電話は' + h.start + ':00から／Webは24時間受付中';
+    }
+    els.forEach(function (el) {
+      el.innerHTML = '<span class="dot" aria-hidden="true"></span>';
+      var span = document.createElement('span');
+      span.textContent = text;
+      el.appendChild(span);
+      el.classList.toggle('is-closed', !open);
+      el.hidden = false;
+    });
+  }
+
+  /* ------------------------------------------------------------
    * 計測（GTM dataLayer）
    * ---------------------------------------------------------- */
   window.dataLayer = window.dataLayer || [];
@@ -344,6 +374,7 @@
 
   applyContent();
   applyLayout();
+  applyStatus();
   initFixedCta();
   initModal();
   initForm();
