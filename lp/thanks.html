@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>お申し込み完了｜でんき開通サポート</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- ★ GTM をここにも設置し、このページの表示をコンバージョンとして計測してください -->
+</head>
+<body data-area="">
+  <header class="header">
+    <div class="header__inner">
+      <a href="tokyo/" class="logo">
+        <span class="logo__mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
+        <span class="logo__text" data-brand-name>でんき開通サポート</span>
+      </a>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container container--narrow" style="text-align:center">
+      <h1 class="section__title"><span class="section__title-en">THANK YOU</span>お申し込みを受け付けました</h1>
+      <p>お申し込みいただきありがとうございます。<br>担当者より順次、折り返しご連絡いたします。</p>
+      <p style="margin-top:16px;font-size:14px;color:#666">お急ぎの場合はお電話ください。</p>
+      <p style="margin-top:8px"><a class="header__tel" href="tel:0120000000" data-tel-link><span data-tel-display>0120-000-000</span></a></p>
+      <p style="margin-top:4px;font-size:12px;color:#666" data-tel-label></p>
+    </div>
+  </main>
+  <script src="assets/js/config.js"></script>
+  <script>
+    (function () {
+      var C = window.LP_CONFIG, p = {};
+      try { p = JSON.parse(sessionStorage.getItem('lp_params')) || {}; } catch (e) {}
+      var t = C.tel[p.tel === 'yakan' ? 'yakan' : 'default'];
+      document.querySelectorAll('[data-tel-link]').forEach(function (a) { a.href = 'tel:' + t.href; });
+      document.querySelectorAll('[data-tel-display]').forEach(function (e) { e.textContent = t.display; });
+      document.querySelectorAll('[data-tel-label]').forEach(function (e) { e.textContent = t.label; });
+      document.querySelectorAll('[data-brand-name]').forEach(function (e) { e.textContent = C.brand.name; });
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'thanks_view' });
+    })();
+  </script>
+</body>
+</html>

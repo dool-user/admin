@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>プライバシーポリシー｜でんき開通サポート</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .policy h2 { font-size: 17px; color: var(--navy); margin: 28px 0 8px; border-left: 4px solid var(--yellow); padding-left: 10px; }
+    .policy p, .policy li { font-size: 14px; }
+    .policy ul { list-style: disc; padding-left: 1.4em; }
+  </style>
+</head>
+<body style="padding-bottom:0">
+  <main class="section">
+    <div class="container container--narrow policy">
+      <h1 class="section__title">プライバシーポリシー</h1>
+      <p>※本ページはひな形です。公開前に必ず専門家の確認を受け、自社の実態に合わせて修正してください。</p>
+
+      <h2>1. 個人情報の取得</h2>
+      <p>当社は、お申し込みフォームおよびお電話により、氏名・電話番号・メールアドレス・住所・利用開始日等の個人情報を取得します。</p>
+
+      <h2>2. 利用目的</h2>
+      <ul>
+        <li>電気・ガス・水道・インターネット等の利用開始・停止手続きの代行および取次</li>
+        <li>お申し込み内容の確認のためのご連絡</li>
+        <li>料金プラン等のご案内</li>
+        <li>サービス改善のための統計データ作成（個人を特定しない形式）</li>
+      </ul>
+
+      <h2>3. 第三者提供</h2>
+      <p>手続きの遂行に必要な範囲で、電力会社・ガス会社・水道事業者・通信事業者等へ個人情報を提供します。法令に基づく場合を除き、ご本人の同意なくその他の第三者に提供することはありません。</p>
+
+      <h2>4. Cookie・アクセス解析</h2>
+      <p>当サイトでは、広告効果測定およびアクセス解析のため Cookie 等を使用しています（Google アナリティクス、Google 広告等）。</p>
+
+      <h2>5. 開示・訂正・削除</h2>
+      <p>ご本人から個人情報の開示・訂正・利用停止・削除等のご請求があった場合は、本人確認のうえ速やかに対応します。</p>
+
+      <h2>6. お問い合わせ窓口</h2>
+      <p><span data-brand-company>株式会社サンプル</span> 個人情報お問い合わせ窓口<br><span data-brand-address>東京都〇〇区〇〇 1-2-3</span></p>
+    </div>
+  </main>
+  <script src="assets/js/config.js"></script>
+  <script>
+    document.querySelectorAll('[data-brand-company]').forEach(function (e) { e.textContent = LP_CONFIG.brand.company; });
+    document.querySelectorAll('[data-brand-address]').forEach(function (e) { e.textContent = LP_CONFIG.brand.address; });
+  </script>
+</body>
+</html>
