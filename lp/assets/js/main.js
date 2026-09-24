@@ -116,6 +116,22 @@
   }
 
   /* ------------------------------------------------------------
+   * 1行に収めたい表示（運営者表示など）
+   * はみ出すときだけ文字を少しずつ縮める（最小10px）
+   * ---------------------------------------------------------- */
+  function fitLines() {
+    $$('[data-fit-line]').forEach(function (el) {
+      el.style.fontSize = '';
+      var size = parseFloat(getComputedStyle(el).fontSize);
+      while (el.scrollWidth > el.clientWidth && size > 10) {
+        size -= 0.5;
+        el.style.fontSize = size + 'px';
+      }
+    });
+  }
+  window.addEventListener('resize', fitLines);
+
+  /* ------------------------------------------------------------
    * 受付状況の表示（ボタン上）
    * 受付時間内は「ただいま受付中」、時間外はWeb申込へ誘導
    * ---------------------------------------------------------- */
@@ -375,6 +391,8 @@
   applyContent();
   applyLayout();
   applyStatus();
+  fitLines();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitLines);
   initFixedCta();
   initModal();
   initForm();

@@ -59,6 +59,8 @@ em { font-style: normal; }
 }
 .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--navy); margin-right: auto; min-width: 0; }
 .logo__img { display: block; height: 30px; width: auto; max-width: 100%; }
+.header__form { white-space: nowrap; }
+@media (max-width: 359px) { .logo__img { height: 24px; } .header__form { padding: 8px 12px; } }
 .header__cta { text-align: right; }
 .header__label { font-size: 10px; color: var(--muted); line-height: 1.2; }
 .header__tel { display: inline-flex; align-items: center; gap: 4px; font-size: 20px; font-weight: 900; color: var(--green); text-decoration: none; letter-spacing: .02em; line-height: 1.2; }
@@ -112,10 +114,12 @@ em { font-style: normal; }
 
 /* ---------- Site note（運営者の明示） ---------- */
 .site-note {
-  margin: 0; padding: 7px 16px; background: var(--bg-soft); border-bottom: 1px solid var(--line);
+  margin: 0; padding: 7px 12px; background: var(--bg-soft); border-bottom: 1px solid var(--line);
   font-size: 12px; line-height: 1.6; color: #555; text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.site-note .nw { display: inline-block; }
+.site-note__full { display: none; }
+@media (min-width: 768px) { .site-note__full { display: inline; } .site-note__short { display: none; } }
 
 /* ---------- Main Visual ---------- */
 .mv { position: relative; overflow: hidden; color: var(--navy); background: #fff; }
