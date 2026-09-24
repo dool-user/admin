@@ -10,6 +10,11 @@ get_header();
 $hn_tel    = hn_opt( 'tel' );
 $hn_points = array( hn_opt( 'point1' ), hn_opt( 'point2' ), hn_opt( 'point3' ) );
 $hn_voices = hn_get_voices();
+$hn_icons  = array(
+	'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.1-.4-.4-2.1z"/></svg>',
+	'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 6.5h11v9.5h-11zM13.5 10h4l3.5 3.5V16h-7.5"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>',
+	'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>'
+);
 $hn_error  = isset( $_GET['form_error'] ) ? sanitize_key( $_GET['form_error'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 $hn_sent   = isset( $_GET['sent'] ); // phpcs:ignore WordPress.Security.NonceVerification
 $hn_errmsg = array(
@@ -27,26 +32,33 @@ $hn_prices = array(
 <!-- ===== ファーストビュー ===== -->
 <section class="hero">
   <div class="hero__inner">
-    <p class="hero__badge"><?php echo esc_html( hn_opt( 'hero_badge' ) ); ?></p>
-    <h1 class="hero__title">
-      <span class="hero__sub">光回線をお申し込みで</span>
-      <span class="hero__main">最大<strong><?php echo esc_html( hn_yen( hn_opt( 'max_cashback' ) ) ); ?></strong><em>円</em></span>
-      <span class="hero__main2">キャッシュバック!</span>
-    </h1>
-    <p class="hero__or">または<span>最新家電プレゼント</span>から選べる!</p>
-    <ul class="hero__points">
-      <?php
-      foreach ( $hn_points as $hn_p ) :
-          $hn_pp = array_pad( explode( '|', $hn_p ), 2, '' );
-          ?>
-        <li><b><?php echo esc_html( $hn_pp[0] ); ?></b><?php echo esc_html( $hn_pp[1] ); ?></li>
-      <?php endforeach; ?>
-    </ul>
-    <div class="hero__cta">
-      <a href="#apply" class="btn btn--primary btn--lg">Webで今すぐ申し込む<small>24時間受付・最短3分</small></a>
-      <a href="<?php echo esc_attr( hn_tel_href() ); ?>" class="btn btn--tel btn--lg" data-track="tel">電話で申し込む<small><?php echo esc_html( $hn_tel ); ?></small></a>
+    <div class="hero__head">
+      <p class="hero__badge"><?php echo esc_html( hn_opt( 'hero_badge' ) ); ?></p>
+      <h1 class="hero__title">
+        <span class="hero__sub">光回線のお申し込みで</span>
+        <span class="hero__main"><span class="hero__max">最大</span><strong><?php echo esc_html( hn_yen( hn_opt( 'max_cashback' ) ) ); ?></strong><em>円</em></span>
+        <span class="hero__main2">キャッシュバック<i>!</i></span>
+      </h1>
+      <p class="hero__or"><span class="hero__or-tag">または</span>最新家電プレゼントから選べる!</p>
     </div>
-    <p class="note"><?php echo esc_html( hn_opt( 'cp_note' ) ); ?></p>
+    <div class="hero-art">
+<?php get_template_part( 'template-parts/hero-illust' ); ?>
+    </div>
+    <div class="hero__foot">
+      <ul class="hero__points">
+<?php
+        foreach ( $hn_points as $hn_i => $hn_p ) :
+            $hn_pp = array_pad( explode( '|', $hn_p ), 2, '' );
+            ?>
+        <li><span class="hero__ico"><?php echo $hn_icons[ $hn_i % 3 ]; // phpcs:ignore WordPress.Security.EscapeOutput -- 固定SVG ?></span><span><b><?php echo esc_html( $hn_pp[0] ); ?></b><?php echo esc_html( $hn_pp[1] ); ?></span></li>
+        <?php endforeach; ?>
+      </ul>
+      <div class="hero__cta">
+        <a href="#apply" class="btn btn--primary btn--lg">Webで今すぐ申し込む<small>24時間受付・最短3分</small></a>
+        <a href="<?php echo esc_attr( hn_tel_href() ); ?>" class="btn btn--tel btn--lg" data-track="tel">電話で申し込む<small><?php echo esc_html( $hn_tel ); ?></small></a>
+      </div>
+      <p class="note"><?php echo esc_html( hn_opt( 'cp_note' ) ); ?></p>
+    </div>
   </div>
 </section>
 
