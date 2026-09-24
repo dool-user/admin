@@ -142,18 +142,15 @@ em { font-style: normal; }
   margin-top: 16px; font-size: 12px; line-height: 1.7; position: relative; z-index: 1; max-width: 40em;
   background: rgba(0, 0, 0, .22); border: 1px solid rgba(255, 255, 255, .45); border-radius: 6px; padding: 8px 12px;
 }
-.mv__visual {
-  position: relative; z-index: 1; margin-top: 16px; background: #fff; border-radius: 20px; padding: 12px 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
-}
-.mv__visual img { width: 100%; height: auto; }
+.mv__visual { position: relative; z-index: 1; margin-top: 16px; }
+.mv__visual img { width: 100%; height: auto; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .22)); }
 .mv__title-main .nw { display: inline-block; }
 @media (min-width: 768px) and (max-width: 1023px) { .mv__visual { max-width: 560px; } }
 @media (min-width: 1024px) {
   .mv__inner { display: grid; grid-template-columns: minmax(0, 1fr) 400px; column-gap: 40px; align-items: start; }
   .mv__inner > * { grid-column: 1; }
   .mv__inner > .mv__lead { justify-self: start; }
-  .mv__inner > .mv__visual { grid-column: 2; grid-row: 1 / span 7; align-self: center; margin-top: 0; padding: 18px 20px; }
+  .mv__inner > .mv__visual { grid-column: 2; grid-row: 1 / span 7; align-self: center; margin-top: 0; }
 }
 .mv__title, .mv__badges, .mv__note { text-wrap: balance; }
 @media (min-width: 768px) {
