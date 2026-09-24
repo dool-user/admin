@@ -58,9 +58,7 @@ em { font-style: normal; }
   height: var(--header-h); display: flex; align-items: center; gap: 10px;
 }
 .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--navy); margin-right: auto; min-width: 0; }
-.logo__mark { width: 34px; height: 34px; border-radius: 50%; background: var(--yellow); color: var(--navy); display: grid; place-items: center; flex-shrink: 0; }
-.logo__text { display: flex; flex-direction: column; font-weight: 900; font-size: 15px; line-height: 1.2; white-space: nowrap; }
-.logo__text small { font-size: 10px; font-weight: 700; color: var(--blue); }
+.logo__img { display: block; height: 30px; width: auto; max-width: 100%; }
 .header__cta { text-align: right; }
 .header__label { font-size: 10px; color: var(--muted); line-height: 1.2; }
 .header__tel { display: inline-flex; align-items: center; gap: 4px; font-size: 20px; font-weight: 900; color: var(--green); text-decoration: none; letter-spacing: .02em; line-height: 1.2; }
@@ -72,7 +70,7 @@ em { font-style: normal; }
 }
 @media (min-width: 768px) {
   .header__form { display: inline-flex; }
-  .logo__text { font-size: 18px; }
+  .logo__img { height: 38px; }
   .header__tel { font-size: 26px; }
 }
 
