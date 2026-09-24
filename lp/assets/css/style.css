@@ -128,7 +128,13 @@ em { font-style: normal; }
   font-weight: 900; font-size: 18px; line-height: 1.15; box-shadow: 0 4px 0 rgba(0,0,0,.18);
 }
 .mv__badges li b { font-size: 11px; font-weight: 700; }
-@media (max-width: 767px) { .mv__badges { justify-content: center; } }
+/* 1列表示（スマホ・タブレット）はファーストビューを中央揃え */
+@media (max-width: 1023px) {
+  .mv__inner { text-align: center; }
+  .mv__badges { justify-content: center; }
+  .mv__visual { margin-left: auto; margin-right: auto; }
+  .mv__notice { margin-left: auto; margin-right: auto; text-align: left; }
+}
 .mv__note { margin-top: 16px; font-size: 13px; font-weight: 700; color: #333; position: relative; z-index: 1; }
 .mv__title-main { font-feature-settings: "palt"; }
 .mv__area { margin-top: 12px; font-size: 14px; font-weight: 700; position: relative; z-index: 1; }
@@ -138,7 +144,7 @@ em { font-style: normal; }
 }
 .mv__visual { position: relative; z-index: 1; margin-top: 16px; }
 .mv__visual img { width: 100%; height: auto; filter: drop-shadow(0 8px 16px rgba(11, 58, 110, .12)); }
-.mv__title-main .nw { display: inline-block; }
+.mv__title-main .nw, .mv__area .nw { display: inline-block; }
 @media (min-width: 768px) and (max-width: 1023px) { .mv__visual { max-width: 560px; } }
 @media (min-width: 1024px) {
   .mv__inner { display: grid; grid-template-columns: minmax(0, 1fr) 400px; column-gap: 40px; align-items: start; }
