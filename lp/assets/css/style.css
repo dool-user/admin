@@ -61,14 +61,22 @@ em { font-style: normal; }
 .logo__img { display: block; height: 30px; width: auto; max-width: 100%; }
 .header__form { white-space: nowrap; }
 @media (max-width: 359px) { .logo__img { height: 24px; } .header__form { padding: 8px 12px; } }
-.header__cta { text-align: right; }
+.header__cta { text-align: right; flex-shrink: 0; }
 .header__label { font-size: 10px; color: var(--muted); line-height: 1.2; }
 .header__tel { display: inline-flex; align-items: center; gap: 4px; font-size: 20px; font-weight: 900; color: var(--green); text-decoration: none; letter-spacing: .02em; line-height: 1.2; }
 .header__form { display: none; }
 @media (max-width: 767px) {
   .header__label { display: none; }
-  .header__tel { font-size: 0; width: 42px; height: 42px; border-radius: 50%; background: var(--green); color: #fff; justify-content: center; }
-  .header__tel svg { width: 22px; height: 22px; }
+  /* スマホは丸い電話アイコンのみ。番号の文字は font-size:0 ではなく確実に非表示にする
+     （端末の最小文字サイズ設定で文字が残り、アイコンがつぶれるのを防ぐ） */
+  .header__tel {
+    position: relative; width: 44px; height: 44px; padding: 0; border-radius: 50%; flex-shrink: 0;
+    background: var(--green); color: #fff; justify-content: center; overflow: hidden;
+  }
+  .header__tel [data-tel-display] {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
+  .header__tel svg { width: 24px; height: 24px; min-width: 24px; flex-shrink: 0; }
 }
 @media (min-width: 768px) {
   .header__form { display: inline-flex; }
