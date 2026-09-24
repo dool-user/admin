@@ -11,10 +11,10 @@
   <meta property="og:title" content="東京都の新居の電気申し込み｜でんき開通サポート">
   <meta property="og:description" content="新居の電気・ガス・水道・ネットの申し込みを窓口ひとつで。年中無休・相談無料。">
   <meta property="og:url" content="https://example.com/tokyo/">
-  <meta name="theme-color" content="#1d2a2c">
+  <meta name="theme-color" content="#0b3a6e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
 
   <!-- ★ Google タグマネージャー（GTM-XXXXXXX を差し替え） -->
@@ -101,7 +101,9 @@
   <header class="header">
     <div class="header__inner">
       <a href="#top" class="logo" aria-label="トップへ">
-        <span class="logo__mark" aria-hidden="true"><span></span></span>
+        <span class="logo__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        </span>
         <span class="logo__text"><small data-area-short>東京</small><span data-brand-name>でんき開通サポート</span></span>
       </a>
       <div class="header__cta" data-call>
@@ -111,7 +113,7 @@
           <span data-tel-display>0120-000-000</span>
         </a>
       </div>
-      <a class="header__form" href="#form" data-track="form_header">Web受付</a>
+      <a class="header__form btn btn--form btn--sm" href="#form" data-track="form_header">Web受付</a>
     </div>
   </header>
 
@@ -120,133 +122,130 @@
     <!-- ===== Main Visual ===== -->
     <section class="mv" data-mv>
       <div class="mv__inner">
-        <div class="mv__copy">
-          <h1 class="mv__title"><span>電気の使用開始</span><span>（引越し）の</span><span>お申し込み</span></h1>
-          <p class="mv__area"><span data-area-utility>東京電力パワーグリッド</span>のエリア（<span data-area-name>東京都</span>）の物件に対応</p>
-          <p class="mv__sub">新居の電気の申し込み、<mark>窓口ひとつ</mark>で済ませませんか。</p>
-          <p class="mv__text">電気の使用開始に、ガス・水道・インターネットの手続きもまとめてお預かりします。伝えていただくのは、新しい住所と入居日だけです。</p>
-          <dl class="mv__facts">
-            <div><dt>ご相談</dt><dd>無料</dd></div>
-            <div><dt>受付</dt><dd>土日祝も</dd></div>
-            <div><dt>対応</dt><dd>電気・ガス・水道・ネット</dd></div>
-          </dl>
-          <p class="mv__notice">当窓口は電力会社ではありません。お客様に代わって、電力会社などへのお申し込みを取り次ぐ民間の窓口です。<br>運営：<span data-brand-company>株式会社サンプル</span></p>
-        </div>
-        <figure class="mv__breaker" aria-hidden="true">
-          <svg viewBox="0 0 240 200">
-            <rect x="8" y="8" width="224" height="184" rx="6" fill="#e9ece8" stroke="#1d2a2c" stroke-width="3"/>
-            <rect x="24" y="26" width="64" height="120" rx="3" fill="#fff" stroke="#1d2a2c" stroke-width="2"/>
-            <text x="56" y="44" font-size="10" text-anchor="middle" fill="#1d2a2c" font-weight="700">主幹</text>
-            <rect x="44" y="56" width="24" height="56" rx="2" fill="#dfe3de" stroke="#1d2a2c" stroke-width="2"/>
-            <rect class="mv__lever" x="46" y="58" width="20" height="24" rx="2" fill="#f5c400" stroke="#1d2a2c" stroke-width="2"/>
-            <text x="56" y="128" font-size="10" text-anchor="middle" fill="#1d2a2c">ON ▲</text>
-            <g fill="#fff" stroke="#1d2a2c" stroke-width="2">
-              <rect x="104" y="26" width="26" height="72" rx="2"/><rect x="138" y="26" width="26" height="72" rx="2"/>
-              <rect x="172" y="26" width="26" height="72" rx="2"/><rect x="104" y="108" width="26" height="72" rx="2"/>
-              <rect x="138" y="108" width="26" height="72" rx="2"/><rect x="172" y="108" width="26" height="72" rx="2"/>
-            </g>
-            <g fill="#1d2a2c"><rect x="111" y="36" width="12" height="16"/><rect x="145" y="36" width="12" height="16"/><rect x="179" y="36" width="12" height="16"/><rect x="111" y="118" width="12" height="16"/><rect x="145" y="118" width="12" height="16"/><rect x="179" y="118" width="12" height="16"/></g>
-            <text x="56" y="176" font-size="9" text-anchor="middle" fill="#55605f">分電盤</text>
+        <p class="mv__lead"><span data-area-name>東京都</span>の新居に入居予定の方へ</p>
+        <h1 class="mv__title">
+          <span class="mv__title-main">電気の<em>使用開始</em><br>（引越し）の<br class="sp">お申し込み</span>
+        </h1>
+        <p class="mv__area"><span data-area-utility>東京電力パワーグリッド</span>のエリア（<span data-area-name>東京都</span>）の物件に対応</p>
+        <ul class="mv__badges">
+          <li><b>ご相談</b>無料</li>
+          <li><b>土日祝も</b>受付</li>
+          <li><b>ガス・水道も</b>同時に</li>
+        </ul>
+        <p class="mv__note">新居の電気の申し込み、窓口ひとつで済ませませんか。<br>ガス・水道・ネットも同時にご依頼いただけます。</p>
+        <p class="mv__notice">当窓口は電力会社ではありません。お客様に代わって、電力会社などへのお申し込みを取り次ぐ民間の窓口です。<br>運営：<span data-brand-company>株式会社サンプル</span></p>
+        <div class="mv__illust" aria-hidden="true">
+          <svg viewBox="0 0 220 200">
+            <circle cx="110" cy="100" r="92" fill="#fff" opacity=".12"/>
+            <rect x="48" y="74" width="124" height="96" rx="6" fill="#fff"/>
+            <path d="M36 82 110 28l74 54" fill="none" stroke="#fff" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+            <rect x="70" y="98" width="30" height="26" rx="3" fill="#cfe3f7"/>
+            <rect x="120" y="98" width="30" height="26" rx="3" fill="#cfe3f7"/>
+            <rect x="96" y="132" width="28" height="38" rx="3" fill="#0b3a6e"/>
+            <circle cx="170" cy="60" r="30" fill="#ffc400"/>
+            <path d="M174 40 160 64h10l-4 18 16-26h-10l4-16z" fill="#0b3a6e"/>
           </svg>
-          <figcaption>入居日は、ブレーカーを上げるだけ。</figcaption>
-        </figure>
+        </div>
       </div>
     </section>
 
     <!-- ===== CTA block (reused) ===== -->
     <section class="cta" aria-label="お申し込み">
       <div class="cta__inner">
-        <p class="cta__catch">入居日が近い方は、お電話がいちばん早く進みます。</p>
+        <p class="cta__catch">＼ 入居日が近い方はお電話がスムーズです ／</p>
         <div class="cta__buttons" data-cta-group>
           <a class="btn btn--tel" href="tel:0120000000" data-tel-link data-call data-cta="tel" data-track="tel_cta1">
-            <span class="btn__main"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>電話で申し込む</span>
+            <span class="btn__sub">無料通話・年中無休</span>
+            <span class="btn__main"><span class="btn__icon" aria-hidden="true">📞</span>電話で申し込む</span>
             <span class="btn__num" data-tel-display>0120-000-000</span>
           </a>
           <a class="btn btn--form" href="#form" data-cta="form" data-track="form_cta1">
-            <span class="btn__main">Webで申し込む</span>
-            <span class="btn__num">24時間受付</span>
+            <span class="btn__sub">24時間受付・入力はかんたん</span>
+            <span class="btn__main"><span class="btn__icon" aria-hidden="true">✉</span>Webで申し込む</span>
           </a>
         </div>
-        <p class="cta__hours" data-call><span>通話無料</span><span data-tel-label>受付 9:00〜20:00（年中無休）</span></p>
+        <p class="cta__hours" data-call data-tel-label>受付 9:00〜20:00（年中無休）</p>
       </div>
     </section>
 
     <!-- ===== Worries ===== -->
     <section class="section worries">
       <div class="container">
-        <h2 class="section__title">引越しの前後で、<br class="sp">こんなことはありませんか。</h2>
+        <h2 class="section__title"><span class="section__title-en">CHECK</span>引越し前後、<br class="sp">こんなことで困っていませんか？</h2>
         <ul class="worries__list">
-          <li>新居の鍵はもらったのに、電気の申し込みがまだ</li>
-          <li>契約先の電力会社をどう選べばいいかわからない</li>
-          <li>ガス・水道・ネットと、連絡先が多すぎる</li>
-          <li>窓口の受付時間中は、仕事で電話に出られない</li>
-          <li>入居日に照明もエアコンも使えなかったら、と不安</li>
+          <li>新居の鍵はもらったのに、<strong>電気の申し込みがまだ</strong></li>
+          <li>契約先の<strong>電力会社をどう選べばいいか</strong>わからない</li>
+          <li>ガス・水道・ネットと、<strong>連絡先が多すぎる</strong></li>
+          <li>窓口の受付時間中は<strong>仕事で電話に出られない</strong></li>
+          <li>入居日に<strong>照明もエアコンも使えなかったら</strong>と思うと不安</li>
         </ul>
-        <p class="worries__answer">ひとつでも当てはまれば、各社への連絡はこちらにまとめてください。</p>
+        <div class="worries__answer">
+          <p><span>面倒な連絡は</span><strong>窓口ひとつで済ませましょう</strong></p>
+        </div>
       </div>
     </section>
 
     <!-- ===== Reasons ===== -->
     <section class="section reasons">
       <div class="container">
-        <h2 class="section__title"><span data-brand-name>でんき開通サポート</span>に<br class="sp">任せていただけること</h2>
-        <dl class="sheet">
-          <div class="sheet__row">
-            <dt>連絡先</dt>
-            <dd>
-              <p class="sheet__head">ご連絡はここだけで済みます</p>
-              <p>電気に加えて、ガス・水道・インターネットの申し込みもまとめてお預かりします。各社の窓口を調べて、順番に電話する必要はありません。</p>
-            </dd>
-          </div>
-          <div class="sheet__row">
-            <dt>日程</dt>
-            <dd>
-              <p class="sheet__head">入居日から逆算して手配します</p>
-              <p>ご希望の入居日に使えるよう段取りを組みます。スマートメーターが付いている物件なら、お申し込み当日の使用開始にも対応できる場合があります。</p>
-            </dd>
-          </div>
-          <div class="sheet__row">
-            <dt>費用</dt>
-            <dd>
-              <p class="sheet__head">ご相談もお手続きも無料です</p>
-              <p>お申し込みの取次にお客様の費用はかかりません。今の暮らし方に合う料金プランを知りたい方には、比較してご説明します。</p>
-            </dd>
-          </div>
-        </dl>
-        <p class="note">※当日の使用開始は、物件の設備状況やお申し込みの時間帯によってはお受けできない場合があります。<br>※電気・ガス等の利用料金は、ご契約いただく各事業者の料金プランに基づきご請求されます。</p>
+        <h2 class="section__title"><span class="section__title-en">POINT</span><span data-brand-name>でんき開通サポート</span>の<br class="sp"><em>3つ</em>の特長</h2>
+        <div class="reasons__grid">
+          <article class="reason">
+            <p class="reason__num">01</p>
+            <div class="reason__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#fff4cc"/><path d="M14 25l7 7 13-15" stroke="#0b3a6e" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="reason__title">連絡先はここだけ</h3>
+            <p class="reason__text">電気に加えて、ガス・水道・インターネットの申し込みもまとめてお預かりします。各社の窓口を調べて順番に電話する必要はありません。</p>
+          </article>
+          <article class="reason">
+            <p class="reason__num">02</p>
+            <div class="reason__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#fff4cc"/><path d="M24 12v13l8 5" stroke="#0b3a6e" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="reason__title">入居日に間に合わせる</h3>
+            <p class="reason__text">ご希望の入居日から逆算して手配します。スマートメーターが付いている物件なら、お申し込み当日の使用開始にも対応できる場合があります。</p>
+          </article>
+          <article class="reason">
+            <p class="reason__num">03</p>
+            <div class="reason__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#fff4cc"/><path d="M16 22h16M16 28h10" stroke="#0b3a6e" stroke-width="4" stroke-linecap="round"/><text x="33" y="32" font-size="9" font-weight="700" fill="#e8491d">¥0</text></svg>
+            </div>
+            <h3 class="reason__title">ご相談・お手続きは無料</h3>
+            <p class="reason__text">お申し込みの取次にお客様の費用はかかりません。今の暮らし方に合う料金プランを知りたい方には、比較してご説明します。</p>
+          </article>
+        </div>
+        <p class="reasons__note">※当日の使用開始は、物件の設備状況やお申し込みの時間帯によってはお受けできない場合があります。<br>※電気・ガス等の利用料金は、ご契約いただく各事業者の料金プランに基づきご請求されます。</p>
       </div>
     </section>
 
     <!-- ===== Lifelines ===== -->
     <section class="section lifeline">
       <div class="container">
-        <h2 class="section__title">ご依頼いただける手続き</h2>
-        <div class="table-wrap">
-          <table class="plain-table">
-            <thead><tr><th scope="col">種類</th><th scope="col">お手続きの内容</th><th scope="col">当日の立ち会い</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">電気</th><td>新居の使用開始／旧居の停止</td><td>原則不要</td></tr>
-              <tr><th scope="row">ガス</th><td>開栓の予約／旧居の閉栓</td><td class="is-need">開栓時は必要</td></tr>
-              <tr><th scope="row">水道</th><td>使用開始／旧居の使用中止</td><td>原則不要</td></tr>
-              <tr><th scope="row">インターネット</th><td>光回線の新規・移転のご案内</td><td>工事内容による</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <h2 class="section__title"><span class="section__title-en">SERVICE</span>ご依頼いただける手続き</h2>
+        <ul class="lifeline__grid">
+          <li><span class="lifeline__icon" aria-hidden="true">⚡</span><b>電気</b><small>使用開始・停止</small></li>
+          <li><span class="lifeline__icon" aria-hidden="true">🔥</span><b>ガス</b><small>開栓予約・閉栓</small></li>
+          <li><span class="lifeline__icon" aria-hidden="true">💧</span><b>水道</b><small>使用開始・中止</small></li>
+          <li><span class="lifeline__icon" aria-hidden="true">📶</span><b>ネット</b><small>光回線・Wi-Fi</small></li>
+        </ul>
+        <p class="lifeline__note">※ガスの開栓には原則としてお客様の立ち会いが必要です。</p>
       </div>
     </section>
 
     <!-- ===== CTA (2) ===== -->
     <section class="cta cta--alt" aria-label="お申し込み">
       <div class="cta__inner">
-        <p class="cta__catch">新しい住所と入居日がわかれば、お申し込みいただけます。</p>
+        <p class="cta__catch">＼ 住所と入居日がわかればOK ／</p>
         <div class="cta__buttons" data-cta-group>
           <a class="btn btn--tel" href="tel:0120000000" data-tel-link data-call data-cta="tel" data-track="tel_cta2">
-            <span class="btn__main"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>電話で申し込む</span>
+            <span class="btn__sub">無料通話・年中無休</span>
+            <span class="btn__main"><span class="btn__icon" aria-hidden="true">📞</span>電話で申し込む</span>
             <span class="btn__num" data-tel-display>0120-000-000</span>
           </a>
           <a class="btn btn--form" href="#form" data-cta="form" data-track="form_cta2">
-            <span class="btn__main">Webで申し込む</span>
-            <span class="btn__num">24時間受付</span>
+            <span class="btn__sub">24時間受付・入力はかんたん</span>
+            <span class="btn__main"><span class="btn__icon" aria-hidden="true">✉</span>Webで申し込む</span>
           </a>
         </div>
       </div>
@@ -255,22 +254,28 @@
     <!-- ===== Flow ===== -->
     <section class="section flow" id="flow">
       <div class="container">
-        <h2 class="section__title">お申し込みから使用開始まで</h2>
-        <ol class="timeline">
-          <li>
-            <p class="timeline__when">入居日の前まで</p>
-            <h3>電話かフォームでご連絡</h3>
-            <p>新しい住所と入居予定日をお知らせください。お電話なら、その場で内容を確認します。</p>
+        <h2 class="section__title"><span class="section__title-en">HOW TO</span>お申し込みから使用開始まで</h2>
+        <ol class="flow__list">
+          <li class="flow__item">
+            <p class="flow__step">STEP<b>1</b></p>
+            <div>
+              <h3>電話かフォームで連絡</h3>
+              <p>新しい住所と入居予定日を伝えるだけ。お電話ならその場で内容を確認します。</p>
+            </div>
           </li>
-          <li>
-            <p class="timeline__when">ご連絡のあと</p>
-            <h3>各社への申し込みはこちらで</h3>
-            <p>電力会社をはじめ、ご依頼いただいた事業者への連絡をまとめて進めます。</p>
+          <li class="flow__item">
+            <p class="flow__step">STEP<b>2</b></p>
+            <div>
+              <h3>各社への申し込みはこちらで</h3>
+              <p>電力会社をはじめ、ご依頼いただいた事業者への連絡をまとめて進めます。</p>
+            </div>
           </li>
-          <li>
-            <p class="timeline__when">入居日</p>
-            <h3>ブレーカーを上げれば使えます</h3>
-            <p>ガスの開栓に立ち会いが要る場合は、訪問の日時を前もってお知らせします。</p>
+          <li class="flow__item">
+            <p class="flow__step">STEP<b>3</b></p>
+            <div>
+              <h3>入居日から使える</h3>
+              <p>当日は分電盤のブレーカーを入れるだけ。ガスの開栓に立ち会いが要る場合は、訪問日時をお知らせします。</p>
+            </div>
           </li>
         </ol>
       </div>
@@ -279,8 +284,8 @@
     <!-- ===== Use cases ===== -->
     <section class="section usecase">
       <div class="container">
-        <h2 class="section__title">こんな場面でご利用いただけます</h2>
-        <div class="usecase__list">
+        <h2 class="section__title"><span class="section__title-en">SCENE</span>こんな場面でご利用いただけます</h2>
+        <div class="usecase__grid">
           <article class="usecase__item">
             <p class="usecase__tag">急な転勤・異動</p>
             <h3>内示から引越しまで2週間</h3>
@@ -289,17 +294,17 @@
           <article class="usecase__item">
             <p class="usecase__tag">はじめての一人暮らし</p>
             <h3>何から手をつければいいか不安</h3>
-            <p>必要な手続きを、こちらから順番にご案内します。電力会社の違いもご説明します。</p>
+            <p>必要な手続きをこちらから順にご案内します。電力会社の違いもわかりやすくご説明します。</p>
           </article>
           <article class="usecase__item">
             <p class="usecase__tag">家族での住み替え</p>
             <h3>旧居の解約と新居の開始を同時に</h3>
-            <p>停止日と開始日をそろえて手配すれば、使えない日や二重の基本料金を避けられます。</p>
+            <p>停止日と開始日をそろえて手配すれば、二重の基本料金や使えない期間を避けられます。</p>
           </article>
           <article class="usecase__item">
             <p class="usecase__tag">入居直前の方</p>
             <h3>明日が入居日なのに未手続き</h3>
-            <p>お急ぎの場合はお電話ください。物件の状況を確認し、いちばん早い使用開始日をお伝えします。</p>
+            <p>お急ぎの場合はお電話ください。物件の状況を確認し、最も早い使用開始日をお伝えします。</p>
           </article>
         </div>
       </div>
@@ -308,18 +313,18 @@
     <!-- ===== Compare ===== -->
     <section class="section compare">
       <div class="container">
-        <h2 class="section__title">個別に申し込む場合との違い</h2>
-        <div class="table-wrap">
-          <table class="plain-table compare__table">
+        <h2 class="section__title"><span class="section__title-en">DIFFERENCE</span>個別に申し込む場合との違い</h2>
+        <div class="compare__table-wrap">
+          <table class="compare__table">
             <thead>
-              <tr><th scope="col"><span class="visually-hidden">項目</span></th><th scope="col" class="is-us">当窓口に依頼</th><th scope="col">各社へ個別に連絡</th></tr>
+              <tr><th></th><th class="is-us">当窓口に依頼</th><th>各社へ個別に連絡</th></tr>
             </thead>
             <tbody>
-              <tr><th scope="row">連絡する先</th><td class="is-us">1か所</td><td>事業者ごとに別々</td></tr>
-              <tr><th scope="row">住所・入居日の説明</th><td class="is-us">1回だけ</td><td>会社ごとに毎回</td></tr>
-              <tr><th scope="row">受付日</th><td class="is-us">土日祝も受付</td><td>会社により平日のみ</td></tr>
-              <tr><th scope="row">プラン選び</th><td class="is-us">比較してご説明</td><td>自分で調べて比較</td></tr>
-              <tr><th scope="row">お客様の費用</th><td class="is-us">無料</td><td>無料</td></tr>
+              <tr><th>連絡する先</th><td class="is-us"><b>1か所</b></td><td>事業者ごとに別々</td></tr>
+              <tr><th>伝える内容</th><td class="is-us"><b>1回</b>だけ</td><td>会社ごとに毎回</td></tr>
+              <tr><th>受付日</th><td class="is-us"><b>土日祝も</b>受付</td><td>会社により平日のみ</td></tr>
+              <tr><th>プラン選び</th><td class="is-us">比較して<b>ご説明</b></td><td>自分で調べて比較</td></tr>
+              <tr><th>お客様の費用</th><td class="is-us"><b>無料</b></td><td>無料</td></tr>
             </tbody>
           </table>
         </div>
@@ -329,16 +334,17 @@
     <!-- ===== Area ===== -->
     <section class="section area">
       <div class="container">
-        <h2 class="section__title">ご依頼いただける地域（<span data-area-name>東京都</span>）</h2>
-        <p class="area__lead">送配電エリア：<span data-area-utility>東京電力パワーグリッド</span></p>
+        <h2 class="section__title"><span class="section__title-en">AREA</span>ご依頼いただける地域（<span data-area-name>東京都</span>）</h2>
+        <p class="area__lead">一般送配電事業者：<span data-area-utility>東京電力パワーグリッド</span>エリア</p>
         <ul class="area__list" data-area-cities></ul>
-        <p class="note">※離島など一部の地域は、お時間をいただく場合があります。</p>
+        <p class="area__note">※離島など一部地域はお時間をいただく場合があります。</p>
       </div>
     </section>
+
     <!-- ===== FAQ ===== -->
     <section class="section faq" id="faq">
       <div class="container">
-        <h2 class="section__title">お申し込み前によくいただく質問</h2>
+        <h2 class="section__title"><span class="section__title-en">Q&amp;A</span>お申し込み前の疑問にお答えします</h2>
         <div class="faq__list">
           <details class="faq__item">
             <summary>ここは東京電力の窓口ですか？</summary>
@@ -379,8 +385,8 @@
     <!-- ===== Form ===== -->
     <section class="section form-section" id="form">
       <div class="container container--narrow">
-        <h2 class="section__title">Webお申し込みフォーム</h2>
-        <p class="form-section__lead">24時間受け付けています。内容を確認し、担当者から折り返しお電話します。</p>
+        <h2 class="section__title"><span class="section__title-en">ENTRY</span>Webお申し込みフォーム</h2>
+        <p class="form-section__lead">24時間受付中。ご入力後、担当者より折り返しご連絡いたします。</p>
 
         <form class="form" id="entryForm" novalidate>
           <div class="form__row">
@@ -504,7 +510,8 @@
     <div class="modal__backdrop" data-modal-close></div>
     <div class="modal__body">
       <button class="modal__close" type="button" aria-label="閉じる" data-modal-close>×</button>
-            <p class="modal__title" id="modalTitle">新居の電気、<br>申し込みを忘れていませんか？</p>
+      <p class="modal__lead">ページを閉じる前に</p>
+      <p class="modal__title" id="modalTitle">新居の電気、<br>申し込みを忘れていませんか？</p>
       <p class="modal__text">入居日に明かりがつかないと、その日の生活に困ります。<br>住所と入居日だけで、お申し込みいただけます。</p>
       <div class="modal__buttons" data-cta-group>
         <a class="btn btn--tel" href="tel:0120000000" data-tel-link data-call data-cta="tel" data-track="tel_modal">
