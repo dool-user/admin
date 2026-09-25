@@ -522,6 +522,14 @@
             <input id="f-address" name="address" type="text" autocomplete="street-address" placeholder="例）東京都新宿区新宿1-2-3 〇〇マンション101" required>
             <p class="form__error" data-error-for="address"></p>
           </div>
+          <fieldset class="form__row">
+            <legend>お住まいの種類<span class="req">必須</span></legend>
+            <div class="form__checks">
+              <label><input type="radio" name="building_type" value="戸建て" required>戸建て</label>
+              <label><input type="radio" name="building_type" value="集合住宅">集合住宅（マンション・アパート）</label>
+            </div>
+            <p class="form__error" data-error-for="building_type"></p>
+          </fieldset>
           <div class="form__row">
             <label for="f-date">電気の利用開始日<span class="req">必須</span></label>
             <input id="f-date" name="start_date" type="date" required>

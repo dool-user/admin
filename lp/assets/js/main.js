@@ -256,6 +256,7 @@
     email: 'メールアドレスの形式が正しくありません',
     zip: '郵便番号を7桁で入力してください',
     address: '引越し先の住所を入力してください',
+    building_type: 'お住まいの種類を選択してください',
     start_date: '利用開始日を選択してください',
     agree: '個人情報の取り扱いへの同意が必要です',
   };
@@ -273,7 +274,9 @@
     if (name === 'tel') input.value = toHalfWidth(input.value).replace(/[-\s]/g, '');
     if (name === 'zip') input.value = toHalfWidth(input.value).trim();
     var ok = input.checkValidity();
-    input.classList.toggle('is-invalid', !ok);
+    // ラジオボタンは同じグループの選択肢すべてに反映する
+    var targets = input.type === 'radio' && input.form ? $$('input[name="' + name + '"]', input.form) : [input];
+    targets.forEach(function (el) { el.classList.toggle('is-invalid', !ok); });
     var err = $('[data-error-for="' + name + '"]');
     if (err) err.textContent = ok ? '' : MESSAGES[name];
     return ok;
@@ -343,7 +346,7 @@
       if (e.target.matches('input, textarea')) validateField(e.target);
     }, true);
     form.addEventListener('change', function (e) {
-      if (e.target.name === 'agree') validateField(e.target);
+      if (e.target.name === 'agree' || e.target.name === 'building_type') validateField(e.target);
     });
 
     form.addEventListener('submit', function (e) {

@@ -12,7 +12,7 @@ var NOTIFY_TO = 'notify@example.com'; // ★要変更
 var SHEET_NAME = '申込一覧';
 
 var COLUMNS = [
-  'submitted_at', 'name', 'kana', 'tel', 'email', 'zip', 'address', 'start_date',
+  'submitted_at', 'name', 'kana', 'tel', 'email', 'zip', 'address', 'building_type', 'start_date',
   'services', 'contact_time', 'note', 'area', 'tel_mode',
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'gclid', 'landing_url', 'referrer',
 ];

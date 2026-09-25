@@ -426,6 +426,7 @@ em { font-style: normal; }
 }
 .form input:focus, .form textarea:focus { outline: 3px solid rgba(31,111,197,.25); border-color: var(--blue); background: #fff; }
 .form .is-invalid { border-color: var(--red) !important; background: #fff5f5 !important; }
+.form__checks label:has(input.is-invalid) { border-color: var(--red); background: #fff5f5; }
 .form__error { color: var(--red); font-size: 12px; margin-top: 4px; min-height: 0; }
 .form__zip { display: flex; gap: 8px; }
 .form__zip input { flex: 1; }
