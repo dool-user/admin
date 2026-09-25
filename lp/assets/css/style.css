@@ -453,7 +453,7 @@ em { font-style: normal; }
 .footer__company dd { margin: 0; }
 .footer__company a { color: #fff; }
 .footer__disclaimer { text-align: center; font-size: 12px; margin-bottom: 14px; }
-.footer__nav { display: flex; justify-content: center; gap: 18px; margin-bottom: 14px; }
+.footer__nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; margin-bottom: 14px; }
 .footer__nav a { color: #fff; }
 .footer__copy { text-align: center; font-size: 11px; opacity: .7; }
 

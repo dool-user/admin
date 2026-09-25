@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>運営会社｜でんき開通サポート</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .company-table { width: 100%; border-collapse: collapse; background: #fff; font-size: 15px; margin-top: 8px; }
+    .company-table th, .company-table td { border-bottom: 1px solid var(--line); padding: 16px 12px; text-align: left; vertical-align: top; line-height: 1.7; }
+    .company-table th { width: 8em; color: var(--navy); font-weight: 700; white-space: nowrap; }
+    .company-table a { color: var(--blue); word-break: break-all; }
+    .company-note { margin-top: 24px; font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .company-back { display: inline-block; margin-top: 32px; font-weight: 700; color: var(--navy); }
+    @media (max-width: 480px) {
+      .company-table th, .company-table td { display: block; width: auto; padding: 10px 4px; }
+      .company-table th { border-bottom: 0; padding-bottom: 0; }
+    }
+  </style>
+</head>
+<body style="padding-bottom:0">
+  <header class="header">
+    <div class="header__inner">
+      <a href="tokyo/" class="logo">
+        <img class="logo__img" src="assets/img/logo.webp" width="675" height="120" alt="でんき開通サポート">
+      </a>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container container--narrow">
+      <h1 class="section__title"><span class="section__title-en">COMPANY</span>運営会社</h1>
+      <table class="company-table">
+        <tr><th scope="row">サービス名</th><td data-brand-name>でんき開通サポート</td></tr>
+        <tr><th scope="row">運営会社</th><td data-brand-company>グラハムコミュニケーションズ株式会社</td></tr>
+        <tr><th scope="row">所在地</th><td data-brand-address>〒162-0801 東京都新宿区山吹町346-6 KAGURAZAKA VIGAS 5F</td></tr>
+        <tr><th scope="row">会社サイト</th><td><a href="https://grahamcommunications.co.jp/" target="_blank" rel="noopener" data-brand-url>grahamcommunications.co.jp</a></td></tr>
+        <tr><th scope="row">取次先・登録</th><td data-brand-license>（★要変更）</td></tr>
+      </table>
+      <p class="company-note">当サービスは、東京電力グループを含む電力会社・ガス会社・水道局とは異なる民間の取次サービスです。各社の公式窓口ではありません。</p>
+      <a class="company-back" href="tokyo/">← トップページへ戻る</a>
+    </div>
+  </main>
+  <script src="assets/js/config.js"></script>
+  <script>
+    (function () {
+      var b = window.LP_CONFIG.brand;
+      var set = function (sel, fn) { document.querySelectorAll(sel).forEach(fn); };
+      set('[data-brand-name]', function (e) { e.textContent = b.name; });
+      set('[data-brand-company]', function (e) { e.textContent = b.company; });
+      set('[data-brand-address]', function (e) { e.textContent = b.address; });
+      set('[data-brand-license]', function (e) { e.textContent = b.license; });
+      if (b.url) set('[data-brand-url]', function (e) { e.href = b.url; e.textContent = b.url.replace(/^https?:\/\//, '').replace(/\/$/, ''); });
+    })();
+  </script>
+</body>
+</html>
