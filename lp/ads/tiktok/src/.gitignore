@@ -1,2 +1,5 @@
 node_modules/
 frames_*/
+*.onnx
+voices-v1.0.bin
+vo_track_*.wav

@@ -182,8 +182,9 @@ const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 const eo=x=>1-Math.pow(1-x,3);
 const back=x=>{const c=1.8;x=x-1;return x*x*((c+1)*x+c)+1};
 const prog=(t,s,d)=>clamp((t-s)/d);
-// シーンはカットで切り替え（通常投稿っぽく）
-const S=[[0,3],[3,7],[7,10.5],[10.5,15],[15,18]];
+// シーンはカットで切り替え（通常投稿っぽく）。ナレーションの長さに合わせた区切り
+const S=[[0,3.6],[3.6,7.9],[7.9,12.7],[12.7,17.2],[17.2,21]];
+const [s2,s3,s4,s5]=[S[1][0],S[2][0],S[3][0],S[4][0]];
 function pop(el,t,s,d=.25){const p=prog(t,s,d);el.style.opacity=t>=s?1:0;el.style.transform=`scale(${p>0?.7+.3*back(p):.7})`;}
 function slide(el,t,s,d=.3,dy=50){const p=eo(prog(t,s,d));el.style.opacity=p;el.style.transform=`translateY(${(1-p)*dy}px)`;}
 function cam(el,t,s){const u=t-s;  // 手持ち風のゆれ＋ゆっくりズーム
@@ -197,26 +198,26 @@ function render(t){
   $('s1t1').style.opacity=1; $('s1t1').style.transform='none';
   pop($('s1t2'),t,0,.22);
   const shake=t>.5&&t<.8?Math.sin(t*90)*8:0; $('s1t2').style.transform+=` translateX(${shake}px)`;
-  pop($('s1t3'),t,1.5,.22);
-  // S2
-  cam($('cam2'),t,3); pop($('s2t1'),t,3,.2);
-  for(let i=0;i<4;i++) slide($('r'+i),t,3.2+i*.3,.25,30);
-  const rp=prog(t,4.6,.35); $('ring').style.opacity=rp; $('ring').style.transform=`rotate(-1.5deg) scale(${1.15-.15*eo(rp)})`;
-  pop($('s2tag'),t,5.1,.25); $('s2tag').style.transform+=' rotate(-6deg)';
-  // S3
-  cam($('cam3'),t,7); pop($('s3t1'),t,7,.2);
-  for(let i=0;i<4;i++) pop($('c'+i),t,7.2+i*.2,.25);
-  pop($('s3t2'),t,8.5,.25);
-  // S4
-  cam($('cam4'),t,10.5); pop($('s4t1'),t,10.5,.22);
-  slide($('s4logo'),t,10.8,.35,40); slide($('s4ill'),t,11.1,.4,60);
-  for(let i=0;i<4;i++) pop($('h'+i),t,11.8+i*.35,.25);
-  slide($('s4note'),t,12.2,.3,10);
-  // S5
-  cam($('cam5'),t,15); pop($('s5t0'),t,15,.2); pop($('s5t1'),t,15.2,.25);
-  slide($('s5area'),t,15.6,.3,30); pop($('s5t2'),t,16.0,.22);
-  const a=$('s5arrow'); const pa=prog(t,16.2,.25); a.style.opacity=pa;
-  a.style.transform=`translateY(${t>16.45?-Math.abs(Math.sin((t-16.45)*5))*24:0}px)`;
+  pop($('s1t3'),t,1.7,.22);
+  // S2：原因
+  cam($('cam2'),t,s2); pop($('s2t1'),t,s2,.2);
+  for(let i=0;i<4;i++) slide($('r'+i),t,s2+.2+i*.3,.25,30);
+  const rp=prog(t,s2+1.7,.35); $('ring').style.opacity=rp; $('ring').style.transform=`rotate(-1.5deg) scale(${1.15-.15*eo(rp)})`;
+  pop($('s2tag'),t,s2+2.3,.25); $('s2tag').style.transform+=' rotate(-6deg)';
+  // S3：面倒さ
+  cam($('cam3'),t,s3); pop($('s3t1'),t,s3,.2);
+  for(let i=0;i<4;i++) pop($('c'+i),t,s3+.4+i*.35,.25);
+  pop($('s3t2'),t,s3+3.1,.25);
+  // S4：解決策
+  cam($('cam4'),t,s4); pop($('s4t1'),t,s4,.22);
+  slide($('s4logo'),t,s4+.3,.35,40); slide($('s4ill'),t,s4+.6,.4,60);
+  for(let i=0;i<4;i++) pop($('h'+i),t,s4+1.6+i*.4,.25);
+  slide($('s4note'),t,s4+1.8,.3,10);
+  // S5：行動喚起
+  cam($('cam5'),t,s5); pop($('s5t0'),t,s5,.2); pop($('s5t1'),t,s5+.2,.25);
+  slide($('s5area'),t,s5+.6,.3,30); pop($('s5t2'),t,s5+1.2,.22);
+  const a=$('s5arrow'); const pa=prog(t,s5+1.4,.25); a.style.opacity=pa;
+  a.style.transform=`translateY(${t>s5+1.65?-Math.abs(Math.sin((t-s5-1.65)*5))*24:0}px)`;
 }
 window.render=render; render(0);
 </script></body></html>
