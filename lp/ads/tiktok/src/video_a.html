@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="node_modules/@fontsource/noto-sans-jp/500.css">
+<link rel="stylesheet" href="node_modules/@fontsource/noto-sans-jp/700.css">
+<link rel="stylesheet" href="node_modules/@fontsource/noto-sans-jp/900.css">
+<style>
+:root{--navy:#0b3a6e;--blue:#1f6fc5;--yellow:#ffc400;--orange:#f26b1d;--green:#12a150;--red:#e0322b}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+body{font-family:"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
+.scene{position:absolute;inset:0;opacity:0;overflow:hidden}
+.cam{position:absolute;inset:-40px;transform-origin:50% 45%}
+.abs{position:absolute;left:0;right:0;text-align:center}
+/* TikTok風テキスト：白箱 / 縁取り */
+.box{display:inline-block;background:#fff;color:#111;font-weight:900;border-radius:18px;padding:10px 28px;line-height:1.35}
+.box.y{background:var(--yellow)}
+.stroke{font-weight:900;color:#fff;line-height:1.25;text-shadow:9.0px 0.0px 0 #111,8.3px 3.4px 0 #111,6.4px 6.4px 0 #111,3.4px 8.3px 0 #111,0.0px 9.0px 0 #111,-3.4px 8.3px 0 #111,-6.4px 6.4px 0 #111,-8.3px 3.4px 0 #111,-9.0px 0.0px 0 #111,-8.3px -3.4px 0 #111,-6.4px -6.4px 0 #111,-3.4px -8.3px 0 #111,-0.0px -9.0px 0 #111,3.4px -8.3px 0 #111,6.4px -6.4px 0 #111,8.3px -3.4px 0 #111,0 12px 0 #111}
+.stroke.y{color:var(--yellow)}
+/* S1 */
+#s1 .bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 35%,#223250 0%,#0a111d 70%)}
+#s1 .room{position:absolute;left:0;right:0;bottom:0;height:720px;background:linear-gradient(180deg,#141d2e,#0b111c)}
+#s1 .box1{position:absolute;left:50%;top:180px;width:900px;height:900px;margin-left:-450px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,214,80,.6) 0%,rgba(255,214,80,0) 60%)}
+#s1 .bulb{position:absolute;left:50%;top:400px;width:380px;height:380px;margin-left:-190px}
+#s1 .cord{position:absolute;left:50%;top:0;width:6px;height:440px;margin-left:-3px;background:#3a4a66}
+#s1 .t1{top:230px}
+#s1 .t1 .box{font-size:66px}
+#s1 .t2{top:860px;font-size:140px}
+#s1 .t3{top:1250px}
+#s1 .t3 .box{font-size:58px}
+/* S2 メモ帳 */
+#s2 .bg{position:absolute;inset:0;background:#e9edf2}
+#s2 .t1{top:190px}
+#s2 .t1 .box{font-size:64px}
+#s2 .memo{position:absolute;left:90px;right:150px;top:390px;background:#fffdf5;border-radius:40px;padding:50px 56px 40px;
+  box-shadow:0 20px 50px rgba(0,0,0,.15)}
+#s2 .memo h4{font-size:52px;font-weight:900;color:#222;border-bottom:4px solid #eadfb8;padding-bottom:18px;margin-bottom:18px}
+#s2 .row{display:flex;align-items:center;gap:26px;font-size:50px;font-weight:700;color:#333;padding:20px 0;position:relative}
+#s2 .chk{width:62px;height:62px;border:5px solid #999;border-radius:14px;flex-shrink:0;position:relative}
+#s2 .chk.on{background:var(--green);border-color:var(--green)}
+#s2 .chk.on::after{content:"";position:absolute;left:17px;top:4px;width:18px;height:34px;border:solid #fff;border-width:0 9px 9px 0;transform:rotate(40deg)}
+#s2 .row.done span{color:#aaa;text-decoration:line-through;text-decoration-thickness:5px}
+#s2 .row.key span{color:var(--red);font-weight:900}
+#s2 .ring{position:absolute;left:-26px;right:-20px;top:-8px;bottom:-8px;border:8px solid var(--red);border-radius:60px;transform:rotate(-1.5deg)}
+#s2 .tag{position:absolute;right:130px;top:1330px;transform:rotate(-6deg)}
+#s2 .tag .box{font-size:60px;background:var(--red);color:#fff}
+/* S3 バラバラ */
+#s3 .bg{position:absolute;inset:0;background:#f3f7fc}
+#s3 .t1{top:180px}
+#s3 .t1 .box{font-size:64px}
+#s3 .grid{position:absolute;left:90px;right:150px;top:400px;display:grid;grid-template-columns:1fr 1fr;gap:34px}
+#s3 .card{position:relative;background:#fff;border-radius:36px;height:320px;box-shadow:0 16px 36px rgba(11,58,110,.12);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+#s3 .card svg{width:140px;height:140px}
+#s3 .card b{font-size:50px;font-weight:900;color:var(--navy)}
+#s3 .card i{font-style:normal;font-size:32px;font-weight:700;color:#777}
+#s3 .q{position:absolute;right:-12px;top:-12px;width:80px;height:80px;border-radius:50%;background:var(--red);color:#fff;
+  font-size:52px;font-weight:900;display:flex;align-items:center;justify-content:center}
+#s3 .t2{top:1150px;font-size:96px}
+/* S4 解決 */
+#s4 .bg{position:absolute;inset:0;background:linear-gradient(180deg,#fff8dc 0%,#fff 55%)}
+#s4 .t1{top:180px}
+#s4 .t1 .box{font-size:64px}
+#s4 .logo{position:absolute;left:50%;top:350px;width:780px;margin-left:-390px}
+#s4 .ill{position:absolute;left:110px;right:170px;top:500px}
+#s4 .ill img{width:100%;display:block}
+#s4 .chips{position:absolute;left:70px;right:140px;top:920px;display:flex;flex-wrap:wrap;gap:22px;justify-content:center}
+#s4 .chip{font-size:58px;font-weight:900;color:var(--navy);background:#fff;border:6px solid var(--navy);border-radius:999px;padding:10px 36px}
+#s4 .chip.acc{background:var(--orange);border-color:var(--orange);color:#fff}
+#s4 .note{top:1330px;font-size:30px;font-weight:500;color:#667;padding:0 150px 0 70px;line-height:1.5}
+/* S5 CTA */
+#s5 .bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 25%,#1f6fc5 0%,#0b3a6e 70%)}
+#s5 .t0{top:200px}
+#s5 .t0 .box{font-size:60px}
+#s5 .t1{top:360px;font-size:118px}
+#s5 .area{top:720px;color:#fff;font-size:54px;font-weight:900;line-height:1.45}
+#s5 .area b{display:inline-block;background:var(--yellow);color:var(--navy);font-size:42px;padding:6px 30px;border-radius:999px;margin-bottom:14px}
+#s5 .t2{top:1010px}
+#s5 .t2 .box{font-size:64px}
+#s5 .arrow{position:absolute;left:50%;top:1160px;width:150px;height:150px;margin-left:-75px;border-radius:50%;background:var(--green);
+  box-shadow:0 10px 0 #0b7d3c;display:flex;align-items:center;justify-content:center}
+#s5 .arrow::after{content:"";width:46px;height:46px;border:solid #fff;border-width:0 15px 15px 0;transform:translateY(-10px) rotate(45deg)}
+#s5 .foot{top:1350px;font-size:27px;font-weight:500;color:#c9d6ea;line-height:1.6;padding:0 140px 0 60px}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="ill-electric" viewBox="0 0 64 64">
+        <circle cx="32" cy="27" r="22" fill="#fff1b8"/>
+        <g stroke="#ffb300" stroke-width="3" stroke-linecap="round"><path d="M32 1v5M11 9l3.5 3.5M53 9l-3.5 3.5M4 27h5M60 27h-5"/></g>
+        <path d="M32 12a14 14 0 0 0-8 25.5c1.6 1.2 2.5 3 2.5 5V45h11v-2.5c0-2 .9-3.8 2.5-5A14 14 0 0 0 32 12z" fill="#ffd23f" stroke="#0b3a6e" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M25 23a8 8 0 0 1 6-5.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M28 37l2-6 2 4 2-4 2 6" stroke="#d97706" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+        <rect x="25.5" y="45" width="13" height="9" rx="2" fill="#9fb3c8" stroke="#0b3a6e" stroke-width="2.5"/>
+        <path d="M26.5 49.5h11" stroke="#0b3a6e" stroke-width="1.5"/>
+        <path d="M29 54h6l-1.2 3.5h-3.6z" fill="#0b3a6e"/>
+      </symbol>
+      <symbol id="ill-gas" viewBox="0 0 64 64">
+        <path d="M32 9c6.5 8.5 13 14 13 23.5a13 13 0 0 1-26 0c0-5.5 3.2-8.8 5.4-12 1 4.2 3.2 5.4 4.3 5.4-1-6.5 1-12 3.3-16.9z" fill="#3b82f6" stroke="#0b3a6e" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M32 25c3.2 4.2 6.3 6.5 6.3 10.6a6.3 6.3 0 0 1-12.6 0c0-3.2 2-5.3 3.2-6.4.5 2.1 1.6 2.7 2.1 2.7-.5-3.2.3-5.3 1-6.9z" fill="#bfdbfe"/>
+        <path d="M15 45c0-3.5 1.8-5.2 3-7 .6 2.8 1.8 4 1.8 7zM49 45c0-3.5-1.8-5.2-3-7-.6 2.8-1.8 4-1.8 7z" fill="#60a5fa"/>
+        <ellipse cx="32" cy="46.5" rx="18" ry="4.5" fill="#4a5b6d" stroke="#0b3a6e" stroke-width="2"/>
+        <rect x="5" y="49" width="54" height="10" rx="3" fill="#cfd8e3" stroke="#0b3a6e" stroke-width="2.5"/>
+        <circle cx="50" cy="54" r="2.2" fill="#e0322b"/><circle cx="43" cy="54" r="2.2" fill="#0b3a6e"/>
+      </symbol>
+      <symbol id="ill-water" viewBox="0 0 64 64">
+        <rect x="3" y="9" width="8" height="21" rx="2" fill="#9fb3c8" stroke="#0b3a6e" stroke-width="2.5"/>
+        <path d="M11 15h27a11 11 0 0 1 11 11v5h-9v-5a2 2 0 0 0-2-2H11z" fill="#dbe6f1" stroke="#0b3a6e" stroke-width="2.5" stroke-linejoin="round"/>
+        <rect x="23" y="6" width="7" height="9" fill="#9fb3c8" stroke="#0b3a6e" stroke-width="2"/>
+        <rect x="17" y="2" width="19" height="5.5" rx="2.75" fill="#1f6fc5" stroke="#0b3a6e" stroke-width="2"/>
+        <rect x="38.5" y="31" width="12" height="4.5" rx="1.5" fill="#9fb3c8" stroke="#0b3a6e" stroke-width="2"/>
+        <path d="M44.5 39c4.2 6 7.3 10 7.3 14.2a7.3 7.3 0 0 1-14.6 0c0-4.2 3.1-8.2 7.3-14.2z" fill="#38bdf8" stroke="#0b3a6e" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M41.3 52.5a4 4 0 0 0 2.2 4" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </symbol>
+      <symbol id="ill-net" viewBox="0 0 64 64">
+        <g stroke="#1f6fc5" stroke-width="4" stroke-linecap="round" fill="none"><path d="M15 21a24 24 0 0 1 34 0"/><path d="M21.5 27.5a14.5 14.5 0 0 1 21 0"/></g>
+        <circle cx="32" cy="33" r="3" fill="#1f6fc5"/>
+        <g stroke="#0b3a6e" stroke-width="3" stroke-linecap="round"><path d="M16 41l-4-11M48 41l4-11"/></g>
+        <rect x="7" y="40" width="50" height="16" rx="4" fill="#0b3a6e"/>
+        <circle cx="17" cy="48" r="2.2" fill="#34d399"/><circle cx="24" cy="48" r="2.2" fill="#34d399"/><circle cx="31" cy="48" r="2.2" fill="#fbbf24"/>
+        <path d="M40 46h11M40 50h11" stroke="#4d7bab" stroke-width="2" stroke-linecap="round"/>
+        <rect x="12" y="56" width="7" height="3" rx="1" fill="#0b3a6e"/><rect x="45" y="56" width="7" height="3" rx="1" fill="#0b3a6e"/>
+      </symbol>
+      <symbol id="ico-tel" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></symbol>
+      <symbol id="ico-mail" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4.4 7H4v.6l8 5.5 8-5.5V7h-.4z"/></symbol>
+    </defs>
+  </svg>
+<div class="scene" id="s1"><div class="cam" id="cam1">
+  <div class="bg"></div><div class="room"></div>
+  <div class="box1" id="s1glow"></div><div class="cord"></div>
+  <svg class="bulb" id="s1bulb"><use href="#ill-electric"/></svg>
+</div>
+  <p class="abs t1" id="s1t1"><span class="box">引越し初日の夜…</span></p>
+  <p class="abs t2 stroke y" id="s1t2">電気<br>つかない！？</p>
+  <p class="abs t3" id="s1t3"><span class="box">ブレーカー上げても真っ暗…</span></p>
+</div>
+<div class="scene" id="s2"><div class="cam" id="cam2"><div class="bg"></div>
+  <div class="memo" id="s2memo">
+    <h4>引越し前にやること</h4>
+    <div class="row done" id="r0"><div class="chk on"></div><span>荷造り</span></div>
+    <div class="row done" id="r1"><div class="chk on"></div><span>住所変更</span></div>
+    <div class="row done" id="r2"><div class="chk on"></div><span>郵便の転送</span></div>
+    <div class="row key" id="r3"><div class="chk"></div><span>電気の使用開始の申し込み</span><div class="ring" id="ring"></div></div>
+  </div>
+</div>
+  <p class="abs t1" id="s2t1"><span class="box">原因、これかも</span></p>
+  <div class="tag" id="s2tag"><span class="box">忘れがち！</span></div>
+</div>
+<div class="scene" id="s3"><div class="cam" id="cam3"><div class="bg"></div>
+  <div class="grid">
+    <div class="card" id="c0"><svg><use href="#ill-electric"/></svg><b>電気</b><i>電力会社へ</i><span class="q">?</span></div>
+    <div class="card" id="c1"><svg><use href="#ill-gas"/></svg><b>ガス</b><i>ガス会社へ</i><span class="q">?</span></div>
+    <div class="card" id="c2"><svg><use href="#ill-water"/></svg><b>水道</b><i>水道局へ</i><span class="q">?</span></div>
+    <div class="card" id="c3"><svg><use href="#ill-net"/></svg><b>ネット</b><i>回線業者へ</i><span class="q">?</span></div>
+  </div>
+</div>
+  <p class="abs t1" id="s3t1"><span class="box">しかも連絡先はバラバラ</span></p>
+  <p class="abs t2 stroke" id="s3t2">正直、<br>めんどくさい…</p>
+</div>
+<div class="scene" id="s4"><div class="cam" id="cam4"><div class="bg"></div>
+  <img class="logo" id="s4logo" src="../../../assets/img/logo.webp" alt="">
+  <div class="ill" id="s4ill"><img src="../../../assets/img/mv-illust.webp" alt=""></div>
+  <div class="chips">
+    <span class="chip acc" id="h0">最短 即日開通※</span>
+    <span class="chip" id="h1">相談無料</span>
+    <span class="chip" id="h2">土日祝も受付</span>
+    <span class="chip" id="h3">ガス・水道もまとめて</span>
+  </div>
+</div>
+  <p class="abs t1" id="s4t1"><span class="box y">まとめて頼めるところ、あります</span></p>
+  <p class="abs note" id="s4note">※即日開通は、物件の設備状況やお申し込みの時間帯によってはお受けできない場合があります。</p>
+</div>
+<div class="scene" id="s5"><div class="cam" id="cam5"><div class="bg"></div></div>
+  <p class="abs t0" id="s5t0"><span class="box">引越し予定の人は</span></p>
+  <p class="abs t1 stroke y" id="s5t1">今のうちに<br>チェック！</p>
+  <div class="abs area" id="s5area"><b>対応エリア</b><br>東京・神奈川・埼玉・千葉<br>茨城・群馬・栃木</div>
+  <p class="abs t2" id="s5t2"><span class="box">詳しくは下のボタンから</span></p>
+  <div class="arrow" id="s5arrow"></div>
+  <p class="abs foot" id="s5foot">運営：グラハムコミュニケーションズ株式会社<br>当サービスは電力会社の公式サービスではありません</p>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const eo=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.8;x=x-1;return x*x*((c+1)*x+c)+1};
+const prog=(t,s,d)=>clamp((t-s)/d);
+// シーンはカットで切り替え（通常投稿っぽく）
+const S=[[0,3],[3,7],[7,10.5],[10.5,15],[15,18]];
+function pop(el,t,s,d=.25){const p=prog(t,s,d);el.style.opacity=t>=s?1:0;el.style.transform=`scale(${p>0?.7+.3*back(p):.7})`;}
+function slide(el,t,s,d=.3,dy=50){const p=eo(prog(t,s,d));el.style.opacity=p;el.style.transform=`translateY(${(1-p)*dy}px)`;}
+function cam(el,t,s){const u=t-s;  // 手持ち風のゆれ＋ゆっくりズーム
+  el.style.transform=`translate(${Math.sin(u*1.7)*6+Math.sin(u*4.3)*2}px,${Math.cos(u*1.3)*5}px) rotate(${Math.sin(u*1.1)*.35}deg) scale(${1.02+u*.012})`;}
+function render(t){
+  S.forEach((w,i)=>$('s'+(i+1)).style.opacity=(t>=w[0]&&(t<w[1]||i===S.length-1))?1:0);
+  // S1：1コマ目から文字を出す
+  cam($('cam1'),t,0);
+  let on=0; const fl=[[0,.18,1],[.18,.26,0],[.26,.34,.9],[.34,.42,0],[.42,.47,.7]]; for(const [a,b,v] of fl) if(t>=a&&t<b) on=v;
+  $('s1glow').style.opacity=on; $('s1bulb').style.filter=on>.5?'none':'grayscale(1) brightness(.5)';
+  $('s1t1').style.opacity=1; $('s1t1').style.transform='none';
+  pop($('s1t2'),t,0,.22);
+  const shake=t>.5&&t<.8?Math.sin(t*90)*8:0; $('s1t2').style.transform+=` translateX(${shake}px)`;
+  pop($('s1t3'),t,1.5,.22);
+  // S2
+  cam($('cam2'),t,3); pop($('s2t1'),t,3,.2);
+  for(let i=0;i<4;i++) slide($('r'+i),t,3.2+i*.3,.25,30);
+  const rp=prog(t,4.6,.35); $('ring').style.opacity=rp; $('ring').style.transform=`rotate(-1.5deg) scale(${1.15-.15*eo(rp)})`;
+  pop($('s2tag'),t,5.1,.25); $('s2tag').style.transform+=' rotate(-6deg)';
+  // S3
+  cam($('cam3'),t,7); pop($('s3t1'),t,7,.2);
+  for(let i=0;i<4;i++) pop($('c'+i),t,7.2+i*.2,.25);
+  pop($('s3t2'),t,8.5,.25);
+  // S4
+  cam($('cam4'),t,10.5); pop($('s4t1'),t,10.5,.22);
+  slide($('s4logo'),t,10.8,.35,40); slide($('s4ill'),t,11.1,.4,60);
+  for(let i=0;i<4;i++) pop($('h'+i),t,11.8+i*.35,.25);
+  slide($('s4note'),t,12.2,.3,10);
+  // S5
+  cam($('cam5'),t,15); pop($('s5t0'),t,15,.2); pop($('s5t1'),t,15.2,.25);
+  slide($('s5area'),t,15.6,.3,30); pop($('s5t2'),t,16.0,.22);
+  const a=$('s5arrow'); const pa=prog(t,16.2,.25); a.style.opacity=pa;
+  a.style.transform=`translateY(${t>16.45?-Math.abs(Math.sin((t-16.45)*5))*24:0}px)`;
+  slide($('s5foot'),t,15.6,.3,10);
+}
+window.render=render; render(0);
+</script></body></html>

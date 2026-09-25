@@ -14,7 +14,7 @@ var SHEET_NAME = '申込一覧';
 var COLUMNS = [
   'submitted_at', 'name', 'kana', 'tel', 'email', 'zip', 'address', 'building_type', 'start_date',
   'services', 'contact_time', 'note', 'area', 'tel_mode',
-  'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'gclid', 'landing_url', 'referrer',
+  'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'ttclid', 'landing_url', 'referrer',
 ];
 
 function doPost(e) {

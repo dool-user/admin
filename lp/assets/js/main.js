@@ -31,7 +31,7 @@
 
   var query = parseQuery(location.search);
   // 計測系パラメータはセッション内で保持（ページ内遷移・リロード後もフォームに渡す）
-  var TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'yclid', 'tel'];
+  var TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'yclid', 'ttclid', 'tel'];
   var stored = safeStorage(function () { return JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || {}; }, {});
   TRACK_KEYS.forEach(function (k) {
     if (typeof query[k] === 'string' && query[k] !== '' && query[k].indexOf('{') !== 0) stored[k] = query[k];
@@ -328,7 +328,7 @@
     // 計測用 hidden 項目
     var hidden = {
       utm_source: stored.utm_source, utm_medium: stored.utm_medium, utm_campaign: stored.utm_campaign,
-      utm_term: stored.utm_term, gclid: stored.gclid || stored.gbraid || stored.wbraid,
+      utm_term: stored.utm_term, utm_content: stored.utm_content, gclid: stored.gclid || stored.gbraid || stored.wbraid, ttclid: stored.ttclid,
       area: document.body.getAttribute('data-area'), landing_url: location.href, referrer: document.referrer,
     };
     Object.keys(hidden).forEach(function (k) {
