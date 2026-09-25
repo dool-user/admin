@@ -175,7 +175,6 @@ body{font-family:"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
   <div class="abs area" id="s5area"><b>対応エリア</b><br>東京・神奈川・埼玉・千葉<br>茨城・群馬・栃木</div>
   <p class="abs t2" id="s5t2"><span class="box">詳しくは下のボタンから</span></p>
   <div class="arrow" id="s5arrow"></div>
-  <p class="abs foot" id="s5foot">運営：グラハムコミュニケーションズ株式会社<br>当サービスは電力会社の公式サービスではありません</p>
 </div>
 <script>
 const $=id=>document.getElementById(id);
@@ -218,7 +217,6 @@ function render(t){
   slide($('s5area'),t,15.6,.3,30); pop($('s5t2'),t,16.0,.22);
   const a=$('s5arrow'); const pa=prog(t,16.2,.25); a.style.opacity=pa;
   a.style.transform=`translateY(${t>16.45?-Math.abs(Math.sin((t-16.45)*5))*24:0}px)`;
-  slide($('s5foot'),t,15.6,.3,10);
 }
 window.render=render; render(0);
 </script></body></html>
