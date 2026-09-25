@@ -19,7 +19,7 @@ lp/
 
 ## 公開前にやること
 
-1. `assets/js/config.js` の「★要変更」をすべて差し替える（社名、電話番号＝通常／夜間、登録番号）
+1. `assets/js/config.js` の「★要変更」をすべて差し替える（電話番号＝通常／夜間、取次先・登録番号。運営会社はグラハムコミュニケーションズ株式会社で設定済み）
 2. `tokyo/index.html` の `canonical`・`og:url`（example.com）を本番URLに変える
 3. `gas/form-receiver.gs` をデプロイし、発行されたURLを `formEndpoint` に設定する
    （空欄のままだとデモモードになり、送信しても thanks.html に移動するだけ）

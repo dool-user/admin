@@ -78,6 +78,7 @@
     $$('[data-brand-company]').forEach(function (el) { el.textContent = b.company; });
     $$('[data-brand-address]').forEach(function (el) { el.textContent = b.address; });
     $$('[data-brand-license]').forEach(function (el) { el.textContent = b.license; });
+    if (b.url) $$('[data-brand-url]').forEach(function (el) { el.href = b.url; el.textContent = b.url.replace(/^https?:\/\//, '').replace(/\/$/, ''); });
     $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
     var areaKey = document.body.getAttribute('data-area');
@@ -121,15 +122,21 @@
 
   /* ------------------------------------------------------------
    * 1行に収めたい表示（運営者表示など）
-   * はみ出すときだけ文字を少しずつ縮める（最小10px）
+   * はみ出すときだけ文字を少しずつ縮める（最小10px。それでも入らなければ折り返す）
    * ---------------------------------------------------------- */
   function fitLines() {
     $$('[data-fit-line]').forEach(function (el) {
       el.style.fontSize = '';
+      el.classList.remove('is-wrap');
       var size = parseFloat(getComputedStyle(el).fontSize);
       while (el.scrollWidth > el.clientWidth && size > 10) {
         size -= 0.5;
         el.style.fontSize = size + 'px';
+      }
+      // 最小サイズでも収まらない場合は、文字を切らずに折り返す
+      if (el.scrollWidth > el.clientWidth) {
+        el.style.fontSize = '';
+        el.classList.add('is-wrap');
       }
     });
   }

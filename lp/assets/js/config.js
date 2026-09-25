@@ -4,11 +4,12 @@
  * 本番公開前に「★要変更」の項目を必ず差し替えてください。
  */
 window.LP_CONFIG = {
-  // ★要変更：サービス名・運営会社
+  // サービス名・運営会社
   brand: {
     name: 'でんき開通サポート',
-    company: '株式会社サンプル',
-    address: '東京都〇〇区〇〇 1-2-3',
+    company: 'グラハムコミュニケーションズ株式会社',
+    address: '〒162-0801 東京都新宿区山吹町346-6 KAGURAZAKA VIGAS 5F',
+    url: 'https://grahamcommunications.co.jp/',
     license: '（★要変更：取次・代理の根拠となる契約先事業者名や登録・届出番号を正確に記載）',
   },
 

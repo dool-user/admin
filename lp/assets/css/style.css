@@ -134,6 +134,10 @@ em { font-style: normal; }
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .site-note__full { display: none; }
+/* 最小サイズでも1行に入らないとき（会社名が長い場合など）は、文言を切らずに2行で表示 */
+.site-note.is-wrap { white-space: normal; text-overflow: clip; }
+.site-note .nw { display: inline-block; }
+.site-note.is-wrap .site-note__sep { display: none; }
 @media (min-width: 768px) { .site-note__full { display: inline; } .site-note__short { display: none; } }
 
 /* ---------- Main Visual ---------- */
@@ -446,6 +450,7 @@ em { font-style: normal; }
 .footer__company div { display: grid; grid-template-columns: 7em 1fr; gap: 8px; }
 .footer__company dt { color: #fff; font-weight: 700; }
 .footer__company dd { margin: 0; }
+.footer__company a { color: #fff; }
 .footer__disclaimer { text-align: center; font-size: 12px; margin-bottom: 14px; }
 .footer__nav { display: flex; justify-content: center; gap: 18px; margin-bottom: 14px; }
 .footer__nav a { color: #fff; }
