@@ -189,6 +189,33 @@
   });
 
   /* ------------------------------------------------------------
+   * PCで電話ボタンを押したとき、番号を大きく案内する
+   * （PCでは電話アプリがなく発信できないことがあるため。発信自体はそのまま行う）
+   * ---------------------------------------------------------- */
+  function initTelToast() {
+    var desktop = window.matchMedia('(hover: hover) and (pointer: fine)');
+    var toast = null, timer = null;
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-tel-link]');
+      if (!a || !desktop.matches) return;
+      var tel = CONFIG.tel[opts.telMode];
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'tel-toast';
+        toast.setAttribute('role', 'status');
+        toast.innerHTML = '<button type="button" aria-label="閉じる">×</button><p>こちらの番号にお電話ください</p><strong></strong><small></small>';
+        toast.querySelector('button').addEventListener('click', function () { toast.hidden = true; });
+        document.body.appendChild(toast);
+      }
+      toast.querySelector('strong').textContent = tel.display;
+      toast.querySelector('small').textContent = '通話無料　' + tel.label;
+      toast.hidden = false;
+      clearTimeout(timer);
+      timer = setTimeout(function () { toast.hidden = true; }, 8000);
+    });
+  }
+
+  /* ------------------------------------------------------------
    * 固定CTA（MVを過ぎたら表示、フォーム表示中は隠す）
    * ---------------------------------------------------------- */
   function initFixedCta() {
@@ -408,6 +435,7 @@
   fitLines();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitLines);
   initFixedCta();
+  initTelToast();
   initModal();
   initForm();
 })();

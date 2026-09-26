@@ -64,6 +64,7 @@ em { font-style: normal; }
 .header__label { font-size: 10px; color: var(--muted); line-height: 1.2; }
 .header__tel { display: inline-flex; align-items: center; gap: 4px; font-size: 20px; font-weight: 900; color: var(--green); text-decoration: none; letter-spacing: .02em; line-height: 1.2; }
 .header__tel-label { display: none; }
+@media (min-width: 768px) and (max-width: 1023px) { .header__label { display: none; } }
 .header__form { display: none; }
 @media (max-width: 767px) {
   .header__inner { gap: 8px; }
@@ -88,7 +89,19 @@ em { font-style: normal; }
 @media (min-width: 768px) {
   .header__form { display: inline-flex; }
   .logo__img { height: 38px; }
-  .header__tel { font-size: 26px; }
+  /* PCも電話番号をボタンにする（クリックで発信。発信できない環境では番号を案内） */
+  .header__cta { display: flex; align-items: center; gap: 12px; }
+  .header .header__tel {
+    height: 44px; padding: 0 22px; gap: 10px; border-radius: 999px; background: var(--green); color: #fff;
+    font-size: 17px; box-shadow: 0 3px 0 var(--green-dark); transition: transform .15s, filter .15s;
+  }
+  .header .header__tel:hover { filter: brightness(1.06); transform: translateY(-1px); }
+  .header .header__tel:active { transform: translateY(2px); box-shadow: none; }
+  .header .header__tel svg { width: 18px; height: 18px; }
+  .header__tel-label { display: inline-flex; align-items: center; gap: 10px; }
+  .header__tel-label::after { content: ""; width: 1px; height: 16px; background: rgba(255, 255, 255, .55); }
+  .header__tel [data-tel-display] { font-variant-numeric: tabular-nums; }
+  .header .header__form { height: 44px; padding: 0 22px; font-size: 15px; align-items: center; }
 }
 
 /* ---------- Buttons ---------- */
@@ -491,3 +504,16 @@ em { font-style: normal; }
 .modal__title { color: var(--navy); font-weight: 900; font-size: 22px; line-height: 1.4; margin: 4px 0 10px; }
 .modal__text { font-size: 14px; color: #444; margin-bottom: 18px; }
 .modal__buttons { display: flex; flex-direction: column; gap: 14px; }
+
+/* ---------- PCで電話ボタンを押したときの番号案内 ---------- */
+.tel-toast {
+  position: fixed; z-index: 300; top: 72px; right: 24px; width: 320px; background: #fff; border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(11, 58, 110, .25); border: 2px solid var(--green); padding: 16px 18px 14px; text-align: center;
+  font-family: inherit; color: var(--navy); animation: toast-in .2s ease-out;
+}
+.tel-toast[hidden] { display: none; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+.tel-toast p { font-size: 13px; font-weight: 700; }
+.tel-toast strong { display: block; font-size: 30px; font-weight: 900; color: var(--green); letter-spacing: .03em; margin: 2px 0; font-variant-numeric: tabular-nums; }
+.tel-toast small { display: block; font-size: 12px; color: var(--muted); }
+.tel-toast button { position: absolute; top: 6px; right: 8px; border: 0; background: none; font-size: 20px; color: var(--muted); cursor: pointer; }
