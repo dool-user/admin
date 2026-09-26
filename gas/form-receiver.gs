@@ -3,7 +3,8 @@
  * 申込をスプレッドシートに1行ずつ保存し、メールと Slack に通知します。
  *
  * 使い方：
- *  1. Googleスプレッドシートを新規作成 → 拡張機能 → Apps Script を開く
+ *  1. 保存先のスプレッドシートを開き → 拡張機能 → Apps Script を開く
+ *     （別のスプレッドシートに保存する場合は SPREADSHEET_ID を書き換える）
  *  2. このファイルの内容を貼り付け、NOTIFY_TO を通知先メールに変更
  *  3. Slack に通知する場合：プロジェクトの設定（歯車）→ スクリプト プロパティ に
  *     プロパティ SLACK_WEBHOOK_URL ／ 値 https://hooks.slack.com/services/… を追加
@@ -15,6 +16,8 @@
  */
 var NOTIFY_TO = 'notify@example.com'; // ★要変更（空にするとメール通知なし）
 var SHEET_NAME = '申込一覧';
+// 保存先スプレッドシート（URL の /d/ と /edit の間）。空ならこのスクリプトを開いたスプレッドシートに保存
+var SPREADSHEET_ID = '1MMPZ61RnZl-YzGezagqpquMz_jqVpj-hZSnM7SzDr6E';
 
 var COLUMNS = [
   'submitted_at', 'name', 'kana', 'tel', 'email', 'zip', 'address', 'building_type', 'start_date',
@@ -30,7 +33,7 @@ function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = book_();
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
     if (sheet.getLastRow() === 0) sheet.appendRow(COLUMNS);
     // 先頭が = + - @ の値は数式として解釈されないよう ' を付ける
@@ -67,7 +70,7 @@ function notifySlack_(p, row) {
   var url = PropertiesService.getScriptProperties().getProperty('SLACK_WEBHOOK_URL');
   if (!url) return;
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = book_();
   var sheet = ss.getSheetByName(SHEET_NAME);
   var link = sheet ? ss.getUrl() + '#gid=' + sheet.getSheetId() + '&range=A' + row : ss.getUrl();
   var source = [p.utm_source, p.utm_campaign].filter(Boolean).join(' / ') ||
@@ -115,6 +118,10 @@ function testNotify() {
 // Slack の mrkdwn で特別な意味を持つ記号をエスケープ
 function esc_(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function book_() {
+  return SPREADSHEET_ID ? SpreadsheetApp.openById(SPREADSHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
 }
 
 function json_(obj) {

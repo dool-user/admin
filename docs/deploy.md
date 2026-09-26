@@ -72,7 +72,7 @@ canonical・OGP・robots.txt・sitemap.xml の `example.com` が置き換わり�
 
 ## 6. フォームの受信を設定する（Google スプレッドシート＋メール・Slack 通知）
 
-1. Google ドライブで新しいスプレッドシートを作成（名前例：でんき開通サポート 申込一覧）
+1. 保存先のスプレッドシート（設定済み：https://docs.google.com/spreadsheets/d/1MMPZ61RnZl-YzGezagqpquMz_jqVpj-hZSnM7SzDr6E/edit）を開く。申込は「申込一覧」シートに自動で追加されます
 2. **拡張機能 → Apps Script** を開き、`gas/form-receiver.gs` の中身を貼り付ける
 3. `NOTIFY_TO` を通知先メールアドレスに変更して保存
 4. Slack に通知する（任意）
