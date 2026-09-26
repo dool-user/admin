@@ -44,7 +44,7 @@
 
 | 項目 | 設定値 |
 |---|---|
-| Production branch | `main`（まだ main に取り込んでいない場合は `claude/lp-denki-tetsuzuki-hs6x21`） |
+| Production branch | `main` |
 | Framework preset | None |
 | Build command | （空欄） |
 | Build output directory | `lp` |
@@ -70,16 +70,28 @@ python3 scripts/set_domain.py denki-kaitsu.com
 
 canonical・OGP・robots.txt・sitemap.xml の `example.com` が置き換わります。
 
-## 6. フォームの受信を設定する（Google スプレッドシート＋メール通知）
+## 6. フォームの受信を設定する（Google スプレッドシート＋メール・Slack 通知）
 
 1. Google ドライブで新しいスプレッドシートを作成（名前例：でんき開通サポート 申込一覧）
 2. **拡張機能 → Apps Script** を開き、`gas/form-receiver.gs` の中身を貼り付ける
-3. 11行目の `NOTIFY_TO` を通知先メールアドレスに変更して保存
-4. **デプロイ → 新しいデプロイ → 種類：ウェブアプリ**
+3. `NOTIFY_TO` を通知先メールアドレスに変更して保存
+4. Slack に通知する（任意）
+   1. Slack で通知用チャンネルを作る（例 `#lp-申込`。申込者の電話番号が流れるので、**担当者だけの非公開チャンネル**にする）
+   2. https://api.slack.com/apps → **Create New App → From scratch** → ワークスペースを選ぶ
+   3. **Incoming Webhooks** をオン → **Add New Webhook to Workspace** → 手順1のチャンネルを選ぶ → 表示された URL（`https://hooks.slack.com/services/…`）をコピー
+   4. Apps Script の **プロジェクトの設定（歯車）→ スクリプト プロパティを追加**：プロパティ `SLACK_WEBHOOK_URL`、値に手順3の URL
+      - Webhook URL を知っていれば誰でもそのチャンネルに投稿できるため、コードやチャットには貼らない
+   5. エディタ上部の関数選択で `testNotify` を選んで **実行** → 承認 → Slack とメールにテスト通知が届けばOK
+   - Slack には「お名前・電話番号・エリア・建物・開始希望日・申込内容・連絡希望時間・流入元」と、スプレッドシートの該当行を開くボタンが届きます。メールアドレス・住所・備考はスプレッドシートで確認します。
+5. **デプロイ → 新しいデプロイ → 種類：ウェブアプリ**
    - 実行ユーザー：自分
    - アクセスできるユーザー：全員
-5. 承認画面で許可 → 表示された「ウェブアプリのURL」（`https://script.google.com/macros/s/…/exec`）をコピー
-6. `lp/assets/js/config.js` の `formEndpoint` に貼り付ける
+6. 承認画面で許可 → 表示された「ウェブアプリのURL」（`https://script.google.com/macros/s/…/exec`）をコピー
+7. `lp/assets/js/config.js` の `formEndpoint` に貼り付ける
+
+> コードを貼り替えたあとは **デプロイ → デプロイを管理 → 編集（鉛筆）→ バージョン：新バージョン → デプロイ** で更新します（URL は変わりません）。
+
+**スプレッドシートをチームに共有する**：スプレッドシート右上の **共有** → 担当者の Google アカウント（Gmail など）を追加 → 対応状況を書き込む人は「編集者」、見るだけの人は「閲覧者」にします。「リンクを知っている全員」には**しない**でください。
 
 > スプレッドシートには申込者の個人情報が入ります。共有範囲は必要な担当者だけにしてください。
 
@@ -117,7 +129,7 @@ canonical・OGP・robots.txt・sitemap.xml の `example.com` が置き換わり�
 - [ ] 開いて約1秒でポップアップが出る／「×」で閉じる／再読み込みで再表示されない
 - [ ] 電話ボタン（ヘッダー・申込ボタン・下部固定・ポップアップ・相談バナー）で発信画面が開き、正しい番号が入っている
 - [ ] 受付時間内・外で「ただいま受付中」の表示が切り替わる
-- [ ] フォームを送信 → 完了ページに移動 → スプレッドシートに1行追加 → 通知メールが届く
+- [ ] フォームを送信 → 完了ページに移動 → スプレッドシートに1行追加 → 通知メールと Slack 通知が届く
 - [ ] `?utm_source=test&gclid=TEST&ttclid=TEST` 付きで申込 → スプレッドシートに値が入る
 - [ ] `?tel=yakan` で夜間番号、`?callhide` で電話ボタン非表示、`?hidemodal=1` でポップアップ非表示
 - [ ] GTM のプレビューで `tel_click` / `generate_lead` / `popup_open` が発火する

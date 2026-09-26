@@ -20,7 +20,7 @@ lp/
 ├── _redirects / _headers … Cloudflare Pages 用の設定
 ├── robots.txt / sitemap.xml / 404.html
 
-gas/form-receiver.gs      … フォーム受信用（スプレッドシート保存＋メール通知）※公開フォルダの外
+gas/form-receiver.gs      … フォーム受信用（スプレッドシート保存＋メール・Slack 通知）※公開フォルダの外
 scripts/set_domain.py     … 本番ドメインの反映
 marketing/tiktok/         … TikTok広告の動画・台本 ※公開フォルダの外
 docs/deploy.md            … 公開手順書
