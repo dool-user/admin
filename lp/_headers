@@ -8,6 +8,9 @@
 /assets/img/*
   Cache-Control: public, max-age=2592000
 
+/assets/zip/*
+  Cache-Control: public, max-age=604800
+
 /assets/css/*
   Cache-Control: public, max-age=3600
 

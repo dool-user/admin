@@ -3,6 +3,8 @@
 
   var CONFIG = window.LP_CONFIG;
   var STORAGE_KEY = 'lp_params';
+  // 郵便番号データ（assets/zip/）の場所。main.js の位置から求める
+  var ZIP_BASE = (document.currentScript && document.currentScript.src || '').replace(/js\/main\.js(\?.*)?$/, 'zip/') || '../assets/zip/';
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
 
@@ -319,34 +321,69 @@
     return ok;
   }
 
+  // 郵便番号 → 住所。日本郵便の郵便番号データを上2桁ごとに分けて assets/zip/ に置いている
+  var zipCache = {};
   function lookupZip() {
     var zipInput = $('#f-zip');
     var addr = $('#f-address');
+    var err = $('[data-error-for="zip"]');
     var zip = toHalfWidth(zipInput.value).replace(/\D/g, '');
     if (zip.length !== 7) { validateField(zipInput); return; }
-    var cb = 'zipcb_' + Date.now();
-    var script = document.createElement('script');
-    window[cb] = function (res) {
-      delete window[cb];
-      script.remove();
-      if (res && res.results && res.results[0]) {
-        var r = res.results[0];
-        addr.value = r.address1 + r.address2 + r.address3;
-        addr.focus();
-        validateField(addr);
-      } else {
-        var err = $('[data-error-for="zip"]');
-        if (err) err.textContent = '該当する住所が見つかりませんでした';
+
+    var group = zip.slice(0, 2);
+    var req = zipCache[group] || (zipCache[group] = fetch(ZIP_BASE + group + '.json').then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }));
+    req.then(function (data) {
+      var r = data[zip.slice(2)];
+      if (!r) {
+        if (err) err.textContent = '該当する住所が見つかりませんでした。番号をご確認いただくか、直接ご入力ください';
+        return;
       }
-    };
-    script.onerror = function () {
-      delete window[cb];
-      script.remove();
-      var err = $('[data-error-for="zip"]');
+      if (err) err.textContent = '';
+      addr.value = r.join('');
+      addr.focus();
+      addr.setSelectionRange(addr.value.length, addr.value.length); // 続けて番地を入力できるように
+      validateField(addr);
+    }).catch(function () {
+      delete zipCache[group];
       if (err) err.textContent = '住所を自動入力できませんでした。お手数ですが直接ご入力ください';
-    };
-    script.src = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + zip + '&callback=' + cb;
-    document.head.appendChild(script);
+    });
+  }
+
+  /* ---------- 同意リンク：プライバシーポリシーをページ内で表示 ---------- */
+  function initPolicy() {
+    var dlg = $('#policyDialog');
+    var body = $('#pdBody');
+    if (!dlg || !body || typeof dlg.showModal !== 'function') return; // 非対応ブラウザは通常のリンクで開く
+    var loaded = false;
+
+    $$('[data-policy]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (loaded) { dlg.showModal(); return; }
+        fetch(link.href)
+          .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
+          .then(function (html) {
+            var src = new DOMParser().parseFromString(html, 'text/html').querySelector('.policy');
+            if (!src) throw new Error('no content');
+            var h1 = src.querySelector('h1');
+            if (h1) h1.remove();
+            var b = CONFIG.brand;
+            src.querySelectorAll('[data-brand-company]').forEach(function (el) { el.textContent = b.company; });
+            src.querySelectorAll('[data-brand-address]').forEach(function (el) { el.textContent = b.address; });
+            body.innerHTML = src.innerHTML;
+            loaded = true;
+            dlg.showModal();
+            body.parentNode.scrollTop = 0;
+          })
+          .catch(function () { window.location.href = link.href; });
+      });
+    });
+
+    $$('[data-pd-close]', dlg).forEach(function (btn) { btn.addEventListener('click', function () { dlg.close(); }); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); }); // 枠の外をクリック
   }
 
   function initForm() {
@@ -450,5 +487,6 @@
   initFixedCta();
   initTelToast();
   initModal();
+  initPolicy();
   initForm();
 })();

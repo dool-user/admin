@@ -541,7 +541,6 @@
               <label><input type="checkbox" name="services" value="ガス">ガス</label>
               <label><input type="checkbox" name="services" value="水道">水道</label>
               <label><input type="checkbox" name="services" value="インターネット">インターネット</label>
-              <label><input type="checkbox" name="services" value="旧居の停止">旧居の停止</label>
             </div>
           </fieldset>
           <fieldset class="form__row">
@@ -574,7 +573,7 @@
           <div class="hp" aria-hidden="true"><label>空欄のまま<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
           <div class="form__agree">
-            <label><input type="checkbox" name="agree" required><span><a href="../privacy.html" target="_blank" rel="noopener">個人情報の取り扱い</a>に同意する</span></label>
+            <label><input type="checkbox" name="agree" required><span><a href="../privacy.html" target="_blank" rel="noopener" data-policy>個人情報の取り扱い</a>に同意する</span></label>
             <p class="form__error" data-error-for="agree"></p>
           </div>
           <button type="submit" class="btn btn--submit" data-track="form_submit">
@@ -634,6 +633,13 @@
       </div>
     </div>
   </div>
+
+  <!-- プライバシーポリシー（フォームの同意リンクから開く） -->
+  <dialog class="pd" id="policyDialog" aria-labelledby="pdTitle">
+    <div class="pd__head"><h2 id="pdTitle">個人情報の取り扱い</h2><button type="button" class="pd__close" data-pd-close aria-label="閉じる">×</button></div>
+    <div class="pd__body policy" id="pdBody"></div>
+    <div class="pd__foot"><button type="button" data-pd-close>閉じてフォームに戻る</button></div>
+  </dialog>
 
   <script src="../assets/js/main.js"></script>
 </body>
