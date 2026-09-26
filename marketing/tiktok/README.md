@@ -53,7 +53,7 @@
 `src/` にHTMLアニメーションと書き出しスクリプトがあります。文言を変えるときは `src/video_*.html`（画面）と `src/narration.py`（ナレーション）を編集してから、次を実行します。シーンの区切りを変える場合は、`video_*.html` の `S`、`narration.py` の `TIMELINE`、`build.sh` の長さをそろえてください。
 
 ```
-cd lp/ads/tiktok/src
+cd marketing/tiktok/src
 npm install
 python narration.py   # ナレーション生成（手順は narration.py 冒頭）
 ./build.sh            # ffmpeg（libx264入り）が必要

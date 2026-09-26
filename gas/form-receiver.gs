@@ -6,7 +6,7 @@
  *  2. このファイルの内容を貼り付け、NOTIFY_TO を通知先メールに変更
  *  3. デプロイ → 新しいデプロイ → 種類「ウェブアプリ」
  *     実行ユーザー：自分 / アクセスできるユーザー：全員
- *  4. 発行された URL を assets/js/config.js の formEndpoint に設定
+ *  4. 発行された URL を lp/assets/js/config.js の formEndpoint に設定
  */
 var NOTIFY_TO = 'notify@example.com'; // ★要変更
 var SHEET_NAME = '申込一覧';

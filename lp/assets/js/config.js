@@ -22,6 +22,9 @@ window.LP_CONFIG = {
   // 通常番号の受付時間（この時間外は電話ボタンを「Webで受付」優先に自動切替）
   businessHours: { start: 9, end: 20 },
 
+  // ★要変更：Google タグマネージャーのコンテナID（例 'GTM-ABC1234'）。空なら読み込まない
+  gtmId: '',
+
   // ★要変更：フォーム送信先（空のままならデモモードで thanks.html へ遷移）
   // 例）Google Apps Script のWebアプリURL、Formspree、自社API など
   formEndpoint: '',

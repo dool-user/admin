@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 使い方: cd lp/ads/tiktok/src && npm install && python narration.py && ./build.sh
+# 使い方: cd marketing/tiktok/src && npm install && python narration.py && ./build.sh
 # 事前に ffmpeg（libx264 入り）をインストールしておくこと
 set -euo pipefail
 cd "$(dirname "$0")"

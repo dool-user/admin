@@ -1,5 +1,7 @@
 # 電気開通手続き LP（でんき開通サポート）
 
+公開手順は `docs/deploy.md` を参照。公開されるのは `lp/` フォルダの中身だけです。
+
 引越し時の電気・ガス・水道・ネットの開通手続き代行サービスのLPです。
 HTML・CSS・JSだけで動く静的サイトなので、どのサーバーにもそのまま置けます（WordPressテーマへの組み込みも可）。
 
@@ -15,18 +17,24 @@ lp/
 ├── assets/css/style.css
 ├── assets/js/config.js   … ★電話番号・社名・フォーム送信先・エリアはここで管理
 ├── assets/js/main.js
-└── gas/form-receiver.gs  … フォーム受信用（スプレッドシート保存＋メール通知）
+├── _redirects / _headers … Cloudflare Pages 用の設定
+├── robots.txt / sitemap.xml / 404.html
+
+gas/form-receiver.gs      … フォーム受信用（スプレッドシート保存＋メール通知）※公開フォルダの外
+scripts/set_domain.py     … 本番ドメインの反映
+marketing/tiktok/         … TikTok広告の動画・台本 ※公開フォルダの外
+docs/deploy.md            … 公開手順書
 ```
 
 ## 公開前にやること
 
-1. `assets/js/config.js` の「★要変更」をすべて差し替える（電話番号＝通常／夜間、取次先・登録番号。運営会社はグラハムコミュニケーションズ株式会社で設定済み）
-2. `tokyo/index.html` の `canonical`・`og:url`（example.com）を本番URLに変える
-3. `gas/form-receiver.gs` をデプロイし、発行されたURLを `formEndpoint` に設定する
+1. `lp/assets/js/config.js` の「★要変更」をすべて差し替える（電話番号＝通常／夜間、取次先・登録番号。運営会社はグラハムコミュニケーションズ株式会社で設定済み）
+2. 本番ドメインを `python3 scripts/set_domain.py ドメイン名` で反映する（canonical・og:url・robots.txt・sitemap.xml）
+3. `gas/form-receiver.gs`（リポジトリ直下）をデプロイし、発行されたURLを `formEndpoint` に設定する
    （空欄のままだとデモモードになり、送信しても thanks.html に移動するだけ）
-4. GTMのコメントアウトを外し、`GTM-XXXXXXX` を差し替える（`tokyo/index.html` と `thanks.html` の両方）
+4. `lp/assets/js/config.js` の `gtmId` に Google タグマネージャーのID（GTM-XXXXXXX）を入れる（全ページで自動的に読み込まれる）
 5. 「最短当日」「無料」などの表記が実際の運用と一致しているか確認する（景品表示法）。実際のお客様の声を載せる場合は、掲載許諾を取った本物の声だけを使う
-6. `privacy.html` を自社の内容に合わせて修正し、専門家に確認してもらう
+6. `lp/privacy.html` を自社の内容に合わせて修正し、専門家に確認してもらう
 
 ## 表示ルール（誤認防止・必ず守ること）
 

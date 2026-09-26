@@ -81,7 +81,7 @@ body{font-family:"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
   box-shadow:0 10px 0 #0b7d3c;display:flex;align-items:center;justify-content:center}
 #s5 .arrow::after{content:"";width:46px;height:46px;border:solid #fff;border-width:0 15px 15px 0;transform:translateY(-10px) rotate(45deg)}
 #s5 .foot{top:1350px;font-size:27px;font-weight:500;color:#c9d6ea;line-height:1.6;padding:0 140px 0 60px}
-</style></head><body>
+#s1 .t2{font-size:118px;padding-right:40px}</style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
       <symbol id="ill-electric" viewBox="0 0 64 64">
@@ -129,9 +129,9 @@ body{font-family:"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
   <div class="box1" id="s1glow"></div><div class="cord"></div>
   <svg class="bulb" id="s1bulb"><use href="#ill-electric"/></svg>
 </div>
-  <p class="abs t1" id="s1t1"><span class="box">引越し初日の夜…</span></p>
-  <p class="abs t2 stroke y" id="s1t2">電気<br>つかない！？</p>
-  <p class="abs t3" id="s1t3"><span class="box">ブレーカー上げても真っ暗…</span></p>
+  <p class="abs t1" id="s1t1"><span class="box">引越し予定の人へ</span></p>
+  <p class="abs t2 stroke y" id="s1t2">これ忘れると<br>電気つかない</p>
+  <p class="abs t3" id="s1t3"><span class="box">意外とみんなやりがち</span></p>
 </div>
 <div class="scene" id="s2"><div class="cam" id="cam2"><div class="bg"></div>
   <div class="memo" id="s2memo">
@@ -157,8 +157,8 @@ body{font-family:"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
   <p class="abs t2 stroke" id="s3t2">正直、<br>めんどくさい…</p>
 </div>
 <div class="scene" id="s4"><div class="cam" id="cam4"><div class="bg"></div>
-  <img class="logo" id="s4logo" src="../../../assets/img/logo.webp" alt="">
-  <div class="ill" id="s4ill"><img src="../../../assets/img/mv-illust.webp" alt=""></div>
+  <img class="logo" id="s4logo" src="../../../lp/assets/img/logo.webp" alt="">
+  <div class="ill" id="s4ill"><img src="../../../lp/assets/img/mv-illust.webp" alt=""></div>
   <div class="chips">
     <span class="chip acc" id="h0">最短 即日開通※</span>
     <span class="chip" id="h1">相談無料</span>
@@ -183,7 +183,7 @@ const eo=x=>1-Math.pow(1-x,3);
 const back=x=>{const c=1.8;x=x-1;return x*x*((c+1)*x+c)+1};
 const prog=(t,s,d)=>clamp((t-s)/d);
 // シーンはカットで切り替え（通常投稿っぽく）。ナレーションの長さに合わせた区切り
-const S=[[0,4.2],[4.2,9.7],[9.7,15.8],[15.8,21.3],[21.3,25.4]];
+const S=[[0,4.8],[4.8,10.3],[10.3,16.4],[16.4,21.9],[21.9,26.0]];
 const [s2,s3,s4,s5]=[S[1][0],S[2][0],S[3][0],S[4][0]];
 function pop(el,t,s,d=.25){const p=prog(t,s,d);el.style.opacity=t>=s?1:0;el.style.transform=`scale(${p>0?.7+.3*back(p):.7})`;}
 function slide(el,t,s,d=.3,dy=50){const p=eo(prog(t,s,d));el.style.opacity=p;el.style.transform=`translateY(${(1-p)*dy}px)`;}

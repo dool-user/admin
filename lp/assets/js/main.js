@@ -426,7 +426,10 @@
         return;
       }
 
-      fetch(CONFIG.formEndpoint, { method: 'POST', body: new URLSearchParams(data) })
+      // Google Apps Script はリダイレクト後の応答をブラウザが読めない（CORS）ため、
+      // no-cors で送る（受信側には届く。応答は opaque になるので成功扱いにする）
+      var isGas = /^https:\/\/script\.google\.com\//.test(CONFIG.formEndpoint);
+      fetch(CONFIG.formEndpoint, { method: 'POST', body: new URLSearchParams(data), mode: isGas ? 'no-cors' : 'cors' })
         .then(function (res) {
           if (!res.ok && res.type !== 'opaque') throw new Error('HTTP ' + res.status);
           done();
