@@ -26,7 +26,13 @@ var COLUMNS = [
 ];
 
 function doPost(e) {
-  var p = e.parameter || {};
+  // エディタから直接実行した場合（申込データなし）はテスト通知に切り替える
+  if (!e || !e.parameter) {
+    console.log('doPost はフォーム送信時に動く関数です。テスト通知を送ります。');
+    testNotify();
+    return json_({ ok: true, test: true });
+  }
+  var p = e.parameter;
   if (p.website) return json_({ ok: true }); // bot
 
   var row;
