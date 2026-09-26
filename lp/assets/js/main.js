@@ -77,7 +77,6 @@
     $$('[data-brand-name]').forEach(function (el) { el.textContent = b.name; });
     $$('[data-brand-company]').forEach(function (el) { el.textContent = b.company; });
     $$('[data-brand-address]').forEach(function (el) { el.textContent = b.address; });
-    $$('[data-brand-license]').forEach(function (el) { el.textContent = b.license; });
     if (b.url) $$('[data-brand-url]').forEach(function (el) { el.href = b.url; el.textContent = b.url.replace(/^https?:\/\//, '').replace(/\/$/, ''); });
     $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
