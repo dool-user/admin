@@ -609,22 +609,29 @@
     </div>
   </div>
 
-  <!-- ===== Exit / idle modal ===== -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <!-- ===== Entry popup（ページを開いた直後に表示） ===== -->
+  <div class="modal" id="modal" hidden>
     <div class="modal__backdrop" data-modal-close></div>
-    <div class="modal__body">
-      <button class="modal__close" type="button" aria-label="閉じる" data-modal-close>×</button>
-      <p class="modal__lead">ページを閉じる前に</p>
-      <p class="modal__title" id="modalTitle">新居の電気、<br>申し込みを忘れていませんか？</p>
-      <p class="modal__text">入居日に明かりがつかないと、その日の生活に困ります。<br>住所と入居日だけで、お申し込みいただけます。</p>
-      <div class="modal__buttons" data-cta-group>
-        <a class="btn btn--tel" href="tel:0120000000" data-tel-link data-call data-cta="tel" data-track="tel_modal">
-          <span class="btn__main">電話で申し込む</span>
-          <span class="btn__num" data-tel-display>0120-000-000</span>
+    <div class="ep" role="dialog" aria-modal="true" aria-labelledby="epTitle" tabindex="-1">
+      <button class="ep__close" type="button" aria-label="閉じる" data-modal-close>×</button>
+      <div class="ep__head">
+        <p>引越し前後の方へ</p>
+        <h2 id="epTitle"><span class="nw">あれ？</span><em class="nw">電気止まっちゃった？</em></h2>
+      </div>
+      <div class="ep__body">
+        <p class="ep__ask">いまの状況に近いものは？</p>
+        <div class="ep__tiles">
+          <button type="button" class="ep__tile" data-tile="power" aria-pressed="false"><svg aria-hidden="true"><use href="#ill-electric"/></svg>電気が<br>つかない</button>
+          <button type="button" class="ep__tile" data-tile="movein" aria-pressed="false"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="14" width="44" height="40" rx="6" fill="#fff" stroke="#0b3a6e" stroke-width="3"/><path d="M10 26h44" stroke="#0b3a6e" stroke-width="3"/><rect x="18" y="8" width="5" height="12" rx="2" fill="#0b3a6e"/><rect x="41" y="8" width="5" height="12" rx="2" fill="#0b3a6e"/><circle cx="32" cy="40" r="7" fill="none" stroke="#e0322b" stroke-width="3"/></svg>入居日が<br>近い</button>
+          <button type="button" class="ep__tile" data-tile="unknown" aria-pressed="false"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="22" fill="#fff4cc" stroke="#0b3a6e" stroke-width="3"/><text x="32" y="42" text-anchor="middle" font-size="28" font-weight="900" fill="#0b3a6e">?</text></svg>手続き済みか<br>わからない</button>
+        </div>
+        <p class="ep__res" id="epRes" aria-live="polite">当てはまるものをタップしてください</p>
+        <p class="cta__status ep__status" data-open-status data-fit-line hidden></p>
+        <a class="ep__tel" href="tel:0120000000" data-tel-link data-call data-track="tel_popup">
+          <b><svg aria-hidden="true"><use href="#ico-tel"/></svg>電話で相談する</b>
+          <small><span data-tel-display>0120-000-000</span>（通話無料）</small>
         </a>
-        <a class="btn btn--form" href="#form" data-cta="form" data-modal-close data-track="form_modal">
-          <span class="btn__main">Webで申し込む</span>
-        </a>
+        <a class="ep__web" href="#form" data-modal-close data-track="form_popup">Webで相談する（24時間受付）</a>
       </div>
     </div>
   </div>

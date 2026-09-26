@@ -490,20 +490,51 @@ em { font-style: normal; }
 .fixed-cta__btn--form { background: var(--orange); box-shadow: 0 3px 0 var(--orange-dark); }
 @media (min-width: 768px) { .fixed-cta { display: none; } }
 
-/* ---------- Modal ---------- */
+/* ---------- Entry popup（ページを開いた直後） ---------- */
 .modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; }
 .modal[hidden] { display: none; }
-.modal__backdrop { position: absolute; inset: 0; background: rgba(7, 39, 72, .7); }
-.modal__body {
-  position: relative; background: #fff; border-radius: 16px; width: 100%; max-width: 420px; padding: 32px 20px 24px; text-align: center;
-  border-top: 8px solid var(--yellow); animation: pop .25s ease-out;
+.modal__backdrop { position: absolute; inset: 0; background: rgba(7, 39, 72, .62); }
+.ep {
+  position: relative; width: 100%; max-width: 520px; max-height: calc(100vh - 32px); overflow: auto; background: #fff;
+  border-radius: 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, .3); color: var(--navy); animation: pop .25s ease-out; outline: none;
 }
-@keyframes pop { from { transform: scale(.9); opacity: 0; } to { transform: none; opacity: 1; } }
-.modal__close { position: absolute; top: 8px; right: 10px; border: 0; background: none; font-size: 28px; line-height: 1; color: #888; cursor: pointer; }
-.modal__lead { color: var(--blue); font-weight: 700; font-size: 14px; }
-.modal__title { color: var(--navy); font-weight: 900; font-size: 22px; line-height: 1.4; margin: 4px 0 10px; }
-.modal__text { font-size: 14px; color: #444; margin-bottom: 18px; }
-.modal__buttons { display: flex; flex-direction: column; gap: 14px; }
+@keyframes pop { from { transform: scale(.92); opacity: 0; } to { transform: none; opacity: 1; } }
+.ep__close { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .18); color: #fff; font-size: 22px; line-height: 36px; cursor: pointer; z-index: 1; }
+.ep__head { background: var(--navy); color: #fff; padding: 20px 48px 16px; text-align: center; }
+.ep__head p { font-size: 13px; font-weight: 700; opacity: .85; }
+.ep__head h2 { font-size: 24px; font-weight: 900; line-height: 1.35; margin-top: 2px; }
+.ep__head h2 em { font-style: normal; color: var(--yellow); }
+.ep__head .nw, .ep__res .nw { display: inline-block; }
+.ep__body { padding: 18px 20px 20px; }
+.ep__ask { text-align: center; font-weight: 900; font-size: 16px; margin-bottom: 12px; }
+.ep__tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ep__tile {
+  position: relative; border: 2px solid #dbe3ec; border-radius: 16px; padding: 12px 4px 10px; background: #fff; cursor: pointer;
+  font: inherit; font-size: 13px; font-weight: 700; line-height: 1.4; color: var(--navy); transition: border-color .15s, background .15s, transform .1s;
+}
+.ep__tile:hover { border-color: #f5b48c; }
+.ep__tile:active { transform: scale(.97); }
+.ep__tile svg { width: 52px; height: 52px; display: block; margin: 0 auto 6px; }
+.ep__tile[aria-pressed="true"] { border-color: var(--orange); background: #fff5ee; }
+.ep__tile[aria-pressed="true"]::after {
+  content: ""; position: absolute; top: -8px; right: -8px; width: 26px; height: 26px; border-radius: 50%; background: var(--orange)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/18px no-repeat;
+}
+.ep__res { text-align: center; margin: 14px 0 10px; font-weight: 900; font-size: 16px; line-height: 1.5; min-height: 1.5em; }
+.ep__res em { font-style: normal; color: var(--orange); }
+.ep__status { margin: 0 auto 12px; font-size: 13px; padding: 4px 14px; }
+.ep__tel {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 62px;
+  border-radius: 999px; background: var(--green); color: #fff; text-decoration: none; font-weight: 900; box-shadow: 0 5px 0 var(--green-dark);
+}
+.ep__tel:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--green-dark); }
+.ep__tel b { font-size: 18px; display: inline-flex; align-items: center; gap: 8px; }
+.ep__tel b svg { width: 20px; height: 20px; }
+.ep__tel small { font-size: 13px; font-weight: 700; }
+.ep__tel::after { content: ""; position: absolute; right: 22px; top: 50%; width: 9px; height: 9px; margin-top: -5px; border: solid #fff; border-width: 3px 3px 0 0; transform: rotate(45deg); }
+.ep__web { display: block; text-align: center; margin-top: 12px; font-size: 14px; font-weight: 700; color: var(--blue); }
+@media (max-width: 767px) { .ep__head h2 { font-size: 21px; } }
+@media (prefers-reduced-motion: reduce) { .ep { animation: none; } }
 
 /* ---------- PCで電話ボタンを押したときの番号案内 ---------- */
 .tel-toast {

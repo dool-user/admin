@@ -236,27 +236,33 @@
   }
 
   /* ------------------------------------------------------------
-   * 離脱防止モーダル（1セッション1回）
-   * PC：マウスが画面上端から出たとき / SP：45秒滞在かつ未申込
+   * ページを開いた直後のポップアップ（アイコンタイル型・1セッション1回）
+   * ?hidemodal=1 で表示しない
    * ---------------------------------------------------------- */
+  var TILE_MESSAGES = {
+    power: '<span class="nw">その状況、</span><span class="nw"><em>お電話ですぐ確認</em>できます</span>',
+    movein: '<span class="nw">入居日に間に合うよう、</span><span class="nw"><em>お電話で手配</em>を進めます</span>',
+    unknown: '<span class="nw">手続きが済んでいるか、</span><span class="nw"><em>お電話で確認</em>できます</span>',
+  };
+
   function initModal() {
     var modal = $('#modal');
     if (!modal || opts.modalHide) return;
     var SHOWN_KEY = 'lp_modal_shown';
     if (safeStorage(function () { return sessionStorage.getItem(SHOWN_KEY); }, null)) return;
-    var shown = false, lastFocus = null;
+    var dialog = $('.ep', modal);
+    var res = $('#epRes');
+    var lastFocus = null;
 
-    function open(reason) {
-      if (shown) return;
+    function open() {
       var formEl = $('#entryForm');
       if (formEl && formEl.contains(document.activeElement)) return; // 入力中は出さない
-      shown = true;
       safeStorage(function () { sessionStorage.setItem(SHOWN_KEY, '1'); });
       lastFocus = document.activeElement;
       modal.hidden = false;
-      var close = $('.modal__close', modal);
-      if (close) close.focus();
-      track('modal_open', { modal_reason: reason });
+      fitLines();
+      if (dialog) dialog.focus();
+      track('popup_open', {});
     }
     function close() {
       modal.hidden = true;
@@ -265,12 +271,17 @@
     $$('[data-modal-close]', modal).forEach(function (el) { el.addEventListener('click', close); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
 
-    document.addEventListener('mouseout', function (e) {
-      if (!e.relatedTarget && e.clientY <= 0) open('exit_intent');
+    // タイルは1つだけ選べる。選んだ状況に合わせてボタン上の文言を変える
+    $$('[data-tile]', modal).forEach(function (tile) {
+      tile.addEventListener('click', function () {
+        $$('[data-tile]', modal).forEach(function (t) { t.setAttribute('aria-pressed', String(t === tile)); });
+        var key = tile.getAttribute('data-tile');
+        if (res && TILE_MESSAGES[key]) res.innerHTML = TILE_MESSAGES[key];
+        track('popup_tile_select', { tile: key });
+      });
     });
-    setTimeout(function () {
-      if (window.matchMedia('(max-width: 767px)').matches) open('idle');
-    }, 45000);
+
+    setTimeout(open, 1000);
   }
 
   /* ------------------------------------------------------------

@@ -46,7 +46,7 @@ lp/
 | `tel=yakan` | 夜間用の電話番号・受付時間表示に切り替える（セッション中は保持） |
 | `callhide` | 電話ボタンをすべて隠し、Web申込のみにする |
 | `mvhide` | メインビジュアルを隠し、CTAから表示する |
-| `hidemodal=1` | 離脱防止モーダルを出さない |
+| `hidemodal=1` | ページを開いた直後のポップアップ（アイコンタイル型）を出さない |
 | `ctaorder=form` / `ctaorder=tel` | CTAボタンの並び順（未指定の場合、受付時間外は自動でフォームが先） |
 | `utm_*` / `gclid` / `gbraid` / `wbraid` | フォームの hidden 項目に自動で入り、申込データと紐づく |
 
@@ -70,6 +70,7 @@ lp/
 | `form_start` | フォームへの入力開始 |
 | `generate_lead` | フォーム送信成功 |
 | `thanks_view` | 完了ページの表示 |
-| `modal_open` | 離脱防止モーダルの表示 |
+| `popup_open` | ページを開いた直後のポップアップの表示（1セッション1回） |
+| `popup_tile_select` | ポップアップのタイル選択（`tile` = power / movein / unknown） |
 
 Google広告のコンバージョンは `tel_click` と `generate_lead`（または `thanks_view`）に設定してください。
