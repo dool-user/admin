@@ -102,6 +102,7 @@ canonical・OGP・robots.txt・sitemap.xml の `example.com` が置き換わり�
 | `businessHours` | 通常番号の受付時間（「ただいま受付中」の表示に使う） |
 | `formEndpoint` | 手順6のURL |
 | `gtmId` | 手順8のGTMのID（例 `GTM-ABC1234`） |
+| `metaPixelId` | 手順8-2のMetaピクセルID（数字のみ） |
 
 ## 8. 計測を設定する（Google タグマネージャー）
 
@@ -119,6 +120,35 @@ canonical・OGP・robots.txt・sitemap.xml の `example.com` が置き換わり�
 
 3. プレビューで発火を確認してから **公開**
 
+> Meta（Facebook・Instagram）のタグは GTM に**入れない**でください。LP に直接組み込み済みで、二重に計測されてしまいます（次の 8-2）。
+
+## 8-2. Meta 広告の計測を設定する（Facebook・Instagram）
+
+LP 側の仕組みは組み込み済みです。ID とトークンを入れるだけで動きます。
+
+| 計測するもの | Meta のイベント | 送るタイミング |
+|---|---|---|
+| ページ表示 | `PageView` | 全ページ |
+| 電話ボタンのタップ | `Contact` | タップしたとき |
+| Web申込 | `Lead` | 完了ページ（ブラウザ）＋ フォーム受信時（サーバー：Conversions API）。同じ `event_id` で重複を除く |
+
+1. **ピクセルを作る**：Meta ビジネスポートフォリオ → **イベントマネージャ** → 「データソースをリンク」→「ウェブ」→ 名前を付けて作成 → 表示された **ピクセルID（数字）** を控える
+   - 「設定方法」を聞かれたら「コードを手動でインストール」を選び、そのまま閉じてOK（コードは LP に入っています）
+2. `lp/assets/js/config.js` の `metaPixelId` にピクセルIDを入れる（Claude に ID を伝えれば反映します）
+3. **ドメイン認証**：ビジネス設定 → ブランドセーフティ → **ドメイン** →「追加」→ `denki-kaitsu-support.com` →「DNS TXT レコード」を選ぶ → 表示された値を Cloudflare の **DNS → レコードを追加**（タイプ TXT、名前 `@`）に貼る → Meta に戻って「認証」
+4. **Conversions API のトークンを作る**：イベントマネージャ → 作ったピクセル → **設定** →「コンバージョンAPI」→「アクセストークンを生成」→ 表示された長い文字列をコピー（再表示できないので注意）
+5. **Apps Script に登録**（手順6と同じスクリプト）：プロジェクトの設定（歯車）→ スクリプト プロパティを追加
+   - `META_PIXEL_ID`：ピクセルID
+   - `META_CAPI_TOKEN`：手順4のトークン（秘密情報。コードやチャットには貼らない）
+6. **テスト**
+   1. イベントマネージャ → ピクセル →「**テストイベント**」タブ → 「サーバーイベントのテスト」に表示される **テストコード**（`TEST12345` のような文字列）を控える
+   2. スクリプト プロパティに `META_TEST_EVENT_CODE` としてテストコードを追加
+   3. Apps Script のエディタで `testMetaLead` を選んで実行 → テストイベント画面に「Lead（サーバー）」が出ればOK
+   4. 同じ画面の「ブラウザイベントのテスト」に LP の URL を入れて開き、電話ボタン・フォーム送信で `Contact` / `Lead` が出ることを確認
+   5. 確認が終わったら **`META_TEST_EVENT_CODE` を削除**（残すと本番の申込がテスト扱いになり、広告の最適化に使われない）
+7. コードを貼り替えた場合は、Apps Script を「デプロイを管理 → 新バージョン」で更新する
+8. 広告を作るときは、キャンペーンの目的「**リード**」→ コンバージョンの場所「ウェブサイト」→ イベント「**リード（Lead）**」を選ぶ
+
 ## 9. 公開前の最終チェック
 
 スマホ実機（iPhone・Android）とPCで確認します。
@@ -131,6 +161,7 @@ canonical・OGP・robots.txt・sitemap.xml の `example.com` が置き換わり�
 - [ ] `?utm_source=test&gclid=TEST&ttclid=TEST` 付きで申込 → スプレッドシートに値が入る
 - [ ] `?tel=yakan` で夜間番号、`?callhide` で電話ボタン非表示、`?hidemodal=1` でポップアップ非表示
 - [ ] GTM のプレビューで `tel_click` / `generate_lead` / `popup_open` が発火する
+- [ ] Meta のテストイベントで `PageView` / `Contact` / `Lead`（ブラウザ・サーバー両方）が出る。確認後に `META_TEST_EVENT_CODE` を削除した
 - [ ] フッターの「運営会社」「プライバシーポリシー」が開く／存在しないURLで404ページが出る
 - [ ] プライバシーポリシーを専門家に確認してもらった
 

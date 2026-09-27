@@ -28,6 +28,7 @@
   </main>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/gtm.js"></script>
+  <script src="assets/js/meta.js"></script>
   <script>
     (function () {
       var C = window.LP_CONFIG, p = {};
@@ -39,6 +40,10 @@
       document.querySelectorAll('[data-brand-name]').forEach(function (e) { e.textContent = C.brand.name; });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'thanks_view' });
+      // フォーム送信直後のみ Meta の Lead を送る（直接このページを開いた場合は送らない）
+      var leadId = null;
+      try { leadId = sessionStorage.getItem('lp_lead_event'); sessionStorage.removeItem('lp_lead_event'); } catch (e) {}
+      if (leadId && window.lpMeta) window.lpMeta.track('Lead', { content_name: 'entry_form' }, leadId);
     })();
   </script>
 </body>

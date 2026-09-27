@@ -33,12 +33,19 @@
 
   var query = parseQuery(location.search);
   // 計測系パラメータはセッション内で保持（ページ内遷移・リロード後もフォームに渡す）
-  var TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'yclid', 'ttclid', 'tel'];
+  var TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'yclid', 'ttclid', 'fbclid', 'tel'];
   var stored = safeStorage(function () { return JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || {}; }, {});
   TRACK_KEYS.forEach(function (k) {
     if (typeof query[k] === 'string' && query[k] !== '' && query[k].indexOf('{') !== 0) stored[k] = query[k];
   });
+  // Meta の fbc（広告クリックの識別子）はクリックして来た時刻を含むので、来訪時刻も残す
+  if (typeof query.fbclid === 'string' && query.fbclid) stored.fbclid_ts = Date.now();
   safeStorage(function () { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(stored)); });
+
+  function readCookie(name) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
 
   function flag(name) {
     var v = query[name];
@@ -181,6 +188,7 @@
     var payload = { event: event, lp_area: document.body.getAttribute('data-area'), lp_tel_mode: opts.telMode };
     for (var k in params) payload[k] = params[k];
     window.dataLayer.push(payload);
+    if (event === 'tel_click' && window.lpMeta) window.lpMeta.track('Contact', { content_name: params && params.cta_id });
   }
   document.addEventListener('click', function (e) {
     var el = e.target.closest('[data-track]');
@@ -445,6 +453,13 @@
       data.append('services', services);
       data.append('tel_mode', opts.telMode);
       data.append('submitted_at', new Date().toISOString());
+      // Meta 計測用（Conversions API で受信側から送る情報。ピクセルの Lead と event_id で重複を除く）
+      var eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+      data.append('event_id', eventId);
+      data.append('fbclid', stored.fbclid || '');
+      data.append('fbp', readCookie('_fbp'));
+      data.append('fbc', readCookie('_fbc') || (stored.fbclid ? 'fb.1.' + (stored.fbclid_ts || Date.now()) + '.' + stored.fbclid : ''));
+      data.append('user_agent', navigator.userAgent);
 
       var btn = $('button[type="submit"]', form);
       btn.disabled = true;
@@ -452,6 +467,8 @@
 
       function done() {
         track('generate_lead', { form_id: 'entry' });
+        // Meta の Lead は完了ページで送る（ページ移動で送信が途切れないように）
+        safeStorage(function () { sessionStorage.setItem('lp_lead_event', eventId); });
         location.href = CONFIG.thanksUrl;
       }
 
