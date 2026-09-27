@@ -42,8 +42,11 @@ function doPost(e) {
     var ss = book_();
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
     if (sheet.getLastRow() === 0) sheet.appendRow(COLUMNS);
+    // 受付時刻はサーバー側で日本時間に確定する（ブラウザのタイムゾーンや送信値は使わない）
+    var submittedAt = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm:ss') + ' JST';
     // 先頭が = + - @ の値は数式として解釈されないよう ' を付ける
     var values = COLUMNS.map(function (k) {
+      if (k === 'submitted_at') return submittedAt;
       var v = String(p[k] || '');
       return /^[=+\-@]/.test(v) ? "'" + v : v;
     });
