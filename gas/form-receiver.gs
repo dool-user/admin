@@ -30,6 +30,7 @@ var COLUMNS = [
   'services', 'contact_time', 'note', 'area', 'tel_mode',
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'ttclid', 'landing_url', 'referrer',
   'fbclid', 'event_id', // 既存のシートと列がずれないよう、追加の列は末尾に足す
+  'source_type', 'source_detail', // 流入元の分類（paid / organic / social / referral / campaign / direct）と詳細
 ];
 
 function doPost(e) {
@@ -49,6 +50,8 @@ function doPost(e) {
     var ss = book_();
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
     if (sheet.getLastRow() === 0) sheet.appendRow(COLUMNS);
+    // 列を追加したとき、既存シートの見出し行にも新しい列名を足す（既存の列は並びが同じなので上書きしても変わらない）
+    else if (sheet.getLastColumn() < COLUMNS.length) sheet.getRange(1, 1, 1, COLUMNS.length).setValues([COLUMNS]);
     // 受付時刻はサーバー側で日本時間に確定する（ブラウザのタイムゾーンや送信値は使わない）
     var submittedAt = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm:ss') + ' JST';
     // 先頭が = + - @ の値は数式として解釈されないよう ' を付ける
@@ -94,7 +97,7 @@ function notifySlack_(p, row) {
   var ss = book_();
   var sheet = ss.getSheetByName(SHEET_NAME);
   var link = sheet ? ss.getUrl() + '#gid=' + sheet.getSheetId() + '&range=A' + row : ss.getUrl();
-  var source = [p.utm_source, p.utm_campaign].filter(Boolean).join(' / ') ||
+  var source = p.source_detail || [p.utm_source, p.utm_campaign].filter(Boolean).join(' / ') ||
     (p.gclid ? 'Google広告' : p.ttclid ? 'TikTok広告' : p.fbclid ? 'Meta広告' : '不明');
 
   var fields = [

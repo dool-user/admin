@@ -149,6 +149,35 @@ LP 側の仕組みは組み込み済みです。ID とトークンを入れる�
 7. コードを貼り替えた場合は、Apps Script を「デプロイを管理 → 新バージョン」で更新する
 8. 広告を作るときは、キャンペーンの目的「**リード**」→ コンバージョンの場所「ウェブサイト」→ イベント「**リード（Lead）**」を選ぶ
 
+## 8-3. 自然検索（SEO）の設定
+
+LP 側の対策（タイトル・説明文・構造化データ・OGP 画像・サイトマップ・pages.dev の検索除外）は組み込み済みです。以下は管理画面での作業です。
+
+1. **Google Search Console に登録**（検索キーワード・表示回数・順位がわかる）
+   1. https://search.google.com/search-console →「プロパティを追加」→ 左の「**ドメイン**」に `denki-kaitsu-support.com` を入力
+   2. 表示された TXT レコードを Cloudflare の **DNS → レコードを追加**（タイプ TXT、名前 `@`）に貼る → Search Console に戻って「確認」
+   3. 左メニュー「**サイトマップ**」に `sitemap.xml` と入力して送信
+   4. 上の検索窓に `https://denki-kaitsu-support.com/` を入れる →「**インデックス登録をリクエスト**」
+2. **Bing Webmaster Tools**（Bing・Yahoo! 以外の検索も一部カバー）：https://www.bing.com/webmasters →「Google Search Console からインポート」を選べば数クリックで完了
+3. **www 付きを www なしに統一**（評価が分散しないように）：Cloudflare → ドメイン `denki-kaitsu-support.com` → **ルール** →「リダイレクトルール」→ テンプレート「**www からルートへリダイレクト**」を作成（「クエリ文字列を保持」をオン）
+4. 反映には数日〜数週間かかります。Search Console の「検索パフォーマンス」でどの言葉で何位に出ているかを確認できます
+
+### 流入元の見方
+
+- **スプレッドシート**：申込ごとに `source_type`（下表）と `source_detail`（例：Google検索、Meta広告、LINE、参照元のサイト名）が入ります。Slack の「流入元」にも表示されます
+- **GA4**（GTM 経由で設定した場合）：「集客 → トラフィック獲得」の「Organic Search」が自然検索。GTM のイベントにも `lp_source_type` / `lp_source_detail` が付いています
+
+| source_type | 意味 |
+|---|---|
+| `organic` | 自然検索（Google・Yahoo!・Bing など） |
+| `paid` | 広告（gclid・fbclid＋utm・ttclid・yclid、または utm_medium が cpc / paid など） |
+| `social` | SNS の通常投稿（Facebook・Instagram・X・LINE・TikTok・YouTube） |
+| `referral` | 他のサイトのリンク |
+| `campaign` | utm_source 付きのリンク（広告以外。例：チラシの QR コード） |
+| `direct` | 直接（ブックマーク・URL 入力・一部アプリ内ブラウザなど） |
+
+※ 自然検索から来た人には、最初のポップアップを出しません（Google はスマホで本文を覆うポップアップを評価を下げる要因としているため）。
+
 ## 9. 公開前の最終チェック
 
 スマホ実機（iPhone・Android）とPCで確認します。
@@ -161,6 +190,7 @@ LP 側の仕組みは組み込み済みです。ID とトークンを入れる�
 - [ ] `?utm_source=test&gclid=TEST&ttclid=TEST` 付きで申込 → スプレッドシートに値が入る
 - [ ] `?tel=yakan` で夜間番号、`?callhide` で電話ボタン非表示、`?hidemodal=1` でポップアップ非表示
 - [ ] GTM のプレビューで `tel_click` / `generate_lead` / `popup_open` が発火する
+- [ ] Google 検索のリンク経由（または `https://www.google.com/` からのリンク）で開くと、ポップアップが出ず、申込の `source_type` が `organic` になる
 - [ ] Meta のテストイベントで `PageView` / `Contact` / `Lead`（ブラウザ・サーバー両方）が出る。確認後に `META_TEST_EVENT_CODE` を削除した
 - [ ] フッターの「運営会社」「プライバシーポリシー」が開く／存在しないURLで404ページが出る
 - [ ] プライバシーポリシーを専門家に確認してもらった

@@ -19,3 +19,13 @@
 
 /thanks.html
   X-Robots-Tag: noindex
+
+/tokyo/*
+  X-Robots-Tag: noindex
+
+# Cloudflare の確認用URL（*.pages.dev）が検索結果に出て、本番と重複しないようにする
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

@@ -40,7 +40,41 @@
   });
   // Meta の fbc（広告クリックの識別子）はクリックして来た時刻を含むので、来訪時刻も残す
   if (typeof query.fbclid === 'string' && query.fbclid) stored.fbclid_ts = Date.now();
+
+  // 流入元の判定（広告・自然検索・SNS・他サイト・直接）。最初に来たときの判定をセッション内で保持し、
+  // 途中で広告から来直した場合だけ上書きする。/tokyo/ からの転送時は転送前の referrer を使う
+  var hasCampaign = TRACK_KEYS.some(function (k) { return k !== 'tel' && typeof query[k] === 'string' && query[k] !== '' && query[k].indexOf('{') !== 0; });
+  if (!stored.source_type || hasCampaign) {
+    var ref = safeStorage(function () { var r = sessionStorage.getItem('lp_first_referrer'); sessionStorage.removeItem('lp_first_referrer'); return r; }, null);
+    if (ref === null) ref = document.referrer || '';
+    var refHost = '';
+    try { refHost = ref ? new URL(ref).hostname : ''; } catch (e) {}
+    if (refHost === location.hostname) { ref = ''; refHost = ''; } // サイト内の移動は流入元にしない
+    var src = classifySource(stored, refHost);
+    stored.source_type = src[0];
+    stored.source_detail = src[1];
+    stored.first_referrer = ref;
+    stored.landing_url = location.href;
+  }
   safeStorage(function () { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(stored)); });
+
+  function classifySource(p, host) {
+    var medium = String(p.utm_medium || '').toLowerCase();
+    var paid = /cpc|ppc|paid|cpm|display|banner|^ads?$/.test(medium);
+    if (p.gclid || p.gbraid || p.wbraid) return ['paid', 'Google広告'];
+    if (p.yclid) return ['paid', 'Yahoo!広告'];
+    if (p.ttclid) return ['paid', 'TikTok広告'];
+    if (p.fbclid) return paid || p.utm_source ? ['paid', 'Meta広告'] : ['social', 'Facebook・Instagram'];
+    if (p.utm_source) return [paid ? 'paid' : 'campaign', p.utm_source + (medium ? ' / ' + medium : '')];
+    if (!host) return ['direct', '直接（ブックマーク・URL入力など）'];
+    var engines = [[/(^|\.)google\./, 'Google検索'], [/(^|\.)search\.yahoo\.co\.jp$|(^|\.)yahoo\.co\.jp$/, 'Yahoo!検索'],
+      [/(^|\.)bing\.com$/, 'Bing検索'], [/(^|\.)duckduckgo\.com$/, 'DuckDuckGo'], [/(^|\.)ecosia\.org$/, 'Ecosia'], [/(^|\.)search\.naver\./, 'NAVER検索']];
+    for (var i = 0; i < engines.length; i++) if (engines[i][0].test(host)) return ['organic', engines[i][1]];
+    var social = [[/(^|\.)(facebook|fb)\.com$|(^|\.)instagram\.com$/, 'Facebook・Instagram'], [/(^|\.)(t\.co|x\.com|twitter\.com)$/, 'X（Twitter）'],
+      [/(^|\.)line\.me$|(^|\.)naver\.jp$/, 'LINE'], [/(^|\.)tiktok\.com$/, 'TikTok'], [/(^|\.)youtube\.com$/, 'YouTube']];
+    for (var j = 0; j < social.length; j++) if (social[j][0].test(host)) return ['social', social[j][1]];
+    return ['referral', host];
+  }
 
   function readCookie(name) {
     var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
@@ -185,7 +219,7 @@
    * ---------------------------------------------------------- */
   window.dataLayer = window.dataLayer || [];
   function track(event, params) {
-    var payload = { event: event, lp_area: document.body.getAttribute('data-area'), lp_tel_mode: opts.telMode };
+    var payload = { event: event, lp_area: document.body.getAttribute('data-area'), lp_tel_mode: opts.telMode, lp_source_type: stored.source_type, lp_source_detail: stored.source_detail };
     for (var k in params) payload[k] = params[k];
     window.dataLayer.push(payload);
     if (event === 'tel_click' && window.lpMeta) window.lpMeta.track('Contact', { content_name: params && params.cta_id });
@@ -257,6 +291,8 @@
   function initModal() {
     var modal = $('#modal');
     if (!modal || opts.modalHide) return;
+    // 検索エンジンからの訪問者には出さない（Google はスマホで本文を覆うポップアップを評価を下げる要因としている）
+    if (stored.source_type === 'organic') return;
     var SHOWN_KEY = 'lp_modal_shown';
     if (safeStorage(function () { return sessionStorage.getItem(SHOWN_KEY); }, null)) return;
     var dialog = $('.ep', modal);
@@ -411,7 +447,8 @@
     var hidden = {
       utm_source: stored.utm_source, utm_medium: stored.utm_medium, utm_campaign: stored.utm_campaign,
       utm_term: stored.utm_term, utm_content: stored.utm_content, gclid: stored.gclid || stored.gbraid || stored.wbraid, ttclid: stored.ttclid,
-      area: document.body.getAttribute('data-area'), landing_url: location.href, referrer: document.referrer,
+      area: document.body.getAttribute('data-area'), landing_url: stored.landing_url || location.href, referrer: stored.first_referrer,
+      source_type: stored.source_type, source_detail: stored.source_detail,
     };
     Object.keys(hidden).forEach(function (k) {
       if (form.elements[k] && hidden[k]) form.elements[k].value = hidden[k];

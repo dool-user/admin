@@ -11,7 +11,7 @@
   <meta property="og:description" content="新居の電気・ガス・水道・ネットの申し込みを窓口ひとつで。年中無休・相談無料。">
   <meta property="og:url" content="https://denki-kaitsu-support.com/">
   <!-- 旧URL（/tokyo/）からトップページへ転送。広告の計測パラメータ（utm_・gclid・fbclid など）はそのまま引き継ぐ -->
-  <script>location.replace('/' + location.search + location.hash);</script>
+  <script>try { sessionStorage.setItem('lp_first_referrer', document.referrer); } catch (e) {} location.replace('/' + location.search + location.hash);</script>
   <noscript><meta http-equiv="refresh" content="0; url=/"></noscript>
 </head>
 <body><p><a href="/">でんき開通サポートのトップページへ移動します</a></p></body>
