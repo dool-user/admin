@@ -55,7 +55,7 @@
 ## 4. 独自ドメインをつなぐ
 
 1. Pages のプロジェクト → **Custom domains → Set up a custom domain**
-2. 購入したドメイン（例 `denki-kaitsu.com`）を入力 → Activate
+2. 購入したドメイン（例 `denki-kaitsu-support.com`）を入力 → Activate
 3. `www.denki-kaitsu.com` も同様に追加（どちらでも開けるように）
 4. 数分〜数十分で `https://` 付きで開けるようになります（証明書は自動）
 

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /thanks.html
 
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://denki-kaitsu-support.com/sitemap.xml
