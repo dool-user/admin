@@ -452,7 +452,6 @@
       data.delete('services');
       data.append('services', services);
       data.append('tel_mode', opts.telMode);
-      data.append('submitted_at', new Date().toISOString());
       // Meta 計測用（Conversions API で受信側から送る情報。ピクセルの Lead と event_id で重複を除く）
       var eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
       data.append('event_id', eventId);

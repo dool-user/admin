@@ -49,12 +49,19 @@ function doPost(e) {
     var ss = book_();
     var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
     if (sheet.getLastRow() === 0) sheet.appendRow(COLUMNS);
+    // 受付時刻はサーバー側で日本時間に確定する（ブラウザのタイムゾーンや送信値は使わない）
+    var submittedAt = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm:ss') + ' JST';
     // 先頭が = + - @ の値は数式として解釈されないよう ' を付ける
-    sheet.appendRow(COLUMNS.map(function (k) {
+    var values = COLUMNS.map(function (k) {
+      if (k === 'submitted_at') return submittedAt;
       var v = String(p[k] || '');
       return /^[=+\-@]/.test(v) ? "'" + v : v;
-    }));
-    row = sheet.getLastRow();
+    });
+    // 電話番号・郵便番号など、先頭の 0 を含む値を文字列として保存する
+    row = sheet.getLastRow() + 1;
+    var destination = sheet.getRange(row, 1, 1, COLUMNS.length);
+    destination.setNumberFormat('@');
+    destination.setValues([values]);
   } finally {
     lock.releaseLock();
   }
