@@ -444,7 +444,6 @@
       data.delete('services');
       data.append('services', services);
       data.append('tel_mode', opts.telMode);
-      data.append('submitted_at', new Date().toISOString());
 
       var btn = $('button[type="submit"]', form);
       btn.disabled = true;
