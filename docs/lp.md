@@ -9,15 +9,17 @@ HTML・CSS・JSだけで動く静的サイトなので、どのサーバーに�
 
 ```
 lp/
-├── index.html            … /tokyo/ へリダイレクト
-├── tokyo/index.html      … 東京エリアLP（本体）
+├── index.html            … LP本体（関東エリア：東京・神奈川・埼玉・千葉・茨城・群馬・栃木）
+├── tokyo/index.html      … 旧URL /tokyo/ からトップへの転送（計測パラメータを引き継ぐ）
 ├── thanks.html           … 申込完了ページ（CV計測用）
 ├── privacy.html          … プライバシーポリシー（ひな形）
 ├── company.html          … 運営会社（フッターの「運営会社」からリンク）
 ├── assets/css/style.css
 ├── assets/js/config.js   … ★電話番号・社名・フォーム送信先・エリアはここで管理
 ├── assets/js/main.js
-├── _redirects / _headers … Cloudflare Pages 用の設定
+├── assets/js/meta.js     … Meta ピクセル
+├── assets/zip/           … 郵便番号データ（scripts/build_zip.mjs で再生成）
+├── _headers              … Cloudflare Pages 用の設定
 ├── robots.txt / sitemap.xml / 404.html
 
 gas/form-receiver.gs      … フォーム受信用（スプレッドシート保存＋メール・Slack 通知）※公開フォルダの外
@@ -60,13 +62,14 @@ docs/deploy.md            … 公開手順書
 値の扱い：`callhide` のように値なしで付けると ON、`hidemodal=` のように空の値だと OFF、`0` / `false` も OFF。
 広告テンプレートに空欄で入っているパラメータは、動作を変えません。
 
-例）`/tokyo/?tel=yakan&callhide&mvhide&hidemodal=&ctaorder=&utm_source=google&utm_medium=cpc`
+例）`/?tel=yakan&callhide&mvhide&hidemodal=&ctaorder=&utm_source=google&utm_medium=cpc`
 
-## エリア展開（例：神奈川）
+## 対応エリアの変更
 
-1. `tokyo/` フォルダを `kanagawa/` として複製する
-2. `kanagawa/index.html` の `<body data-area="tokyo">` を `kanagawa` に変え、title・description・FAQの文言を直す
-3. `config.js` の `areas` に `kanagawa: { name, short, utility, cities }` を追加する
+- 対応する都県は `config.js` の `serviceArea` で管理（ファーストビューと「ご依頼いただける地域」に反映）
+- ファーストビューの「〇〇の新居に入居予定の方へ」は `config.js` の `areas.kanto.name`
+- title・description・シェア時の表示（og:title）は `index.html` の `<head>` を直接編集
+- 申込データの「area」には、入力された住所の都道府県（例：神奈川県）が入る
 
 ## 計測イベント（GTM dataLayer）
 

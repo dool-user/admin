@@ -37,7 +37,7 @@
 - **表示名**：でんき開通サポート（「東京電力」など実在の会社名や「公式」を入れない）
 - **CTAボタン**：「詳しくはこちら」または「今すぐ申し込む」
 - **リンク先URL**：どの動画から来たか分かるよう、パラメータを付けます
-  `https://（本番ドメイン）/tokyo/?utm_source=tiktok&utm_medium=paid_social&utm_campaign=denki&utm_content=hook-a`
+  `https://（本番ドメイン）/?utm_source=tiktok&utm_medium=paid_social&utm_campaign=denki&utm_content=hook-a`
   （`utm_content` は動画ごとに hook-a / hook-b / hook-c）
 - **計測**：TikTokピクセルをGTMで設置し、`tel_click` と `generate_lead` をコンバージョンに設定してください。広告クリック時に付く `ttclid` と `utm_content` はフォームで自動取得し、申込データに記録されます。
 

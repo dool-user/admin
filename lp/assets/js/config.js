@@ -31,13 +31,13 @@ window.LP_CONFIG = {
   // ★要変更：フォーム送信先（空のままならデモモードで thanks.html へ遷移）
   // 例）Google Apps Script のWebアプリURL、Formspree、自社API など
   formEndpoint: 'https://script.google.com/macros/s/AKfycbxn4o9O2dDcdeZ9Xf44hRHDNg68jvVnklFI-TYTkKnGng5FanpnRK7IbAdK07PHTEfAQw/exec',
-  thanksUrl: '../thanks.html',
+  thanksUrl: 'thanks.html',
 
   // 対応エリア（ファーストビューと「ご依頼いただける地域」に表示）
   serviceArea: ['東京都', '神奈川県', '埼玉県', '千葉県', '茨城県', '群馬県', '栃木県'],
 
-  // エリア別設定。/tokyo/ /kanagawa/ などディレクトリ名で切り替え
+  // エリア設定（ページの <body data-area="…"> と対応）。ファーストビューの「〇〇の新居に入居予定の方へ」に使う
   areas: {
-    tokyo: { name: '東京都', short: '東京' },
+    kanto: { name: '関東エリア', short: '関東' },
   },
 };

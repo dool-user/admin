@@ -1,3 +1,0 @@
-# Cloudflare Pages のリダイレクト設定
-/            /tokyo/       302
-/index.html  /tokyo/       302
