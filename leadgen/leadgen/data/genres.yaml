@@ -1,0 +1,64 @@
+# 業種マスタ（大区分 → 小区分）
+#   name    : 画面に出す名前
+#   tabelog : 食べログのジャンルURL（https://tabelog.com/tokyo/rstLst/<tabelog>/）。空なら食べログはジャンル指定なしで取得して match で絞り込む
+#   google  : Googleマップ（Places API）の検索語
+#   match   : 食べログ一覧の「ジャンル」表記と照合する語（新規開店リストや大区分「すべて」の絞り込みに使う）
+#
+# ★ tabelog の値は 2026年9月時点で食べログ上のURLを確認済みのもの（✓）と未確認のもの（?）があります。
+#   未確認のものは `python -m leadgen check-genres` で存在確認できます（404 なら直してください）。
+和食:
+  - {name: 和食(総合), tabelog: washoku, google: 和食, match: [和食]}                  # ✓
+  - {name: 日本料理, tabelog: japanese, google: 日本料理, match: [日本料理, 割烹, 懐石, 小料理]}  # ✓
+  - {name: 寿司, tabelog: sushi, google: 寿司, match: [寿司, 回転寿司]}                  # ✓
+  - {name: 海鮮・魚介, tabelog: seafood, google: 海鮮料理, match: [海鮮, 魚介]}           # ?
+  - {name: そば, tabelog: soba, google: そば, match: [そば, 蕎麦]}                      # ✓
+  - {name: うどん, tabelog: udon, google: うどん, match: [うどん]}                      # ✓
+  - {name: 天ぷら, tabelog: tempura, google: 天ぷら, match: [天ぷら]}                   # ✓
+  - {name: とんかつ, tabelog: tonkatsu, google: とんかつ, match: [とんかつ]}             # ✓
+  - {name: 焼き鳥, tabelog: yakitori, google: 焼き鳥, match: [焼き鳥, 焼鳥, 串焼き]}      # ?
+  - {name: うなぎ, tabelog: unagi, google: うなぎ, match: [うなぎ]}                     # ?
+  - {name: お好み焼き, tabelog: okonomiyaki, google: お好み焼き, match: [お好み焼き, もんじゃ, たこ焼き]}  # ✓
+  - {name: 定食・食堂, tabelog: teishoku, google: 定食, match: [定食, 食堂]}              # ✓
+  - {name: 丼もの, tabelog: '', google: 丼, match: [丼, 牛丼, 天丼, 海鮮丼]}
+
+ラーメン・麺類:
+  - {name: ラーメン, tabelog: ramen, google: ラーメン, match: [ラーメン]}                # ✓
+  - {name: つけ麺, tabelog: tsukemen, google: つけ麺, match: [つけ麺]}                  # ?
+  - {name: 油そば・まぜそば, tabelog: '', google: 油そば, match: [油そば, まぜそば]}
+
+焼肉・肉料理:
+  - {name: 焼肉, tabelog: yakiniku, google: 焼肉, match: [焼肉, ホルモン]}               # ✓
+  - {name: ステーキ, tabelog: steak, google: ステーキ, match: [ステーキ]}                # ?
+  - {name: ハンバーグ, tabelog: hamburgersteak, google: ハンバーグ, match: [ハンバーグ]}   # ✓
+  - {name: からあげ, tabelog: '', google: からあげ, match: [からあげ, 唐揚げ]}
+
+洋食・西洋料理:
+  - {name: 洋食, tabelog: yoshoku, google: 洋食, match: [洋食, オムライス]}              # ✓
+  - {name: イタリアン, tabelog: italian, google: イタリアン, match: [イタリアン, パスタ, ピザ]}  # ✓
+  - {name: フレンチ, tabelog: french, google: フレンチ, match: [フレンチ, ビストロ]}       # ?
+  - {name: ピザ, tabelog: pizza, google: ピザ, match: [ピザ]}                          # ?
+  - {name: ハンバーガー, tabelog: hamburger, google: ハンバーガー, match: [ハンバーガー]}  # ✓
+
+中華:
+  - {name: 中華料理, tabelog: chinese, google: 中華料理, match: [中華料理, 中華, 四川, 台湾]}  # ✓
+  - {name: 餃子, tabelog: gyouza, google: 餃子, match: [餃子]}                         # ?
+
+アジア・エスニック:
+  - {name: 韓国料理, tabelog: korea, google: 韓国料理, match: [韓国料理]}                # ✓
+  - {name: タイ料理, tabelog: thai, google: タイ料理, match: [タイ料理]}                 # ✓
+  - {name: カレー, tabelog: curry, google: カレー, match: [カレー]}                     # ✓
+  - {name: インド料理, tabelog: indian, google: インド料理, match: [インド料理, ネパール料理]}  # ?
+  - {name: ベトナム料理, tabelog: vietnam, google: ベトナム料理, match: [ベトナム料理]}     # ?
+
+居酒屋・バー:
+  - {name: 居酒屋, tabelog: izakaya, google: 居酒屋, match: [居酒屋]}                   # ✓
+  - {name: バー, tabelog: bar, google: バー, match: [バー]}                            # ✓
+
+カフェ・スイーツ・パン:
+  - {name: カフェ, tabelog: cafe, google: カフェ, match: [カフェ, 喫茶店]}               # ✓
+  - {name: スイーツ, tabelog: sweets, google: スイーツ, match: [スイーツ, ケーキ, 和菓子, 洋菓子]}  # ?
+  - {name: パン, tabelog: pan, google: パン屋, match: [パン, ベーカリー]}                # ?
+
+弁当・テイクアウト:
+  - {name: 弁当, tabelog: '', google: 弁当, match: [弁当]}
+  - {name: おにぎり, tabelog: '', google: おにぎり, match: [おにぎり]}
