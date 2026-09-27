@@ -185,7 +185,7 @@ function testMetaLead() {
   if (!PropertiesService.getScriptProperties().getProperty('META_TEST_EVENT_CODE')) {
     throw new Error('先にスクリプト プロパティ META_TEST_EVENT_CODE を設定してください（本番の計測に混ざらないように）');
   }
-  sendMetaLead_({ tel: '09000000000', email: 'test@example.com', zip: '1710022', event_id: 'test_' + Date.now(), landing_url: 'https://denki-kaitsu-support.com/tokyo/' });
+  sendMetaLead_({ tel: '09000000000', email: 'test@example.com', zip: '1710022', event_id: 'test_' + Date.now(), landing_url: 'https://denki-kaitsu-support.com/' });
   console.log('送信しました。イベントマネージャの「テストイベント」を確認してください。');
 }
 

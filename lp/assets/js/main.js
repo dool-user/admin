@@ -452,6 +452,9 @@
       data.delete('services');
       data.append('services', services);
       data.append('tel_mode', opts.telMode);
+      // エリアは入力された住所の都道府県（例：神奈川県）。取れなければページのエリア
+      var pref = String(data.get('address') || '').match(/^(東京都|北海道|京都府|大阪府|.{2,3}?県)/);
+      data.set('area', pref ? pref[1] : document.body.getAttribute('data-area'));
       // Meta 計測用（Conversions API で受信側から送る情報。ピクセルの Lead と event_id で重複を除く）
       var eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
       data.append('event_id', eventId);
