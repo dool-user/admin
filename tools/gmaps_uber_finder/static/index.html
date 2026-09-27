@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uber Eats 未対応店リスト抽出</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --text:#1f2328; --muted:#667085; --line:#d0d5dd; --accent:#0b7a4b; --hit:#e8f6ee; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  select, input[type=text], input[type=number] { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; background: #fff; }
+  .radios label { display: inline-flex; align-items: center; gap: 6px; font-weight: 400; margin: 0 14px 6px 0; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; align-items: center; }
+  button, .button { padding: 10px 18px; border-radius: 8px; border: 1px solid var(--line); background: #fff; font-size: 15px; cursor: pointer; text-decoration: none; color: var(--text); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .5; cursor: default; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  #log { height: 180px; overflow: auto; background: #111; color: #d7ffd9; font: 12px/1.6 ui-monospace, monospace; padding: 10px; border-radius: 8px; white-space: pre-wrap; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; vertical-align: top; }
+  th { background: #f0f2f5; white-space: nowrap; }
+  #error { color: #b42318; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Uber Eats 未対応店リスト抽出</h1>
+  <p class="lead">Google マップの「オンラインで注文」を確認し、注文可能プロバイダに Uber Eats が無い店舗を一覧にします。</p>
+
+  <section class="card">
+    <div class="grid">
+      <div>
+        <label for="pref">都道府県</label>
+        <select id="pref"></select>
+      </div>
+      <div>
+        <label for="city">市区町村</label>
+        <input type="text" id="city" list="cityList" placeholder="例：豊島区（空欄で指定なし）">
+        <datalist id="cityList"></datalist>
+      </div>
+      <div>
+        <label for="category">業種</label>
+        <input type="text" id="category" list="categoryList" value="飲食店">
+        <datalist id="categoryList"></datalist>
+        <div class="hint">一覧から選ぶか自由に入力</div>
+      </div>
+      <div>
+        <label for="limit">調査する店舗数の上限</label>
+        <input type="number" id="limit" value="100" min="1" max="500">
+        <div class="hint">1店舗あたり数秒かかります</div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="radios">
+        <label style="font-weight:600">電話番号</label>
+        <label><input type="radio" name="phone" value="any" checked>指定なし</label>
+        <label><input type="radio" name="phone" value="with">あり</label>
+        <label><input type="radio" name="phone" value="without">なし</label>
+      </div>
+      <div class="radios">
+        <label style="font-weight:600">抽出対象</label>
+        <label><input type="radio" name="mode" value="order_no_uber" checked>オンライン注文あり・Uber Eatsなし</label>
+        <label><input type="radio" name="mode" value="no_uber">注文ボタンが無い店も含む</label>
+      </div>
+      <div class="radios">
+        <label style="font-weight:600">その他</label>
+        <label><input type="checkbox" id="strict" checked>住所が指定地域の店だけ</label>
+        <label><input type="checkbox" id="headed">ブラウザ画面を表示</label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="start">抽出開始</button>
+      <button id="stop" disabled>中止</button>
+      <a class="button" id="download" href="/api/download.csv">CSVダウンロード</a>
+      <span id="error"></span>
+    </div>
+  </section>
+
+  <section class="card">
+    <label>進行状況</label>
+    <div id="log"></div>
+  </section>
+
+  <section class="card">
+    <label>抽出結果 <span id="count">0</span>件</label>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>店名</th><th>業種</th><th>住所</th><th>電話番号</th><th>評価</th><th>注文可能プロバイダ</th><th>地図</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let timer = null;
+
+async function loadCities() {
+  const list = await fetch('/api/cities?pref=' + encodeURIComponent($('pref').value)).then(r => r.json());
+  $('cityList').innerHTML = list.map(c => `<option value="${esc(c)}">`).join('');
+}
+
+async function init() {
+  const opts = await fetch('/api/options').then(r => r.json());
+  $('pref').innerHTML = opts.prefectures.map(p => `<option${p === '東京都' ? ' selected' : ''}>${esc(p)}</option>`).join('');
+  $('categoryList').innerHTML = opts.categories.map(c => `<option value="${esc(c)}">`).join('');
+  $('pref').addEventListener('change', () => { $('city').value = ''; loadCities(); });
+  loadCities();
+  poll();
+}
+
+function render(s) {
+  $('log').textContent = s.logs.join('\n');
+  $('log').scrollTop = $('log').scrollHeight;
+  $('count').textContent = s.results.length;
+  $('rows').innerHTML = s.results.map(r => `<tr>
+    <td>${esc(r.name)}</td><td>${esc(r.category)}</td><td>${esc(r.address)}</td><td>${esc(r.phone)}</td>
+    <td>${esc(r.rating)}${r.reviews ? ` (${esc(r.reviews)})` : ''}</td>
+    <td>${esc(r.providers || r.has_online_order)}</td>
+    <td><a href="${esc(r.url)}" target="_blank" rel="noopener">開く</a></td></tr>`).join('');
+  $('start').disabled = s.running;
+  $('stop').disabled = !s.running;
+}
+
+async function poll() {
+  const s = await fetch('/api/status').then(r => r.json());
+  render(s);
+  clearTimeout(timer);
+  timer = setTimeout(poll, s.running ? 1500 : 5000);
+}
+
+$('start').addEventListener('click', async () => {
+  $('error').textContent = '';
+  const body = {
+    prefecture: $('pref').value,
+    city: $('city').value,
+    category: $('category').value,
+    phone: document.querySelector('input[name=phone]:checked').value,
+    mode: document.querySelector('input[name=mode]:checked').value,
+    limit: Number($('limit').value),
+    strict_area: $('strict').checked,
+    headed: $('headed').checked,
+  };
+  const res = await fetch('/api/start', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  if (!res.ok) $('error').textContent = (await res.json()).error;
+  poll();
+});
+$('stop').addEventListener('click', () => fetch('/api/stop', {method: 'POST'}).then(poll));
+
+init();
+</script>
+</body>
+</html>
