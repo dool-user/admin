@@ -81,3 +81,7 @@ docs/deploy.md            … 公開手順書
 | `popup_tile_select` | ポップアップのタイル選択（`tile` = power / movein / unknown） |
 
 Google広告のコンバージョンは `tel_click` と `generate_lead`（または `thanks_view`）に設定してください。
+
+Meta（Facebook・Instagram）は GTM を使わず、`assets/js/meta.js` で直接計測します（`config.js` の `metaPixelId` で有効化）。
+`tel_click` → `Contact`、フォーム送信成功 → 完了ページで `Lead`。`Lead` はフォーム受信側（`gas/form-receiver.gs`）からも Conversions API で送り、フォームに付けた `event_id` で重複を除きます。
+広告からの流入は `fbclid` としてスプレッドシートに記録されます。手順は `docs/deploy.md` の 8-2。

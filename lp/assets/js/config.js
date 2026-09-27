@@ -24,6 +24,10 @@ window.LP_CONFIG = {
   // ★要変更：Google タグマネージャーのコンテナID（例 'GTM-ABC1234'）。空なら読み込まない
   gtmId: '',
 
+  // ★要変更：Meta ピクセルのID（数字のみ。イベントマネージャで確認）。空なら Meta の計測は無効
+  // ※ GTM 側には Meta のタグを入れない（二重計測になる）
+  metaPixelId: '',
+
   // ★要変更：フォーム送信先（空のままならデモモードで thanks.html へ遷移）
   // 例）Google Apps Script のWebアプリURL、Formspree、自社API など
   formEndpoint: 'https://script.google.com/macros/s/AKfycbxn4o9O2dDcdeZ9Xf44hRHDNg68jvVnklFI-TYTkKnGng5FanpnRK7IbAdK07PHTEfAQw/exec',
