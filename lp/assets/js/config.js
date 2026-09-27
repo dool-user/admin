@@ -26,7 +26,7 @@ window.LP_CONFIG = {
 
   // ★要変更：フォーム送信先（空のままならデモモードで thanks.html へ遷移）
   // 例）Google Apps Script のWebアプリURL、Formspree、自社API など
-  formEndpoint: '',
+  formEndpoint: 'https://script.google.com/macros/s/AKfycbxn4o9O2dDcdeZ9Xf44hRHDNg68jvVnklFI-TYTkKnGng5FanpnRK7IbAdK07PHTEfAQw/exec',
   thanksUrl: '../thanks.html',
 
   // 対応エリア（ファーストビューと「ご依頼いただける地域」に表示）
