@@ -20,7 +20,7 @@ lp/
 ├── _redirects / _headers … Cloudflare Pages 用の設定
 ├── robots.txt / sitemap.xml / 404.html
 
-gas/form-receiver.gs      … フォーム受信用（スプレッドシート保存＋メール通知）※公開フォルダの外
+gas/form-receiver.gs      … フォーム受信用（スプレッドシート保存＋メール・Slack 通知）※公開フォルダの外
 scripts/set_domain.py     … 本番ドメインの反映
 marketing/tiktok/         … TikTok広告の動画・台本 ※公開フォルダの外
 docs/deploy.md            … 公開手順書
@@ -28,7 +28,7 @@ docs/deploy.md            … 公開手順書
 
 ## 公開前にやること
 
-1. `lp/assets/js/config.js` の「★要変更」をすべて差し替える（電話番号＝通常／夜間、取次先・登録番号。運営会社はグラハムコミュニケーションズ株式会社で設定済み）
+1. `lp/assets/js/config.js` の「★要変更」をすべて差し替える（電話番号＝通常／夜間。運営会社はグラハムコミュニケーションズ株式会社で設定済み）
 2. 本番ドメインを `python3 scripts/set_domain.py ドメイン名` で反映する（canonical・og:url・robots.txt・sitemap.xml）
 3. `gas/form-receiver.gs`（リポジトリ直下）をデプロイし、発行されたURLを `formEndpoint` に設定する
    （空欄のままだとデモモードになり、送信しても thanks.html に移動するだけ）
@@ -45,7 +45,6 @@ docs/deploy.md            … 公開手順書
 - 「東京電力の窓口」「公式」「東京電力から案内」など、提携・公式と受け取れる言い回しを使わない（広告文・電話の案内も同じ）
 - ヘッダー直下の運営者表示「このサイトは、〇〇が運営する…電力会社の公式サイトではありません。」、よくある質問の「ここは東京電力の窓口ですか？」、フッターの注記は削除しない
 - 電話で特定の事業者のプランを勧めるときは、契約前に事業者名・料金・契約条件を伝える
-- 運営会社ページ（company.html）の「取次先・登録」欄に、取次の根拠（契約先事業者名、登録・届出番号など）を正確に書く（`config.js` の `brand.license`）
 
 ## URLパラメータ（広告URLで表示を切り替え）
 

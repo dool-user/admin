@@ -10,7 +10,6 @@ window.LP_CONFIG = {
     company: 'グラハムコミュニケーションズ株式会社',
     address: '〒162-0801 東京都新宿区山吹町346-6 KAGURAZAKA VIGAS 5F',
     url: 'https://grahamcommunications.co.jp/',
-    license: '（★要変更：取次・代理の根拠となる契約先事業者名や登録・届出番号を正確に記載）',
   },
 
   // ★要変更：電話番号（通常 / 夜間。?tel=yakan で夜間番号に切替）

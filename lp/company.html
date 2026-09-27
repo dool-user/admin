@@ -36,7 +36,6 @@
         <tr><th scope="row">運営会社</th><td data-brand-company>グラハムコミュニケーションズ株式会社</td></tr>
         <tr><th scope="row">所在地</th><td data-brand-address>〒162-0801 東京都新宿区山吹町346-6 KAGURAZAKA VIGAS 5F</td></tr>
         <tr><th scope="row">会社サイト</th><td><a href="https://grahamcommunications.co.jp/" target="_blank" rel="noopener" data-brand-url>grahamcommunications.co.jp</a></td></tr>
-        <tr><th scope="row">取次先・登録</th><td data-brand-license>（★要変更）</td></tr>
       </table>
       <p class="company-note">当サービスは、東京電力グループを含む電力会社・ガス会社・水道局とは異なる民間の取次サービスです。各社の公式窓口ではありません。</p>
       <a class="company-back" href="tokyo/">← トップページへ戻る</a>
@@ -51,7 +50,6 @@
       set('[data-brand-name]', function (e) { e.textContent = b.name; });
       set('[data-brand-company]', function (e) { e.textContent = b.company; });
       set('[data-brand-address]', function (e) { e.textContent = b.address; });
-      set('[data-brand-license]', function (e) { e.textContent = b.license; });
       if (b.url) set('[data-brand-url]', function (e) { e.href = b.url; e.textContent = b.url.replace(/^https?:\/\//, '').replace(/\/$/, ''); });
     })();
   </script>
