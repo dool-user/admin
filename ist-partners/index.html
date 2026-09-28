@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IST Partners株式会社｜営業代行・カスタマーサクセス</title>
+  <meta name="description" content="IST Partners株式会社は、営業代行とカスタマーサクセスで企業の売上拡大を支援します。異なる視点から、最適な答えを。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IST Partners株式会社">
+  <meta property="og:description" content="異なる視点から、最適な答えを。営業代行・カスタマーサクセスで企業の成長に伴走します。">
+  <meta property="og:locale" content="ja_JP">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #536244;
+      --green-dark: #3e4a33;
+      --green-soft: #e9ede4;
+      --navy: #243342;
+      --gray: #98a5af;
+      --bg-soft: #f0f3f5;
+      --line: #dfe4e8;
+      --text: #243342;
+      --muted: #5f6d78;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body {
+      font-family: "Noto Sans JP", "Yu Gothic", YuGothic, sans-serif;
+      color: var(--text); background: var(--white);
+      line-height: 1.8; -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: min(1120px, 100% - 40px); margin-inline: auto; }
+    .en { font-family: Inter, sans-serif; letter-spacing: .08em; }
+
+    /* Header */
+    .header {
+      position: fixed; inset: 0 0 auto; z-index: 50; height: 72px;
+      background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid transparent; transition: border-color .2s;
+    }
+    .header.is-scrolled { border-bottom-color: var(--line); }
+    .header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 700; color: var(--green); font-size: 22px; letter-spacing: .01em; white-space: nowrap; }
+    .logo small { font-size: .78em; margin-left: 2px; }
+    .nav { display: flex; gap: 32px; align-items: center; font-size: 14px; font-weight: 500; }
+    .nav a:not(.btn):hover { color: var(--green); }
+    .nav-toggle { display: none; background: none; border: 0; width: 44px; height: 44px; cursor: pointer; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--navy); margin: 5px auto; transition: .2s; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--green); color: var(--white); font-weight: 700;
+      padding: 12px 28px; border-radius: 999px; transition: background .2s, transform .2s;
+    }
+    .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .btn--sm { padding: 8px 20px; font-size: 14px; }
+    .btn--outline { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
+    .btn--outline:hover { background: var(--green); color: var(--white); }
+
+    /* Hero */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 180px 0 140px; background: var(--bg-soft);
+    }
+    .hero::before, .hero::after {
+      content: ""; position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .hero::before { width: 560px; height: 560px; right: -140px; top: -120px; background: var(--green-soft); }
+    .hero::after { width: 260px; height: 260px; right: 300px; bottom: -120px; border: 1.5px solid var(--gray); opacity: .5; }
+    .hero__inner { position: relative; z-index: 1; }
+    .hero__label { color: var(--green); font-weight: 700; font-size: 14px; }
+    .hero__title {
+      font-size: clamp(36px, 6vw, 68px); font-weight: 900; line-height: 1.35;
+      margin: 16px 0 28px; letter-spacing: .02em;
+    }
+    .hero__title em { font-style: normal; color: var(--green); }
+    .hero__lead { max-width: 560px; color: var(--muted); font-size: 16px; }
+    .hero__actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 40px; }
+
+    /* Section */
+    .section { padding: 120px 0; }
+    .section--soft { background: var(--bg-soft); }
+    .section__head { margin-bottom: 56px; }
+    .section__en { color: var(--green); font-size: 14px; font-weight: 700; }
+    .section__title { font-size: clamp(26px, 3.4vw, 36px); font-weight: 700; line-height: 1.5; margin-top: 6px; }
+
+    /* About */
+    .about { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .about__mark {
+      aspect-ratio: 1; max-width: 420px; width: 100%; border-radius: 50%;
+      background: var(--green); color: var(--white);
+      display: grid; place-content: center; text-align: center;
+    }
+    .about__mark b { font-family: Inter, sans-serif; font-size: clamp(56px, 9vw, 96px); font-weight: 800; letter-spacing: .06em; line-height: 1; }
+    .about__mark span { margin-top: 16px; font-size: 14px; opacity: .85; }
+    .about__text p + p { margin-top: 20px; }
+    .about__text .accent { font-size: 22px; font-weight: 700; color: var(--green); line-height: 1.6; }
+
+    /* Services */
+    .services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .service {
+      background: var(--white); border-radius: 16px; padding: 48px 40px;
+      border-top: 4px solid var(--green);
+    }
+    .service__num { font-family: Inter, sans-serif; font-weight: 800; color: var(--gray); font-size: 14px; }
+    .service__title { font-size: 26px; font-weight: 700; margin: 8px 0 4px; }
+    .service__en { font-size: 12px; color: var(--green); font-weight: 700; }
+    .service__desc { margin: 24px 0; color: var(--muted); }
+    .service__list { list-style: none; border-top: 1px solid var(--line); }
+    .service__list li { padding: 14px 0 14px 28px; border-bottom: 1px solid var(--line); position: relative; font-weight: 500; }
+    .service__list li::before {
+      content: ""; position: absolute; left: 4px; top: 24px; width: 10px; height: 10px;
+      border-radius: 50%; background: var(--green);
+    }
+
+    /* Flow */
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: step; list-style: none; }
+    .flow li { background: var(--bg-soft); border-radius: 12px; padding: 32px 24px; position: relative; }
+    .flow li::before {
+      counter-increment: step; content: "STEP " counter(step);
+      display: block; font-family: Inter, sans-serif; font-weight: 800; font-size: 13px; color: var(--green); letter-spacing: .08em;
+    }
+    .flow h3 { font-size: 18px; margin: 8px 0; }
+    .flow p { font-size: 14px; color: var(--muted); }
+
+    /* Message */
+    .members { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .member { background: var(--white); border-radius: 16px; padding: 40px; display: flex; gap: 24px; align-items: center; }
+    .member__icon {
+      flex: none; width: 88px; height: 88px; border-radius: 50%;
+      background: var(--green-soft); color: var(--green);
+      display: grid; place-content: center; font-weight: 700; font-size: 28px;
+    }
+    .member__role { font-size: 13px; color: var(--green); font-weight: 700; }
+    .member__name { font-size: 24px; font-weight: 700; letter-spacing: .1em; }
+
+    /* Company */
+    .company { width: 100%; border-collapse: collapse; }
+    .company th, .company td { padding: 22px 16px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .company tr:first-child th, .company tr:first-child td { border-top: 1px solid var(--line); }
+    .company th { width: 200px; font-weight: 700; color: var(--green); }
+
+    /* Contact */
+    .contact { background: var(--green); color: var(--white); text-align: center; }
+    .contact .section__en { color: #cfd8c6; }
+    .contact p { opacity: .9; margin: 16px 0 40px; }
+    .contact .btn { background: var(--white); color: var(--green); font-size: 17px; padding: 18px 48px; }
+    .contact .btn:hover { background: var(--bg-soft); }
+
+    .footer { background: var(--navy); color: #c8d0d7; padding: 48px 0 32px; font-size: 13px; }
+    .footer__inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer .logo { color: var(--white); font-size: 18px; }
+    .footer nav { display: flex; gap: 24px; }
+    .footer nav a:hover { color: var(--white); }
+    .footer__copy { margin-top: 32px; text-align: center; font-family: Inter, sans-serif; font-size: 12px; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    @media (max-width: 900px) {
+      .nav-toggle { display: block; }
+      .nav {
+        position: fixed; top: 72px; left: 0; right: 0; flex-direction: column; gap: 0;
+        background: var(--white); border-bottom: 1px solid var(--line);
+        padding: 8px 20px 24px; display: none;
+      }
+      .nav.is-open { display: flex; }
+      .nav a:not(.btn) { width: 100%; padding: 14px 0; border-bottom: 1px solid var(--line); }
+      .nav .btn { margin-top: 16px; }
+      .about, .services, .members { grid-template-columns: 1fr; }
+      .about__mark { max-width: 280px; margin-inline: auto; }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .logo { font-size: 18px; }
+      .hero { padding: 140px 0 96px; }
+      .hero::before { width: 320px; height: 320px; right: -160px; top: -60px; }
+      .section { padding: 80px 0; }
+      .service { padding: 36px 24px; }
+      .member { padding: 28px 24px; }
+      .flow { grid-template-columns: 1fr; }
+      .company th, .company td { display: block; width: auto; padding: 0 4px; border: 0; }
+      .company th { padding-top: 16px; border-top: 1px solid var(--line); }
+      .company td { padding-bottom: 16px; }
+      .company tr:first-child th { border-top: 1px solid var(--line); }
+      .company tr:first-child td { border-top: 0; }
+      .company tr:last-child td { border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#top" class="logo" aria-label="IST Partners株式会社 トップへ">IST Partners<small>株式会社</small></a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="#about">私たちについて</a>
+        <a href="#service">事業内容</a>
+        <a href="#member">役員紹介</a>
+        <a href="#company">会社概要</a>
+        <a href="#contact" class="btn btn--sm">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero__inner">
+        <p class="hero__label en">IST PARTNERS INC.</p>
+        <h1 class="hero__title">異なる視点から、<br><em>最適な答え</em>を。</h1>
+        <p class="hero__lead">営業代行とカスタマーサクセスで、お客様の「売る」と「続けてもらう」を一気通貫で支援します。社内の一員のように伴走し、業務改善と事業拡大を実現します。</p>
+        <div class="hero__actions">
+          <a href="#contact" class="btn">お問い合わせ</a>
+          <a href="#service" class="btn btn--outline">事業内容を見る</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container about">
+        <div class="about__mark reveal" aria-hidden="true">
+          <b>IST</b>
+          <span>異質 ─ Different perspective</span>
+        </div>
+        <div class="about__text reveal">
+          <p class="section__en en">ABOUT US</p>
+          <h2 class="section__title">「異質」から生まれた社名</h2>
+          <p style="margin-top:24px" class="accent">当たり前の外側に、<br>答えはある。</p>
+          <p>IST Partnersは「異質（ISHITSU）」という言葉から生まれた会社です。業界の慣習や社内の常識にとらわれない、異なる視点を持つパートナーとして、お客様の課題に向き合います。</p>
+          <p>外部の立場でありながら、インハウス（社内）のチームと同じ目線で動く。その両立こそが、私たちの提供する価値です。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft" id="service">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="section__en en">SERVICE</p>
+          <h2 class="section__title">事業内容</h2>
+        </div>
+        <div class="services">
+          <article class="service reveal">
+            <p class="service__num">01</p>
+            <h3 class="service__title">営業代行</h3>
+            <p class="service__en en">SALES OUTSOURCING</p>
+            <p class="service__desc">新規顧客の開拓から商談・受注まで、貴社の営業チームの一員として動きます。リスト作成やトーク設計など、成果につながる仕組みづくりから支援します。</p>
+            <ul class="service__list">
+              <li>営業戦略・ターゲットの設計</li>
+              <li>営業リストの作成</li>
+              <li>テレアポ・インサイドセールス</li>
+              <li>商談・クロージングの代行</li>
+              <li>活動結果のレポーティングと改善提案</li>
+            </ul>
+          </article>
+          <article class="service reveal">
+            <p class="service__num">02</p>
+            <h3 class="service__title">カスタマーサクセス</h3>
+            <p class="service__en en">CUSTOMER SUCCESS</p>
+            <p class="service__desc">ご契約後のお客様に伴走し、サービスの活用定着と継続利用を支えます。解約の防止やアップセルを通じて、LTV（顧客生涯価値）の最大化を目指します。</p>
+            <ul class="service__list">
+              <li>オンボーディング（導入・活用支援）</li>
+              <li>既存顧客へのフォロー・定期面談</li>
+              <li>解約防止・継続率の改善</li>
+              <li>アップセル・クロスセルの提案</li>
+              <li>お客様の声の収集と業務改善</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="flow">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="section__en en">FLOW</p>
+          <h2 class="section__title">ご支援の流れ</h2>
+        </div>
+        <ol class="flow reveal">
+          <li><h3>お問い合わせ</h3><p>フォームまたはメールでお気軽にご連絡ください。</p></li>
+          <li><h3>ヒアリング</h3><p>現状の課題と目標、商材・ターゲットを伺います。</p></li>
+          <li><h3>ご提案・お見積り</h3><p>課題に合わせた体制とプランをご提案します。</p></li>
+          <li><h3>支援開始</h3><p>定期的な報告と改善を重ね、成果に伴走します。</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--soft" id="member">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="section__en en">MEMBER</p>
+          <h2 class="section__title">役員紹介</h2>
+        </div>
+        <div class="members">
+          <div class="member reveal">
+            <div class="member__icon" aria-hidden="true">小</div>
+            <div>
+              <p class="member__role">代表取締役</p>
+              <p class="member__name">小寺 悠太</p>
+            </div>
+          </div>
+          <div class="member reveal">
+            <div class="member__icon" aria-hidden="true">木</div>
+            <div>
+              <p class="member__role">取締役副社長</p>
+              <p class="member__name">木内 優輝</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="company">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="section__en en">COMPANY</p>
+          <h2 class="section__title">会社概要</h2>
+        </div>
+        <table class="company reveal">
+          <tr><th scope="row">会社名</th><td>IST Partners株式会社</td></tr>
+          <tr><th scope="row">設立</th><td>2026年10月</td></tr>
+          <tr><th scope="row">代表取締役</th><td>小寺 悠太</td></tr>
+          <tr><th scope="row">取締役副社長</th><td>木内 優輝</td></tr>
+          <tr><th scope="row">事業内容</th><td>営業代行事業<br>カスタマーサクセス支援事業</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="container">
+        <p class="section__en en">CONTACT</p>
+        <h2 class="section__title">お問い合わせ</h2>
+        <p>営業代行・カスタマーサクセスに関するご相談は、お気軽にご連絡ください。</p>
+        <!-- TODO: 問い合わせ用メールアドレスが決まったら href を差し替える -->
+        <a class="btn" href="mailto:info@example.com">メールで問い合わせる</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <a href="#top" class="logo">IST Partners<small>株式会社</small></a>
+        <nav>
+          <a href="#service">事業内容</a>
+          <a href="#company">会社概要</a>
+          <a href="#contact">お問い合わせ</a>
+        </nav>
+      </div>
+      <p class="footer__copy">&copy; <span id="year">2026</span> IST Partners Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var header = document.getElementById('header');
+      var toggle = document.getElementById('navToggle');
+      var nav = document.getElementById('nav');
+
+      window.addEventListener('scroll', function () {
+        header.classList.toggle('is-scrolled', window.scrollY > 10);
+      }, { passive: true });
+
+      function setOpen(open) {
+        nav.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', open);
+        toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      }
+      toggle.addEventListener('click', function () { setOpen(!nav.classList.contains('is-open')); });
+      nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+
+      var targets = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+          });
+        }, { threshold: 0.15 });
+        targets.forEach(function (t) { io.observe(t); });
+      } else {
+        targets.forEach(function (t) { t.classList.add('is-visible'); });
+      }
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>

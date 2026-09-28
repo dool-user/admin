@@ -1,0 +1,12 @@
+# Cloudflare Pages のレスポンスヘッダー設定
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/assets/img/*
+  Cache-Control: public, max-age=2592000
+
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
