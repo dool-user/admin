@@ -1,0 +1,33 @@
+# 食べログ 新規開店リスト（毎日7時）の設定
+# 食べログの「ニューオープン順」一覧（…/rstLst/cond16-00-00/）を上から読み、まだ取ったことのない店だけを出力します。
+
+# 対象エリア。市区町村を省略すると都道府県全体
+areas:
+  - {prefecture: 東京都}
+  - {prefecture: 神奈川県}
+  - {prefecture: 埼玉県}
+  - {prefecture: 千葉県}
+  # - {prefecture: 東京都, city: 新宿区}   # 市区町村だけに絞る例
+
+# 業種（省略すると全業種）。大区分だけ／小区分まで、どちらも可
+genre_large:
+genre_small:
+
+# 電話番号：any（指定なし）/ yes（ありのみ）/ no（なしのみ）
+phone: any
+
+# 1エリアあたり最大何ページ読むか（1ページ20件）。既に取った店だけのページが出たらそこで止まります
+max_pages: 5
+
+# 食べログへのアクセス間隔（秒）。短くしすぎるとブロックされます
+tabelog_delay: 2.0
+
+# Uber Eats で確認する（false にすると確認しない）
+check_uber: true
+
+# Uber Eats に「掲載あり」の店も CSV に残す（残すと「Uber Eats」列で判別できます）
+include_found: false
+
+# 出力先と、取得済みの店を覚えておくファイル
+output_dir: output
+state_file: state/tabelog_seen.json
