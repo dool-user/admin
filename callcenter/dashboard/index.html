@@ -65,11 +65,12 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
 .tool{border:1px solid color-mix(in srgb,var(--amber) 55%,transparent);color:var(--amber);border-radius:999px;padding:2px 9px;font-size:10.5px;background:color-mix(in srgb,var(--amber) 7%,transparent)}
 
 .depts{position:relative;z-index:1;display:grid;grid-template-columns:2fr 2fr 1fr 1fr 1.25fr;gap:12px;margin-top:14px}
-.depts.nt{grid-template-columns:1fr 1fr 1.9fr 1fr 1fr}
+.depts.nt{grid-template-columns:1fr 1.8fr 1.8fr 1.6fr 1fr}
+.d-r .members,.d-ds .members{grid-template-columns:repeat(2,minmax(0,1fr))}
 .d-w .members{grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (max-width:1400px){.depts,.depts.nt{grid-template-columns:repeat(4,minmax(0,1fr))}.d-a,.d-b,.d-w{grid-column:span 2}}
-@media (max-width:900px){.depts,.depts.nt{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.d-a,.d-b,.d-w{grid-column:span 2}}
-@media (max-width:520px){.depts,.depts.nt{grid-template-columns:minmax(0,1fr)}.d-a,.d-b,.d-w{grid-column:auto}}
+@media (max-width:1400px){.depts,.depts.nt{grid-template-columns:repeat(4,minmax(0,1fr))}.d-a,.d-b,.d-w,.d-r,.d-ds{grid-column:span 2}}
+@media (max-width:900px){.depts,.depts.nt{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.d-a,.d-b,.d-w,.d-r,.d-ds{grid-column:span 2}}
+@media (max-width:520px){.depts,.depts.nt{grid-template-columns:minmax(0,1fr)}.d-a,.d-b,.d-w,.d-r,.d-ds{grid-column:auto}}
 .div-h{position:relative;z-index:1;display:flex;align-items:baseline;gap:10px;margin-top:30px;padding-bottom:6px;border-bottom:1px solid var(--line-2);font-weight:900;font-size:13.5px;letter-spacing:.04em}
 .div-h small{font-weight:500;font-size:10.5px;color:var(--muted);letter-spacing:0}
 .div-h .tag{font:700 10px var(--f-num);color:var(--c);border:1px solid currentColor;border-radius:4px;padding:0 5px}
@@ -111,6 +112,8 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
 .s-dial,.s-talk,.s-work,.s-write,.s-review,.s-monitor{border-color:color-mix(in srgb,var(--sc) 55%,var(--line-2));box-shadow:0 0 14px -4px color-mix(in srgb,var(--sc) 60%,transparent)}
 .s-talk .st i,.s-write .st i{animation:blink 1s infinite}
 .s-win{border-color:var(--gold);box-shadow:0 0 22px -2px color-mix(in srgb,var(--gold) 70%,transparent);animation:pop .5s}
+.s-meet{--sc:var(--violet);border-color:var(--violet);box-shadow:0 0 16px -3px color-mix(in srgb,var(--violet) 70%,transparent)}
+.s-meet .st i{animation:blink .8s infinite}
 .owner{border-color:color-mix(in srgb,var(--cyan) 70%,transparent);box-shadow:0 0 20px -6px var(--cyan);min-width:220px}
 .owner .rl{color:var(--gold)}
 .human{border-style:dashed;border-color:color-mix(in srgb,var(--amber) 60%,transparent);min-width:220px}
@@ -192,6 +195,7 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
     </div>
     <div class="kgroup" style="--c:var(--orange)"><span>note</span>
       <div class="kpi"><small>今月の売上（10アカウント）</small><b id="k-month" class="g">¥0</b><em>/ ¥1,000万</em></div>
+      <div class="kpi"><small>今日の PDCA</small><b id="k-pdca" class="w">-</b><em id="k-pdcac"></em></div>
       <div class="kpi"><small>公開済の記事</small><b id="k-pub" class="w">0</b><em>本</em></div>
       <div class="kpi"><small>本日の販売</small><b id="k-sold">0</b><em>部</em></div>
       <div class="kpi"><small>本日の売上</small><b id="k-rev" class="w">¥0</b></div>
@@ -223,7 +227,7 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
       <div class="div-h" style="--c:var(--green)"><span class="tag">SALES</span>営業部（DM・フォーム）<small>店舗に MEO対策ツールを案内し、15分のデモのアポを取る</small></div>
       <div class="depts" id="depts-sales"></div>
 
-      <div class="div-h" style="--c:var(--orange)"><span class="tag">NOTE</span>note 販売部<small>10アカウントで有料記事を売る・目標 1アカウント単月100万円</small></div>
+      <div class="div-h" style="--c:var(--orange)"><span class="tag">NOTE</span>note 販売部<small>リサーチ5人 → データサイエンティスト5人の打合せ → 編集長の指示 → 制作。毎日 PDCA を回し、日報はスライドで報告</small></div>
       <div class="depts nt" id="depts-note"></div>
 
       <div class="legend">
@@ -350,7 +354,7 @@ function touch(k, addLine) {
 }
 
 /* ── org ── */
-const S = { drafts: 0, sent: 0, replies: 0, appts: 0, pub: 0, sold: 0, rev: 0, reports: 0 };
+const S = { instr: 0, drafts: 0, sent: 0, replies: 0, appts: 0, pub: 0, sold: 0, rev: 0, reports: 0 };
 let pool = [], sendQ = [], replyQ = [], replies = [], pending = [];
 let ideas = [], writeQ = [], reviewQ = [], pubQ = [], promoQ = [], articles = [];
 const T = { t: 0 };
@@ -368,10 +372,10 @@ const SALES = [
 ];
 const NOTE = [
   { id: "ed", cls: "d-e", name: "編集長", ic: "✎", c: "var(--orange)" },
-  { id: "rs", cls: "d-r", name: "リサーチ", ic: "⌕", c: "var(--cyan)" },
+  { id: "rs", cls: "d-r", name: "リサーチ（考え方をそろえない）", ic: "⌕", c: "var(--cyan)" },
+  { id: "ds", cls: "d-ds", name: "データサイエンス（毎日打合せ）", ic: "▦", c: "var(--violet)" },
   { id: "wr", cls: "d-w", name: "ライター", ic: "✍", c: "var(--green)" },
-  { id: "pr", cls: "d-p", name: "SNS 集客", ic: "◎", c: "var(--orange)" },
-  { id: "an", cls: "d-an", name: "分析", ic: "▦", c: "var(--violet)" }
+  { id: "pr", cls: "d-p", name: "SNS 集客", ic: "◎", c: "var(--orange)" }
 ];
 const svA = A({ id: "svA", name: "レン", role: "SV・sv.md", h: 265, kind: "sv", dept: "a", lv: 9, queue: [] });
 const svB = A({ id: "svB", name: "ミナ", role: "SV・sv.md", h: 320, kind: "sv", dept: "b", lv: 8, queue: [] });
@@ -381,23 +385,29 @@ const lister = A({ id: "list", name: "ミオ", role: "リスト抽出・list-ext
 const mk = A({ id: "mk", name: "セナ", role: "マーケッター・marketer.md", h: 25, kind: "mk", dept: "mk", lv: 7 });
 [["ナナ", 6, 330], ["サキ", 5, 275], ["ユウ", 4, 210]].forEach(([n, lv, h], i) => A({ id: "ad" + i, name: n, role: "事務・case-admin.md", h, kind: "ad", dept: "ad", lv }));
 const editor = A({ id: "ed", name: "アヤ", role: "編集長・note-editor.md", h: 15, kind: "ed", dept: "ed", lv: 9 });
-const researcher = A({ id: "rs", name: "コウ", role: "リサーチ・note-researcher.md", h: 175, kind: "rs", dept: "rs", lv: 7 });
+[["コウ", "需要派", "r1", 175], ["ミツキ", "競合・価格派", "r2", 140], ["レイ", "トレンド派", "r3", 205], ["ハヤト", "逆張り派", "r4", 10], ["シオン", "自社データ派", "r5", 290]].forEach(([n, sc, f, h]) => A({ id: f, name: n, role: `${sc}・note-${f}`, school: sc, h, kind: "rs", dept: "rs" }));
+[["アキラ", "ベイズ派", 230], ["ノゾミ", "実験派", 330], ["マコト", "ファネル派", 160], ["ツバサ", "懐疑派", 0], ["イオリ", "経済性派", 50]].forEach(([n, sc, h], i) => A({ id: "ds" + i, name: n, role: `${sc}・note-ds${i + 1}`, school: sc, h, kind: "ds", dept: "ds" }));
 [["ユキ", 8, 200], ["タロ", 6, 120], ["ハナ", 5, 330]].forEach(([n, lv, h], i) => A({ id: "wr" + i, name: n, role: "ライター・note-writer.md", h, kind: "wr", dept: "wr", lv }));
 const promoter = A({ id: "pr", name: "リナ", role: "SNS 集客・note-promoter.md", h: 300, kind: "pr", dept: "pr", lv: 6 });
-const analyst = A({ id: "an", name: "ケン", role: "分析・note-analyst.md", h: 250, kind: "an", dept: "an", lv: 6 });
 const aps = agents.filter(a => a.kind === "ap");
 const writers = agents.filter(a => a.kind === "wr");
+const researchers = agents.filter(a => a.kind === "rs");
+const dss = agents.filter(a => a.kind === "ds");
+const funnel = dss[2];
+const FACIL = [0, 1, 2, 3, 4, 0, 1]; // 日〜土の司会（README の表）
+const PDCA = { cycle: 1, stage: "C" };
+let memoBox = [], meetings = 0, edInbox = [];
 const byDept = id => agents.filter(a => a.dept === id);
 const DEPTS = SALES.concat(NOTE);
 const deptOf = id => DEPTS.find(d => d.id === id);
 
 const NUMS = {
   ap: ["作成", "承認", "返信"], sv: ["点検", "承認", "差戻"], ad: ["返信対応", "アポ"], list: ["本日抽出", "送れる率"], mk: ["反響リード", "改善提案"],
-  ed: ["校正", "公開待ち", "差戻"], rs: ["企画"], wr: ["執筆", "公開"], pr: ["投稿案"], an: ["販売", "売上"], human: ["送信", "公開"], center: []
+  ed: ["校正", "公開待ち", "差戻"], rs: ["調査メモ", "企画"], ds: ["個人メモ", "打合せ"], wr: ["執筆", "公開"], pr: ["投稿案"], an: ["販売", "売上"], human: ["送信", "公開"], center: []
 };
 function cardHTML(a) {
   const labels = NUMS[a.kind] || [];
-  const nums = labels.length ? `<div class="nums">${labels.map((l, i) => `<span>${l}<b class="num c${i + 1}${(a.kind === "ap" && i === 2) || (a.kind === "an") ? " g" : ""}">0</b></span>`).join("")}</div>` : "";
+  const nums = labels.length ? `<div class="nums">${labels.map((l, i) => `<span>${l}<b class="num c${i + 1}${(a.kind === "ap" && i === 2) ? " g" : ""}">0</b></span>`).join("")}</div>` : "";
   const prog = a.kind === "ap" ? "" : `<div class="prog"><b></b></div>`;
   return `<div class="row"><div class="av" style="--h:${a.h}">${a.noAv || a.name[0]}</div><div class="who">${a.eyebrow ? `<div class="eyebrow">${a.eyebrow}</div>` : ""}<div class="nm">${a.name}${a.lv ? `<span class="lv">Lv.${a.lv}</span>` : ""}</div><div class="rl">${a.role}</div></div></div>
     <div class="st"><i></i><span class="lbl">待機</span><span class="tm num">00:00</span></div><div class="act">&nbsp;</div>${prog}${nums}`;
@@ -572,12 +582,53 @@ function checkReplies() {
 }
 
 // note 販売部
+const RS_WORK = {
+  "需要派": acc => `${acc} の読者の困りごとを集める`, "競合・価格派": acc => `${acc} の人気有料記事10本の価格を記録`,
+  "トレンド派": acc => `${acc} の今週の話題を確認`, "逆張り派": acc => `${acc} の「やめ方・失敗」の空白を探す`,
+  "自社データ派": acc => `${acc} の表示・購入の数字を確認`
+};
 function rsNext(a) {
-  if (a.state === "work" && a.idea) { ideas.push(a.idea); a.c1++; touch("n-templates"); pulse(a.el, editor.el, "var(--cyan)"); log(`${a.name} が企画を追加：「${a.idea.title}」`, "kn"); a.idea = null; }
-  if (ideas.length > 4) return set(a, "work", "調査中", "既存の有料記事の価格帯を確認", rnd(5, 7));
-  const [acc, title] = pick(TITLES);
-  a.idea = { id: ++seq, acc, title, status: "企画", sold: 0, price: 0 };
-  return set(a, "work", "調査中", `${acc} の売れ筋と読者の悩みを調査 ▶ ${title.slice(0, 12)}…`, rnd(7, 10));
+  if (a.state === "work" && a.memo) {
+    memoBox.push(a.memo); a.c1++;
+    pulse(a.el, deptOf("ds").head, "var(--cyan)");
+    if (Math.random() < 0.35) { const [acc, title] = pick(TITLES); ideas.push({ id: ++seq, acc, title, status: "企画", sold: 0, price: 0 }); a.c2++; }
+    log(`${a.name}（${a.school}）が調査メモを提出 → データサイエンス`, "kn"); a.memo = null;
+  }
+  if (memoBox.length >= 10) return set(a, "idle", "待機", "打合せの結果待ち", rnd(3, 5));
+  const acc = pick(["A01", "A02", "A03"]);
+  a.memo = { by: a.name, school: a.school, acc };
+  if (PDCA.stage !== "C") { PDCA.stage = "C"; }
+  return set(a, "work", "調査中", RS_WORK[a.school](acc), rnd(7, 12));
+}
+const DECISIONS = [
+  "A01：タイトル2案で比べる（ノゾミ案）", "A03：無料部分を厚くして購入率を測る", "Threads の1行目を「悩み型」にそろえる",
+  "A02：「送らない店の選び方」を次の記事に（ハヤト案）", "価格 1,980円と 2,980円を比べる", "購入元を測る仕組みを先に作る（マコト案）"
+];
+function dsNext(a) {
+  if (a.state === "meet") return; // 打合せ中は司会が全員を動かす
+  if (a.state === "work") { a.c1++; a.memoDone = true; }
+  const unread = memoBox.length - (a.read || 0);
+  if (unread > 0) {
+    const m = memoBox[a.read || 0]; a.read = (a.read || 0) + 1;
+    return set(a, "work", "個人メモ", `${m.by}（${m.school}）のメモを${a.school}で読む`, rnd(3, 5));
+  }
+  if (memoBox.length >= 5 && dss.every(d => d.memoDone && d.state !== "work")) return startMeeting();
+  return set(a, "idle", "待機", memoBox.length < 5 ? "リサーチの提出待ち" : "打合せ待ち", 1.5);
+}
+function startMeeting() {
+  const f = dss[FACIL[new Date().getDay()]];
+  PDCA.stage = "A";
+  dss.forEach(d => { set(d, "meet", d === f ? "司会" : "打合せ", d === f ? "打合せを進める（決定と少数意見）" : `${d.school}として意見を出す`, 9); });
+  f.facil = true;
+}
+function endMeeting() {
+  const f = dss.find(d => d.facil); f.facil = false; meetings++;
+  const dec = pick(DECISIONS), minority = pick(dss.filter(d => d !== f));
+  edInbox.push({ dec, minority: minority.name });
+  dss.forEach(d => { d.c2++; d.memoDone = false; d.read = 0; set(d, "idle", "待機", "打合せ報告を編集長へ", 1.5); });
+  memoBox = [];
+  pulse(f.el, editor.el, "var(--violet)");
+  log(`打合せ（司会 ${f.name}）決定：${dec}／少数意見：${minority.name}`, "ok");
 }
 function edNext(a) {
   if (a.state === "review" && a.cur) {
@@ -592,6 +643,12 @@ function edNext(a) {
     art.writer = w; art.status = "執筆"; w.queue.push(art); articles.unshift(art);
     pulse(a.el, w.el, "var(--green)"); renderArts();
   }
+  if (a.state === "work" && a.instr) {
+    const x = a.instr; a.instr = null; PDCA.stage = "P"; S.instr++;
+    writers.forEach(w => pulse(a.el, w.el, "var(--green)"));
+    log(`${a.name} が指示書を出しました：${x.dec}（pdca.csv に仮説を追加）`, "kn");
+  }
+  if (edInbox.length) { a.instr = edInbox.shift(); return set(a, "work", "指示書", `打合せ報告を読み、ライターへ指示 ▶ ${a.instr.dec}`, rnd(3, 4.5)); }
   if (reviewQ.length) { a.cur = reviewQ.shift(); a.cur.status = "校正中"; touch("n-review"); renderArts(); return set(a, "review", "校正中", `review.md で校正 ▶ ${a.cur.title}`, rnd(4, 6)); }
   if (ideas.length && writers.some(w => w.queue.length < 2)) {
     const art = ideas.shift(); art.price = pick(PRICES); a.pickArt = art;
@@ -606,7 +663,7 @@ function wrNext(a) {
     pulse(a.el, editor.el, "var(--violet)"); renderArts();
     return set(a, "wrap", "後処理", `drafts/${art.id}.md を提出`, 1.5);
   }
-  if (a.queue.length) { a.cur = a.queue.shift(); a.phase = "outline"; return set(a, "write", "構成中", `構成と有料ラインを決める ▶ ${a.cur.title}`, rnd(3, 5)); }
+  if (a.queue.length) { a.cur = a.queue.shift(); a.phase = "outline"; if (PDCA.stage === "P") { PDCA.stage = "D"; PDCA.cycle++; } return set(a, "write", "構成中", `構成と有料ラインを決める ▶ ${a.cur.title}`, rnd(3, 5)); }
   return set(a, "idle", "待機", "企画待ち", 2);
 }
 function prNext(a) {
@@ -614,18 +671,12 @@ function prNext(a) {
   if (promoQ.length) { a.art = promoQ.shift(); return set(a, "work", "作成中", `Threads 投稿案を作成 ▶ ${a.art.title}`, rnd(5, 7)); }
   return set(a, "work", "確認中", "投稿の反応（表示・リンク）を確認", rnd(4, 7));
 }
-function anNext(a) {
-  if (a.state === "work" && a.job === "hooks") { touch("n-hooks", 1); log(`${a.name} が売れたタイトルを note/hooks.md に追加`, "kn"); }
-  a.job = null;
-  if (S.sold && Math.random() < 0.35) { a.job = "hooks"; return set(a, "work", "分析中", "売れた記事のタイトル・冒頭を分析", rnd(5, 7)); }
-  return set(a, "work", "集計中", "記事ごとの販売数・売上を集計", rnd(4, 6));
-}
 function salesTick() {
   articles.filter(x => x.status === "公開済").forEach(art => {
     if (Math.random() < 0.012 * speed) {
-      art.sold++; S.sold++; S.rev += art.price; analyst.c1++; analyst.c2 += art.price;
+      art.sold++; S.sold++; S.rev += art.price;
       const acc = ACCOUNTS.find(x => x.id === art.acc); if (acc) { acc.month += art.price; acc.today += art.price; renderAccs(); }
-      pulse(analyst.el, center.el, "var(--gold)");
+      pulse(funnel.el, center.el, "var(--gold)");
       log(`note が売れました（${art.acc}）：「${art.title}」${yen(art.price)}`, "win"); renderArts();
     }
   });
@@ -638,7 +689,7 @@ function centerNext(a) {
   if (r < 0.7) return set(a, "work", "確認中", "両部の mistakes.md を読んで CLAUDE.md を見直し", 5);
   return set(a, "work", "監視中", "全体の稼働を確認", rnd(4, 7));
 }
-const NEXT = { ap: apNext, sv: svNext, list: listNext, mk: mkNext, ad: adNext, center: centerNext, human: humanNext, rs: rsNext, ed: edNext, wr: wrNext, pr: prNext, an: anNext };
+const NEXT = { ap: apNext, sv: svNext, list: listNext, mk: mkNext, ad: adNext, center: centerNext, human: humanNext, rs: rsNext, ds: dsNext, ed: edNext, wr: wrNext, pr: prNext };
 writers.forEach(w => w.queue = []);
 
 /* ── render ── */
@@ -651,7 +702,7 @@ function renderAgent(a) {
   }
   q.tm.textContent = fmt(T.t - a.since);
   if (q.prog) q.prog.style.width = a.state === "idle" ? "0%" : Math.min(100, (T.t - a.since) / (a.until - a.since) * 100) + "%";
-  const v = a.kind === "list" ? [a.c1, a.rate ? a.rate + "%" : "-"] : a.kind === "an" ? [a.c1, yen(a.c2)] : [a.c1, a.c2, a.c3];
+  const v = a.kind === "list" ? [a.c1, a.rate ? a.rate + "%" : "-"] : [a.c1, a.c2, a.c3];
   q.n.forEach((el, i) => { if (el) el.textContent = v[i]; });
 }
 function renderKpis() {
@@ -662,6 +713,8 @@ function renderKpis() {
   $("#k-appt").textContent = S.appts;
   $("#k-pool").textContent = pool.length;
   $("#k-month").textContent = yen(ACCOUNTS.reduce((n, x) => n + x.month, 0));
+  $("#k-pdca").textContent = { P: "P 計画", D: "D 実行", C: "C 検証", A: "A 改善" }[PDCA.stage];
+  $("#k-pdcac").textContent = `${PDCA.cycle}周目・打合せ ${meetings + 1}回`;
   $("#k-pub").textContent = S.pub;
   $("#k-sold").textContent = S.sold;
   $("#k-rev").textContent = yen(S.rev);
@@ -742,7 +795,8 @@ let speed = 1, paused = false;
 function step() {
   if (paused) return;
   T.t += 0.2 * speed;
-  agents.forEach(a => { if (T.t >= a.until) NEXT[a.kind](a); });
+  if (dss[0].state === "meet" && T.t >= dss[0].until) endMeeting();
+  agents.forEach(a => { if (a.state !== "meet" && T.t >= a.until) NEXT[a.kind](a); });
   checkReplies(); salesTick();
   agents.forEach(renderAgent);
   renderKpis(); drawMon();
@@ -788,7 +842,9 @@ function seed() {
     if (st === "執筆") writers[w].queue.push(art);
   });
   ideas.push({ id: ++seq, acc: t[6][0], title: t[6][1], status: "企画", sold: 0, price: 0 });
-  human.c2 = S.pub; analyst.c1 = S.sold; analyst.c2 = S.rev; editor.c1 = S.pub + 2; editor.c2 = S.pub + 1; researcher.c1 = 7;
+  human.c2 = S.pub; editor.c1 = S.pub + 2; editor.c2 = S.pub + 1;
+  researchers.forEach(r => { r.c1 = ri(1, 3); r.c2 = ri(0, 2); });
+  dss.forEach(d => { d.c1 = ri(6, 12); d.c2 = 1; });
   writers.forEach(w => w.c1 = articles.filter(x => x.writer === w).length);
   S.reports = Math.max(1, Math.floor(f * 6)); $("#owner-rl").textContent = `本日の報告 ${S.reports}件`;
   agents.forEach(a => NEXT[a.kind](a));
