@@ -1,0 +1,9 @@
+# 送信者の情報（フォームに入力する内容）。sender.yaml にコピーして書き換える（sender.yaml は Git に入れない）
+company: ★要変更 株式会社〇〇
+name: ★要変更 山田 太郎
+name_kana: ★要変更 ヤマダ タロウ
+email: ★要変更 sales@example.com
+phone: ★要変更 03-0000-0000
+
+# 1日に送る上限（送りすぎると迷惑行為とみなされやすい）
+daily_limit: 30

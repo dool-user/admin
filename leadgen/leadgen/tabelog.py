@@ -142,6 +142,18 @@ def parse_detail(html, url):
         genre = '、'.join(c) if isinstance(c, list) else str(c)
     opened = _text(cell('オープン日'))
     status = _text(soup.select_one('.rst-status-badge-large, .rdheader-rstname .rst-status, .rdheader-rst-status'))
+    website, instagram = '', ''
+    for td in filter(None, [cell('ホームページ'), cell('公式アカウント'), cell('公式サイト')]):
+        for a in td.find_all('a', href=True):
+            href = a['href']
+            if 'instagram.com' in href:
+                instagram = instagram or href
+            elif href.startswith('http') and 'tabelog.com' not in href and not website:
+                website = href
+        if not website:
+            m = re.search(r'https?://[^\s　]+', _text(td))
+            if m and 'instagram.com' not in m.group(0):
+                website = m.group(0)
     rating = ''
     agg = ld.get('aggregateRating') or {}
     if isinstance(agg, dict) and agg.get('ratingValue'):
@@ -156,6 +168,8 @@ def parse_detail(html, url):
         'open_date': opened,
         'rating': rating,
         'closed': bool(CLOSED_RE.search(status)),
+        'website': website,
+        'instagram': instagram,
     }
 
 
@@ -217,4 +231,5 @@ class TabelogClient:
             source=source, name=d['name'] or item['name'], url=item['url'], genre=d['genre'] or item['genre'],
             address=d['address'], phone=d['phone'], lat=d['lat'], lng=d['lng'], open_date=d['open_date'],
             rating=d['rating'] or item.get('rating', ''), source_id=item['id'],
+            website=d['website'], instagram=d['instagram'],
         )

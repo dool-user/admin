@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-/* Layout: 夜間の監視室。上に社長→センター長、その下に5部署の列、右に共有ナレッジとアポ台帳。配線はSVGで重ねる */
+/* Layout: 夜間の監視室。上に社長・人の作業→センター長、その下に営業部と note 販売部の列、右に台帳とナレッジ。配線はSVGで重ねる */
 :root{
   --bg:#060a13; --panel:#0b1220; --panel-2:#0f192c; --line:#1b2944; --line-2:#26395d;
   --fg:#dce6f6; --muted:#7c8cab; --dim:#4d5b78;
@@ -64,10 +64,15 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
 .tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:-16px}
 .tool{border:1px solid color-mix(in srgb,var(--amber) 55%,transparent);color:var(--amber);border-radius:999px;padding:2px 9px;font-size:10.5px;background:color-mix(in srgb,var(--amber) 7%,transparent)}
 
-.depts{position:relative;z-index:1;display:grid;grid-template-columns:2fr 2fr 1fr 1fr 1.25fr;gap:12px;margin-top:34px}
-@media (max-width:1400px){.depts{grid-template-columns:repeat(4,minmax(0,1fr))}.d-a,.d-b{grid-column:span 2}}
-@media (max-width:900px){.depts{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.d-a,.d-b{grid-column:span 2}}
-@media (max-width:520px){.depts{grid-template-columns:minmax(0,1fr)}.d-a,.d-b{grid-column:auto}}
+.depts{position:relative;z-index:1;display:grid;grid-template-columns:2fr 2fr 1fr 1fr 1.25fr;gap:12px;margin-top:14px}
+.depts.nt{grid-template-columns:1fr 1fr 1.9fr 1fr 1fr}
+.d-w .members{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:1400px){.depts,.depts.nt{grid-template-columns:repeat(4,minmax(0,1fr))}.d-a,.d-b,.d-w{grid-column:span 2}}
+@media (max-width:900px){.depts,.depts.nt{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.d-a,.d-b,.d-w{grid-column:span 2}}
+@media (max-width:520px){.depts,.depts.nt{grid-template-columns:minmax(0,1fr)}.d-a,.d-b,.d-w{grid-column:auto}}
+.div-h{position:relative;z-index:1;display:flex;align-items:baseline;gap:10px;margin-top:30px;padding-bottom:6px;border-bottom:1px solid var(--line-2);font-weight:900;font-size:13.5px;letter-spacing:.04em}
+.div-h small{font-weight:500;font-size:10.5px;color:var(--muted);letter-spacing:0}
+.div-h .tag{font:700 10px var(--f-num);color:var(--c);border:1px solid currentColor;border-radius:4px;padding:0 5px}
 .dept{min-width:0}
 .dh{display:flex;align-items:center;gap:6px;border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;background:var(--panel-2);font-weight:700;font-size:12px;margin-bottom:10px}
 .dh .ic{color:var(--c,var(--cyan))}
@@ -101,13 +106,19 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
 .nums b.g{color:var(--gold)}
 
 .card{--sc:var(--dim)}
-.s-dial{--sc:var(--cyan)} .s-talk{--sc:var(--green)} .s-wrap{--sc:var(--amber)} .s-idle{--sc:var(--dim)}
+.s-dial{--sc:var(--cyan)} .s-write{--sc:var(--green)} .s-talk{--sc:var(--green)} .s-wrap{--sc:var(--amber)} .s-idle{--sc:var(--dim)}
 .s-brk{--sc:var(--violet);opacity:.7} .s-work{--sc:var(--cyan)} .s-review{--sc:var(--violet)} .s-monitor{--sc:var(--violet)} .s-win{--sc:var(--gold)}
-.s-dial,.s-talk,.s-work,.s-review,.s-monitor{border-color:color-mix(in srgb,var(--sc) 55%,var(--line-2));box-shadow:0 0 14px -4px color-mix(in srgb,var(--sc) 60%,transparent)}
-.s-talk .st i{animation:blink 1s infinite}
+.s-dial,.s-talk,.s-work,.s-write,.s-review,.s-monitor{border-color:color-mix(in srgb,var(--sc) 55%,var(--line-2));box-shadow:0 0 14px -4px color-mix(in srgb,var(--sc) 60%,transparent)}
+.s-talk .st i,.s-write .st i{animation:blink 1s infinite}
 .s-win{border-color:var(--gold);box-shadow:0 0 22px -2px color-mix(in srgb,var(--gold) 70%,transparent);animation:pop .5s}
 .owner{border-color:color-mix(in srgb,var(--cyan) 70%,transparent);box-shadow:0 0 20px -6px var(--cyan);min-width:220px}
 .owner .rl{color:var(--gold)}
+.human{border-style:dashed;border-color:color-mix(in srgb,var(--amber) 60%,transparent);min-width:220px}
+.human .eyebrow{color:var(--amber)}
+.s-send{--sc:var(--amber)}
+.s-send{border-color:var(--amber);box-shadow:0 0 14px -4px color-mix(in srgb,var(--amber) 60%,transparent)}
+.kgroup{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}
+.kgroup>span{writing-mode:vertical-rl;font-size:9.5px;letter-spacing:.2em;color:var(--c);border-left:2px solid var(--c);padding-left:3px}
 
 /* ── side ── */
 .side{display:grid;gap:14px;min-width:0}
@@ -127,7 +138,11 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
 .files pre{margin:0;padding:0 10px 9px;font:500 10.5px/1.6 var(--f-num);color:var(--fg);opacity:.85;white-space:pre-wrap}
 .files .tip{font-size:10.5px;color:var(--muted);margin:6px 2px 0}
 
-.appts{list-style:none;margin:0;padding:0;display:grid;gap:5px;max-height:300px;overflow:auto}
+.appts{list-style:none;margin:0;padding:0;display:grid;gap:5px;max-height:260px;overflow:auto}
+.queue{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.queue div{border:1px dashed color-mix(in srgb,var(--amber) 55%,transparent);border-radius:6px;padding:6px 9px}
+.queue small{display:block;color:var(--muted);font-size:10px}
+.queue b{font:700 18px var(--f-num);color:var(--amber)}
 .appts li{display:grid;grid-template-columns:1fr auto;gap:1px 8px;border-bottom:1px dashed var(--line);padding-bottom:5px}
 .appts .sh{font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .appts .mt{font-size:10.5px;color:var(--muted)}
@@ -159,57 +174,79 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
       <button id="pause" type="button">動きを止める</button>
       <button id="speed" type="button">速度 ×1</button>
     </div>
-    <div class="kpis">
-      <div class="kpi"><small>稼働中のAP</small><b id="k-active">0</b><em>/10</em></div>
-      <div class="kpi"><small>本日の架電</small><b id="k-calls" class="w">0</b></div>
-      <div class="kpi"><small>通話（接続率）</small><b id="k-conn" class="w">0</b><em id="k-connr">0%</em></div>
-      <div class="kpi"><small>本日のアポ</small><b id="k-appt" class="g">0</b><em id="k-apptr">0%</em></div>
-      <div class="kpi"><small>リスト残</small><b id="k-pool">0</b><em>件</em></div>
-      <div class="kpi"><small>案件処理 待ち／済</small><b id="k-case">0</b><em id="k-done">/ 0</em></div>
+    <div class="kgroup" style="--c:var(--green)"><span>営業部</span>
+      <div class="kpi"><small>本日の文面</small><b id="k-drafts" class="w">0</b></div>
+      <div class="kpi"><small>送信済（人）</small><b id="k-sent">0</b></div>
+      <div class="kpi"><small>返信（返信率）</small><b id="k-reply" class="w">0</b><em id="k-replyr">0%</em></div>
+      <div class="kpi"><small>本日のアポ</small><b id="k-appt" class="g">0</b></div>
+      <div class="kpi"><small>送れる店の残り</small><b id="k-pool">0</b><em>件</em></div>
     </div>
-    <div class="spark"><span>直近の発信数</span><svg id="spark" viewBox="0 0 170 30" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+    <div class="kgroup" style="--c:var(--orange)"><span>note</span>
+      <div class="kpi"><small>公開済の記事</small><b id="k-pub" class="w">0</b><em>本</em></div>
+      <div class="kpi"><small>本日の販売</small><b id="k-sold">0</b><em>部</em></div>
+      <div class="kpi"><small>本日の売上</small><b id="k-rev" class="g">¥0</b></div>
+    </div>
+    <div class="spark"><span>直近の文面作成数</span><svg id="spark" viewBox="0 0 170 30" preserveAspectRatio="none" aria-hidden="true"></svg></div>
   </header>
 
   <div class="layout">
     <section class="board" id="board" aria-label="組織図">
       <svg id="wires" aria-hidden="true"><g id="g-tree"></g><g id="g-mon"></g><g id="g-pulse"></g></svg>
-      <div class="board-h"><span class="mark">✳</span>Claude 営業センター<span>全員 Claude（サブエージェント）・Uber Eats 加盟店のアポ獲得</span></div>
+      <div class="board-h"><span class="mark">✳</span>Claude 営業センター<span>全員 Claude（サブエージェント）・送信と公開だけは人</span></div>
 
       <div class="head">
         <div class="chief">
-          <article class="card big owner" id="c-owner">
-            <div class="row"><div class="av" style="--h:40">社</div>
-              <div class="who"><div class="eyebrow">社長・最終決定</div><div class="nm">あなた</div><div class="rl" id="owner-rl">本日の報告 0件</div></div></div>
-          </article>
+          <div class="head" style="align-items:flex-start">
+            <article class="card big owner" id="c-owner">
+              <div class="row"><div class="av" style="--h:40">社</div>
+                <div class="who"><div class="eyebrow">社長・最終決定</div><div class="nm">あなた</div><div class="rl" id="owner-rl">本日の報告 0件</div></div></div>
+            </article>
+            <article class="card big human" id="c-human"></article>
+          </div>
           <article class="card big" id="c-center"></article>
           <div class="tools" aria-label="使う道具">
-            <span class="tool">道具：leadgen（リスト抽出）</span><span class="tool">案件票ツール</span><span class="tool">スプレッドシート</span>
+            <span class="tool">道具：leadgen（リスト・連絡先）</span><span class="tool">send_assist（送信の補助）</span><span class="tool">outbox.csv・articles.csv</span>
           </div>
         </div>
       </div>
 
-      <div class="depts" id="depts"></div>
+      <div class="div-h" style="--c:var(--green)"><span class="tag">SALES</span>営業部（DM・フォーム）<small>Uber Eats 未出店の飲食店に、出店説明のアポを取る</small></div>
+      <div class="depts" id="depts-sales"></div>
+
+      <div class="div-h" style="--c:var(--orange)"><span class="tag">NOTE</span>note 販売部<small>有料記事を企画・執筆し、Threads などで集客して売る</small></div>
+      <div class="depts nt" id="depts-note"></div>
 
       <div class="legend">
-        <span style="--c:var(--cyan)"><i></i>発信中・作業中</span>
-        <span style="--c:var(--green)"><i></i>通話中</span>
-        <span style="--c:var(--amber)"><i></i>後処理</span>
-        <span style="--c:var(--violet)"><i></i>確認・モニタリング</span>
-        <span style="--c:var(--gold)"><i></i>アポ獲得</span>
+        <span style="--c:var(--cyan)"><i></i>下調べ・作業中</span>
+        <span style="--c:var(--green)"><i></i>文面・原稿を作成中</span>
+        <span style="--c:var(--violet)"><i></i>点検・校正</span>
+        <span style="--c:var(--amber)"><i></i>人の作業・後処理</span>
+        <span style="--c:var(--gold)"><i></i>アポ・販売</span>
         <span style="--c:var(--dim)"><i></i>待機・休憩</span>
       </div>
-      <p class="note">この画面はデモです。動き・数字はシミュレーションで、実際の架電結果ではありません。</p>
+      <p class="note">この画面はデモです。動き・数字・店名・記事はシミュレーションで、実際の送信・販売の結果ではありません。</p>
     </section>
 
     <aside class="side">
       <section class="pn">
-        <h2>共有ナレッジ <small>全員が読むファイル・タップで中身</small></h2>
-        <div class="files" id="files"></div>
-        <p class="tip">出す前に review.md で点検し、直したことは mistakes.md に3行で残します。</p>
+        <h2>人の作業待ち <small>Claude は送信・公開をしない</small></h2>
+        <div class="queue">
+          <div><small>送信待ち（承認済の文面）</small><b class="num" id="q-send">0</b></div>
+          <div><small>note 公開待ち</small><b class="num" id="q-pub">0</b></div>
+        </div>
       </section>
       <section class="pn">
-        <h2>アポ台帳 <small id="appt-sub">本日</small></h2>
+        <h2>返信・アポ台帳 <small id="appt-sub">本日</small></h2>
         <ul class="appts" id="appts"></ul>
+      </section>
+      <section class="pn">
+        <h2>note 記事台帳 <small id="art-sub"></small></h2>
+        <ul class="appts" id="arts"></ul>
+      </section>
+      <section class="pn">
+        <h2>共有ナレッジ <small>部ごとに同じ8ファイル・タップで中身</small></h2>
+        <div class="files" id="files"></div>
+        <p class="tip">出す前に review.md で点検し、直したことは mistakes.md に3行で残します。</p>
       </section>
       <section class="pn">
         <h2>動きのログ</h2>
@@ -229,7 +266,7 @@ const pick = a => a[Math.floor(Math.random() * a.length)];
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const DISPLAY_SCALE = 10; // 画面の経過時間表示はデモ時間×10
 
-/* ── data ── */
+/* ── data（すべて例） ── */
 const GENRES = {
   "ラーメン": ["麺屋", "らーめん", "中華そば"], "焼肉": ["焼肉", "炭火焼肉"], "カフェ": ["カフェ", "喫茶"],
   "中華": ["中華料理", "餃子の"], "居酒屋": ["酒場", "居酒屋"], "カレー": ["カレー", "スパイス食堂"],
@@ -237,33 +274,41 @@ const GENRES = {
 };
 const SFX = ["こうき", "まるやま", "一燈", "はるか", "大吉", "さくら", "みなと", "たけだ", "ひだまり", "源", "つばめ", "とらや", "こはく", "あおば", "ふくろう", "なごみ"];
 const AREAS = ["渋谷区", "新宿区", "世田谷区", "目黒区", "品川区", "豊島区", "杉並区", "台東区", "横浜市中区", "川崎市中原区", "さいたま市大宮区", "船橋市", "千葉市中央区", "藤沢市"];
-const NG = ["手数料が気になる", "人手が足りない", "今は忙しい", "本部の確認が必要", "他社で検討中", "テイクアウト予定なし"];
+const NG_REPLY = ["今は検討していない", "人手が足りない", "手数料が気になる", "本部の確認が必要"];
+const TITLES = [
+  "Claude Code で営業チームを組んだ手順", "食べログ新規開店リストを毎朝自動で作る方法", "Uber Eats 未掲載店だけを抽出するツールの作り方",
+  "問い合わせフォーム営業で返信をもらう文面の型", "CLAUDE.md と review.md だけで始める AI 組織", "mistakes.md で AI の失敗を資産にする",
+  "Meta 広告と LP の計測を1日で整える", "Instagram DM で飲食店に嫌われない書き方", "AI に営業文面を書かせるときの NG ワード集",
+  "SV 1人で AP 5人を回す点検リスト"
+];
+const PRICES = [480, 980, 1480, 1980, 2980];
 const WEEK = "日月火水木金土";
 let seq = 0;
 function makeLead(hot) {
   const g = pick(Object.keys(GENRES));
-  return { id: ++seq, shop: `${pick(GENRES[g])} ${pick(SFX)}`, genre: g, area: pick(AREAS), hot: !!hot };
+  return { id: ++seq, shop: `${pick(GENRES[g])} ${pick(SFX)}`, genre: g, area: pick(AREAS), ch: Math.random() < 0.55 ? "フォーム" : "Instagram DM", hot: !!hot };
 }
 function apptDate() {
   const d = new Date(); d.setDate(d.getDate() + ri(1, 6));
   if (d.getDay() === 0) d.setDate(d.getDate() + 1);
-  const h = ri(10, 16), m = pick(["00", "30"]);
-  return `${d.getMonth() + 1}/${d.getDate()}(${WEEK[d.getDay()]}) ${h}:${m}`;
+  return `${d.getMonth() + 1}/${d.getDate()}(${WEEK[d.getDay()]}) ${ri(10, 16)}:${pick(["00", "30"])}`;
 }
-const now = () => { const d = new Date(); return d.toTimeString().slice(0, 5); };
+const now = () => new Date().toTimeString().slice(0, 5);
+const yen = n => "¥" + n.toLocaleString();
 
-/* ── knowledge files ── */
+/* ── knowledge files（営業部・note 販売部） ── */
 const FILES = [
-  { k: "CLAUDE", f: "CLAUDE.md", d: "毎回読む約束ごと", n: 18, body: "・1社目の電話で売り込まない。目的は「15分の説明の日程」だけ\n・数字（手数料・入金日）は knowledge.md にある値だけ言う\n・出す前に review.md を全部確かめて、引っかかったら直す" },
-  { k: "character", f: "character.md", d: "人柄・口調", n: 12, body: "・落ち着いた丁寧語。早口にしない\n・相手の忙しさを先に気づかう\n・「弊社」ではなく会社名で名乗る" },
-  { k: "templates", f: "templates.md", d: "アポが取れた型", n: 24, body: "受付突破 → 店長につなぐ → 課題を1つ聞く → 日程を2択で出す\n例）「木曜の14時と金曜の11時なら、どちらが近いですか」" },
-  { k: "hooks", f: "hooks.md", d: "効いた一言目", n: 9, body: "・「近くの◯◯さんも最近始められた件で」\n・「雨の日の売上の話で、1分だけよろしいですか」" },
-  { k: "knowledge", f: "knowledge.md", d: "商材の専門知識", n: 31, body: "・Uber Eats 出店の流れ、準備物、よくある質問\n・手数料などの条件は最新の公式資料で確認して記入" },
-  { k: "ngwords", f: "ng-words.md", d: "使わない言葉", n: 14, body: "・「絶対儲かります」「今だけ」「皆さんやってます」\n・競合店の悪口、断定的な売上予測" },
-  { k: "review", f: "review.md", d: "出す前の点検", n: 11, body: "□ 決裁者（店長・オーナー）本人と話したか\n□ 日時・電話番号・住所を復唱したか\n□ ng-words.md の言葉を使っていないか" },
-  { k: "mistakes", f: "mistakes.md", d: "直させたこと", n: 6, body: "何を：アルバイトの方とアポを確定した\nなぜ：決裁者の確認を飛ばした\n次から：review.md の1行目を必ず聞く" }
+  { k: "CLAUDE", f: "CLAUDE.md", d: "毎回読む約束ごと（両部）", n: 44, body: "・送信・投稿・公開は人が行う\n・数字・実績は knowledge.md と社長の確認済みだけ\n・出す前に その部の review.md を全部確かめる" },
+  { k: "s-templates", f: "sales/templates.md", d: "返信が来た文面の型", n: 21, body: "名乗り1行 → この店に送った理由1行 → 15分の説明のお願い → 日程2択 → 不要な場合の伝え方 → 署名" },
+  { k: "s-hooks", f: "sales/hooks.md", d: "効いた一言目", n: 7, body: "・「新しくオープンされたと拝見して、ご連絡しました」\n・「{メニュー}の写真を拝見して…」（Instagram 向け）" },
+  { k: "s-review", f: "sales/review.md", d: "送る前の点検", n: 12, body: "□ 営業お断りの表記がない\n□ 30日以内に同じ店へ送っていない\n□ 名乗り・連絡先・不要な場合の伝え方がある" },
+  { k: "s-ng", f: "sales/ng-words.md", d: "使わない言葉", n: 17, body: "・「絶対儲かります」「今だけ」\n・「至急ご返信ください」" },
+  { k: "s-mistakes", f: "sales/mistakes.md", d: "直させたこと", n: 6, body: "何を：お断り表記のあるフォームに下書きを作った\nなぜ：ページの下まで読まなかった\n次から：ページ全体で確かめる" },
+  { k: "n-templates", f: "note/templates.md", d: "売れた記事の型", n: 14, body: "タイトル（誰の・どんな悩みが・どうなる）→ 冒頭3行 → 無料部分 → ここから有料 → 手順・実物・つまずき" },
+  { k: "n-hooks", f: "note/hooks.md", d: "効いたタイトル・1行目", n: 4, body: "（最初の記事の結果が出たら足す）" },
+  { k: "n-review", f: "note/review.md", d: "公開前の点検", n: 9, body: "□ 実績・数字は社長の確認済みだけ\n□ 無料部分だけでも役に立つ\n□ 誇大な表現・事実でない期限がない" },
+  { k: "n-mistakes", f: "note/mistakes.md", d: "直させたこと", n: 5, body: "何を：確認していない数字を書いた\nなぜ：推測で埋めた\n次から：【社長確認】と書いて空ける" }
 ];
-const fileEl = {};
 function renderFiles() {
   const box = $("#files");
   FILES.forEach(x => {
@@ -271,7 +316,7 @@ function renderFiles() {
     const el = document.createElement("details");
     el.innerHTML = `<summary><span class="fn">${x.f}</span><span class="fc"><b class="num">${x.n}</b>行<br>参照 <b class="num r">${x.refs}</b></span><span class="fd">${x.d}</span></summary><pre></pre>`;
     el.querySelector("pre").textContent = x.body;
-    box.append(el); fileEl[x.k] = el; x.el = el;
+    box.append(el); x.el = el;
   });
 }
 function touch(k, addLine) {
@@ -283,19 +328,28 @@ function touch(k, addLine) {
 }
 
 /* ── org ── */
-const S = { calls: 0, conn: 0, appts: 0, done: 0, reports: 0 };
-let pool = [], caseQueue = [], apptList = [];
+const S = { drafts: 0, sent: 0, replies: 0, appts: 0, pub: 0, sold: 0, rev: 0, reports: 0 };
+let pool = [], sendQ = [], replyQ = [], replies = [], pending = [];
+let ideas = [], writeQ = [], reviewQ = [], pubQ = [], promoQ = [], articles = [];
 const T = { t: 0 };
 const agents = [];
-function A(o) { const a = Object.assign({ state: "idle", label: "待機", act: "", since: 0, until: 0, calls: 0, conn: 0, appt: 0, done: 0 }, o); agents.push(a); return a; }
+function A(o) { const a = Object.assign({ state: "idle", label: "待機", act: "", since: 0, until: 0, c1: 0, c2: 0, c3: 0 }, o); agents.push(a); return a; }
 
 const center = A({ id: "center", name: "ソラ", role: "センター長・CLAUDE.md", h: 205, kind: "center", big: true, eyebrow: "センター長・Claude（メイン）" });
-const DEPTS = [
-  { id: "a", cls: "d-a", name: "架電 Aチーム", ic: "☎", c: "var(--green)" },
-  { id: "b", cls: "d-b", name: "架電 Bチーム", ic: "☎", c: "var(--green)" },
+const human = A({ id: "human", name: "送信・公開", role: "send_assist.py ／ note に公開", h: 35, kind: "human", big: true, eyebrow: "人の作業", noAv: "人" });
+const SALES = [
+  { id: "a", cls: "d-a", name: "Aチーム", ic: "✉", c: "var(--green)" },
+  { id: "b", cls: "d-b", name: "Bチーム", ic: "✉", c: "var(--green)" },
   { id: "list", cls: "d-l", name: "リスト抽出", ic: "⌕", c: "var(--cyan)" },
   { id: "mk", cls: "d-m", name: "マーケ", ic: "◎", c: "var(--orange)" },
   { id: "ad", cls: "d-ad", name: "案件処理（事務）", ic: "▤", c: "var(--violet)" }
+];
+const NOTE = [
+  { id: "ed", cls: "d-e", name: "編集長", ic: "✎", c: "var(--orange)" },
+  { id: "rs", cls: "d-r", name: "リサーチ", ic: "⌕", c: "var(--cyan)" },
+  { id: "wr", cls: "d-w", name: "ライター", ic: "✍", c: "var(--green)" },
+  { id: "pr", cls: "d-p", name: "SNS 集客", ic: "◎", c: "var(--orange)" },
+  { id: "an", cls: "d-an", name: "分析", ic: "▦", c: "var(--violet)" }
 ];
 const svA = A({ id: "svA", name: "レン", role: "SV・sv.md", h: 265, kind: "sv", dept: "a", lv: 9, queue: [] });
 const svB = A({ id: "svB", name: "ミナ", role: "SV・sv.md", h: 320, kind: "sv", dept: "b", lv: 8, queue: [] });
@@ -304,22 +358,31 @@ const svB = A({ id: "svB", name: "ミナ", role: "SV・sv.md", h: 320, kind: "sv
 const lister = A({ id: "list", name: "ミオ", role: "リスト抽出・list-extractor.md", h: 185, kind: "list", dept: "list", lv: 10 });
 const mk = A({ id: "mk", name: "セナ", role: "マーケッター・marketer.md", h: 25, kind: "mk", dept: "mk", lv: 7 });
 [["ナナ", 6, 330], ["サキ", 5, 275], ["ユウ", 4, 210]].forEach(([n, lv, h], i) => A({ id: "ad" + i, name: n, role: "事務・case-admin.md", h, kind: "ad", dept: "ad", lv }));
+const editor = A({ id: "ed", name: "アヤ", role: "編集長・note-editor.md", h: 15, kind: "ed", dept: "ed", lv: 9 });
+const researcher = A({ id: "rs", name: "コウ", role: "リサーチ・note-researcher.md", h: 175, kind: "rs", dept: "rs", lv: 7 });
+[["ユキ", 8, 200], ["タロ", 6, 120], ["ハナ", 5, 330]].forEach(([n, lv, h], i) => A({ id: "wr" + i, name: n, role: "ライター・note-writer.md", h, kind: "wr", dept: "wr", lv }));
+const promoter = A({ id: "pr", name: "リナ", role: "SNS 集客・note-promoter.md", h: 300, kind: "pr", dept: "pr", lv: 6 });
+const analyst = A({ id: "an", name: "ケン", role: "分析・note-analyst.md", h: 250, kind: "an", dept: "an", lv: 6 });
 const aps = agents.filter(a => a.kind === "ap");
+const writers = agents.filter(a => a.kind === "wr");
 const byDept = id => agents.filter(a => a.dept === id);
+const DEPTS = SALES.concat(NOTE);
+const deptOf = id => DEPTS.find(d => d.id === id);
 
+const NUMS = {
+  ap: ["作成", "承認", "返信"], sv: ["点検", "承認", "差戻"], ad: ["返信対応", "アポ"], list: ["本日抽出", "送れる率"], mk: ["反響リード", "改善提案"],
+  ed: ["校正", "公開待ち", "差戻"], rs: ["企画"], wr: ["執筆", "公開"], pr: ["投稿案"], an: ["販売", "売上"], human: ["送信", "公開"], center: []
+};
 function cardHTML(a) {
-  const nums = a.kind === "ap" ? `<div class="nums"><span>架電<b class="num c1">0</b></span><span>通話<b class="num c2">0</b></span><span>アポ<b class="num g c3">0</b></span></div>`
-    : a.kind === "sv" ? `<div class="nums"><span>確認<b class="num c1">0</b></span><span>承認<b class="num c2">0</b></span><span>差戻<b class="num c3">0</b></span></div>`
-    : a.kind === "ad" ? `<div class="nums"><span>処理済<b class="num c1">0</b></span></div>`
-    : a.kind === "list" ? `<div class="nums"><span>本日抽出<b class="num c1">0</b></span><span>未掲載率<b class="num c2">-</b></span></div>`
-    : a.kind === "mk" ? `<div class="nums"><span>反響リード<b class="num c1">0</b></span><span>改善提案<b class="num c2">0</b></span></div>` : "";
-  const prog = ["list", "mk", "ad", "sv", "center"].includes(a.kind) ? `<div class="prog"><b></b></div>` : "";
-  return `<div class="row"><div class="av" style="--h:${a.h}">${a.name[0]}</div><div class="who">${a.eyebrow ? `<div class="eyebrow">${a.eyebrow}</div>` : ""}<div class="nm">${a.name}${a.lv ? `<span class="lv">Lv.${a.lv}</span>` : ""}</div><div class="rl">${a.role}</div></div></div>
+  const labels = NUMS[a.kind] || [];
+  const nums = labels.length ? `<div class="nums">${labels.map((l, i) => `<span>${l}<b class="num c${i + 1}${(a.kind === "ap" && i === 2) || (a.kind === "an") ? " g" : ""}">0</b></span>`).join("")}</div>` : "";
+  const prog = a.kind === "ap" ? "" : `<div class="prog"><b></b></div>`;
+  return `<div class="row"><div class="av" style="--h:${a.h}">${a.noAv || a.name[0]}</div><div class="who">${a.eyebrow ? `<div class="eyebrow">${a.eyebrow}</div>` : ""}<div class="nm">${a.name}${a.lv ? `<span class="lv">Lv.${a.lv}</span>` : ""}</div><div class="rl">${a.role}</div></div></div>
     <div class="st"><i></i><span class="lbl">待機</span><span class="tm num">00:00</span></div><div class="act">&nbsp;</div>${prog}${nums}`;
 }
-function buildBoard() {
-  const wrap = $("#depts");
-  DEPTS.forEach(d => {
+function buildDepts(list, wrapSel) {
+  const wrap = $(wrapSel);
+  list.forEach(d => {
     const col = document.createElement("section");
     col.className = "dept " + d.cls; col.id = "d-" + d.id;
     col.innerHTML = `<div class="dh" style="--c:${d.c}"><span class="ic">${d.ic}</span>${d.name}<span class="cnt num"><b>0</b>/${byDept(d.id).length}</span></div><div class="members"></div>`;
@@ -328,102 +391,94 @@ function buildBoard() {
       const el = document.createElement("article");
       el.className = "card" + (a.kind === "sv" ? " sv" : ""); el.id = "c-" + a.id; el.innerHTML = cardHTML(a); m.append(el);
     });
-    wrap.append(col); d.el = col; d.head = col.querySelector(".dh"); d.cnt = col.querySelector(".cnt b");
+    wrap.append(col); d.head = col.querySelector(".dh"); d.cnt = col.querySelector(".cnt b");
   });
-  const c = $("#c-center"); c.innerHTML = cardHTML(center);
-  agents.forEach(a => { a.el = document.getElementById("c-" + a.id); a.q = { st: a.el.querySelector(".lbl"), tm: a.el.querySelector(".tm"), act: a.el.querySelector(".act"), prog: a.el.querySelector(".prog b"), c1: a.el.querySelector(".c1"), c2: a.el.querySelector(".c2"), c3: a.el.querySelector(".c3") }; });
 }
-const deptOf = id => DEPTS.find(d => d.id === id);
+function buildBoard() {
+  buildDepts(SALES, "#depts-sales"); buildDepts(NOTE, "#depts-note");
+  $("#c-center").innerHTML = cardHTML(center); $("#c-human").innerHTML = cardHTML(human);
+  agents.forEach(a => {
+    a.el = document.getElementById("c-" + a.id);
+    a.q = { st: a.el.querySelector(".lbl"), tm: a.el.querySelector(".tm"), act: a.el.querySelector(".act"), prog: a.el.querySelector(".prog b"), n: [1, 2, 3].map(i => a.el.querySelector(".c" + i)) };
+  });
+}
 
 /* ── state machine ── */
 function set(a, state, label, act, dur) { a.state = state; a.label = label; a.act = act; a.since = T.t; a.until = T.t + dur; a.dirty = true; }
 
+// 営業部
 function apNext(a) {
   switch (a.state) {
-    case "dial": {
-      const r = Math.random();
-      if (r < 0.5) return set(a, "wrap", "後処理", `不在 → 再架電を予約（${a.lead.shop}）`, rnd(1.5, 3));
-      if (r < 0.67) return set(a, "wrap", "後処理", `受付ブロック → 時間を変えて再架電`, rnd(1.5, 3));
-      a.conn++; S.conn++;
-      touch(Math.random() < .5 ? "hooks" : "templates");
-      return set(a, "talk", "通話中", `通話 ▶ ${a.lead.shop}（${a.lead.genre}）${a.lead.hot ? "・反響" : ""}`, rnd(6, 15));
+    case "dial": // 下調べ
+      if (Math.random() < 0.08) return set(a, "wrap", "見送り", `営業お断りの表記あり → 見送り（${a.lead.shop}）`, rnd(1.5, 2.5));
+      touch(a.lead.ch === "フォーム" ? "s-templates" : "s-hooks");
+      return set(a, "write", "作成中", `${a.lead.ch === "フォーム" ? "フォーム文面" : "DM文面"}を作成 ▶ ${a.lead.shop}${a.lead.hot ? "・反響" : ""}`, rnd(4, 8));
+    case "write": {
+      const d = { id: ++seq, lead: a.lead, ap: a, at: now() };
+      a.c1++; S.drafts++; bucketAdd(); a.sv.queue.push(d);
+      pulse(a.el, a.sv.el, "var(--violet)");
+      return set(a, "wrap", "後処理", `outbox.csv に下書き登録（${a.lead.ch}）`, rnd(1, 2));
     }
-    case "talk": {
-      const p = 0.09 + a.lv * 0.012 + (a.lead.hot ? 0.18 : 0);
-      if (Math.random() < p) {
-        const ap = { id: ++seq, shop: a.lead.shop, area: a.lead.area, ap: a.name, sv: a.sv.name, date: apptDate(), at: now(), status: "SV確認待ち" };
-        a.appt++; S.appts++; apptList.unshift(ap); a.sv.queue.push(ap);
-        pulse(a.el, a.sv.el, "var(--gold)");
-        log(`${a.name} がアポ獲得：${ap.shop}（${ap.area}）${ap.date}`, "win");
-        renderAppts();
-        return set(a, "win", "アポ獲得", `★ ${ap.shop} ${ap.date}`, 2.4);
-      }
-      if (Math.random() < 0.35) return set(a, "wrap", "後処理", `見込み → 資料送付・再コール予約`, rnd(2, 3.5));
-      return set(a, "wrap", "後処理", `お断り：${pick(NG)}`, rnd(2, 3.5));
-    }
-    case "win": return set(a, "wrap", "後処理", "アポ内容を記録（日時・決裁者）", 2);
     case "wrap":
-      if (Math.random() < 0.035) return set(a, "brk", "休憩", "休憩中", rnd(14, 24));
-      return set(a, "idle", "待機", "次のリストを確認", rnd(0.6, 1.8));
-    default: {
+      if (Math.random() < 0.03) return set(a, "brk", "休憩", "休憩中", rnd(14, 24));
+      return set(a, "idle", "待機", "次の店を確認", rnd(0.6, 1.8));
+    default:
       if (!pool.length) return set(a, "idle", "待機", "リスト待ち", 2);
-      a.lead = pool.shift(); a.calls++; S.calls++; bucketAdd();
-      return set(a, "dial", "発信中", `発信 ▶ ${a.lead.shop}（${a.lead.area}）`, rnd(2, 4));
-    }
+      a.lead = pool.shift();
+      return set(a, "dial", "下調べ", `${a.lead.ch === "フォーム" ? "HP・フォーム" : "Instagram"}を確認 ▶ ${a.lead.shop}（${a.lead.area}）`, rnd(2, 4));
   }
 }
 function svNext(a) {
   if (a.state === "review" && a.cur) {
-    const ap = a.cur; a.cur = null; a.conn++;
-    if (Math.random() < 0.9) {
-      ap.status = "事務待ち"; caseQueue.push(ap); a.calls++;
-      pulse(a.el, deptOf("ad").head, "var(--violet)");
-      log(`${a.name} が review.md で確認OK：${ap.shop} → 事務へ`, "ok");
+    const d = a.cur; a.cur = null; a.c1++;
+    if (Math.random() < 0.88) {
+      a.c2++; d.ap.c2++; sendQ.push(d);
+      pulse(a.el, human.el, "var(--amber)");
+      log(`${a.name} が承認：${d.lead.shop}（${d.lead.ch}）→ 送信待ち`, "ok");
     } else {
-      ap.status = "差し戻し"; a.appt++;
-      touch("mistakes", 3);
-      log(`${a.name} が差し戻し：${ap.shop}（決裁者未確認）→ mistakes.md に追記`, "ng");
+      a.c3++;
+      touch("s-mistakes", 3);
+      log(`${a.name} が差し戻し：${d.lead.shop}（${pick(["名乗りが抜けている", "不要な場合の伝え方がない", "DM が長すぎる", "店のメニュー名が違う"])}）`, "ng");
     }
-    renderAppts();
   }
   a.mon = null;
   if (a.queue.length) {
-    a.cur = a.queue.shift(); a.cur.status = "SV確認中"; renderAppts(); touch("review");
-    return set(a, "review", "確認中", `review.md で点検 ▶ ${a.cur.shop}`, rnd(3, 5));
+    a.cur = a.queue.shift(); touch("s-review");
+    return set(a, "review", "点検中", `review.md で点検 ▶ ${a.cur.lead.shop}`, rnd(2.5, 4));
   }
   const team = aps.filter(x => x.sv === a);
-  const talking = team.filter(x => x.state === "talk");
-  if (talking.length && Math.random() < 0.65) {
-    a.mon = pick(talking);
-    return set(a, "monitor", "モニタリング", `通話を聞く ▶ ${a.mon.name}`, rnd(4, 7));
+  const writing = team.filter(x => x.state === "write");
+  if (writing.length && Math.random() < 0.6) {
+    a.mon = pick(writing);
+    return set(a, "monitor", "確認中", `書きかけを見る ▶ ${a.mon.name}`, rnd(3, 5));
   }
   const low = team.slice().sort((x, y) => x.lv - y.lv)[0];
-  return set(a, "work", "指導", pick([`ロープレ ▶ ${low.name}`, "NG理由を集計", "トーク改善を検討", `同席フォロー ▶ ${low.name}`]), rnd(4, 6));
+  return set(a, "work", "指導", pick([`文面の添削 ▶ ${low.name}`, "差し戻し理由を集計", "返信が来た文面を分析"]), rnd(4, 6));
 }
 let listBatch = 0;
 function listNext(a) {
   if (a.state === "work" && a.phase === "extract") {
-    a.phase = "match"; listBatch = ri(24, 48);
-    return set(a, "work", "照合中", `Uber Eats 未掲載か照合 ▶ ${listBatch}件`, rnd(4, 6));
+    a.phase = "contact"; listBatch = ri(24, 48);
+    return set(a, "work", "連絡先確認", `フォーム・Instagram・お断り表記を確認 ▶ ${listBatch}件`, rnd(5, 7));
   }
-  if (a.state === "work" && a.phase === "match") {
-    const add = Math.round(listBatch * rnd(0.55, 0.8));
+  if (a.state === "work" && a.phase === "contact") {
+    const add = Math.round(listBatch * rnd(0.35, 0.55)), ng = ri(1, 4);
     for (let i = 0; i < add; i++) pool.push(makeLead(false));
-    a.calls += add; a.rate = Math.round(add / listBatch * 100); a.phase = null;
+    a.c1 += add; a.rate = Math.round(add / listBatch * 100); a.phase = null;
     pulse(a.el, deptOf("a").head, "var(--cyan)"); setTimeout(() => pulse(a.el, deptOf("b").head, "var(--cyan)"), 250);
-    log(`${a.name} がリスト納品：未掲載 ${add}件（${listBatch}件中）`, "kn");
-    return set(a, "idle", "待機", "重複チェック・架電済みを除外", rnd(2, 3));
+    log(`${a.name} がリスト納品：送れる店 ${add}件（${listBatch}件中・営業お断り ${ng}件を除外）`, "kn");
+    return set(a, "idle", "待機", "送信済み・重複を除外", rnd(2, 3));
   }
-  if (pool.length > 220) return set(a, "work", "作業中", "架電結果をリストに反映", rnd(5, 8));
+  if (pool.length > 200) return set(a, "work", "作業中", "送信結果をリストに反映", rnd(5, 8));
   a.phase = "extract";
-  return set(a, "work", "抽出中", `食べログ新規開店 ▶ ${pick(AREAS)}・${pick(Object.keys(GENRES))}`, rnd(7, 11));
+  return set(a, "work", "抽出中", `Uber Eats 未掲載を抽出 ▶ ${pick(AREAS)}・${pick(Object.keys(GENRES))}`, rnd(7, 10));
 }
 const MK_JOBS = [
   a => ["Meta広告の入稿・CPA確認", () => {}],
-  a => ["LPの流入元を分析", () => {}],
-  a => ["反響リードを取り込み", () => { const n = ri(2, 5); for (let i = 0; i < n; i++) pool.unshift(makeLead(true)); a.calls += n; pulse(a.el, deptOf(pick(["a", "b"])).head, "var(--orange)"); log(`${a.name} が反響リード ${n}件を優先リストへ`, "kn"); }],
-  a => ["アポ率の高い一言目を分析", () => { a.conn++; touch("hooks", 1); log(`${a.name} が hooks.md に一言目を追加`, "kn"); }],
-  a => ["NG理由から言い回しを整理", () => { a.conn++; touch("ngwords", 1); log(`${a.name} が ng-words.md を更新`, "kn"); }]
+  a => ["反響リードを取り込み", () => { const n = ri(2, 4); for (let i = 0; i < n; i++) pool.unshift(makeLead(true)); a.c1 += n; pulse(a.el, deptOf(pick(["a", "b"])).head, "var(--orange)"); log(`${a.name} が反響リード ${n}件を優先リストへ`, "kn"); }],
+  a => ["返信率の高い一言目を分析", () => { a.c2++; touch("s-hooks", 1); log(`${a.name} が sales/hooks.md に一言目を追加`, "kn"); }],
+  a => ["フォームと DM の返信率を比較", () => {}],
+  a => ["差し戻し理由から言い回しを整理", () => { a.c2++; touch("s-ng", 1); log(`${a.name} が sales/ng-words.md を更新`, "kn"); }]
 ];
 function mkNext(a) {
   if (a.job) { a.job(); a.job = null; }
@@ -431,32 +486,137 @@ function mkNext(a) {
   const [label, fn] = MK_JOBS[a.ji](a); a.job = fn;
   return set(a, "work", "作業中", label, rnd(6, 10));
 }
-const AD_STEPS = ["案件票を作成", "日程確定メールを作成", "出店準備の案内を送付"];
+const AD_STEPS = ["返信を読む", "返事の案と日程2択を作成", "案件票を作成"];
 function adNext(a) {
   if (a.cur) {
+    const r = a.cur;
     a.step++;
     if (a.step >= AD_STEPS.length) {
-      a.cur.status = "完了"; a.calls++; S.done++;
-      pulse(a.el, center.el, "var(--green)");
-      log(`${a.name} が処理完了：${a.cur.shop}（${a.cur.date}）`, "ok");
-      a.cur = null; renderAppts();
-    } else return set(a, "work", "処理中", `${AD_STEPS[a.step]} ▶ ${a.cur.shop}`, rnd(3, 4.5));
+      if (r.status !== "見送り") {
+        r.status = "アポ"; a.c2++; S.appts++;
+        pulse(a.el, center.el, "var(--gold)");
+        log(`アポ確定：${r.shop}（${r.area}）${r.date}　AP ${r.ap}・事務 ${a.name}`, "win");
+      }
+      a.cur = null; renderReplies();
+    } else {
+      if (a.step === 2) {
+        if (Math.random() < 0.45) { r.status = "日程確定"; r.date = apptDate(); }
+        else { r.status = "見送り"; r.memo = pick(NG_REPLY); log(`${r.shop} は見送り（${r.memo}）→ お礼の返事案を作成`, "ng"); }
+        renderReplies();
+      }
+      return set(a, "work", r.status === "見送り" ? "返事作成" : "処理中", `${r.status === "見送り" ? "お礼の返事を作成" : AD_STEPS[a.step]} ▶ ${r.shop}`, rnd(3, 4.5));
+    }
   }
-  if (caseQueue.length) {
-    a.cur = caseQueue.shift(); a.step = 0; a.cur.status = "事務処理中"; renderAppts();
-    return set(a, "work", "処理中", `${AD_STEPS[0]} ▶ ${a.cur.shop}`, rnd(3, 4.5));
+  if (replyQ.length) {
+    a.cur = replyQ.shift(); a.step = 0; a.c1++; a.cur.status = "返事作成中"; renderReplies();
+    return set(a, "work", "処理中", `${AD_STEPS[0]} ▶ ${a.cur.shop}`, rnd(2.5, 3.5));
   }
-  return set(a, "idle", "待機", "処理待ちなし・前日分の確認", rnd(2, 4));
+  return set(a, "idle", "待機", "返信待ち・前日分の確認", rnd(2, 4));
+}
+
+// 人（送信・公開）
+function humanNext(a) {
+  if (a.cur) {
+    const c = a.cur; a.cur = null;
+    if (c.type === "send") {
+      a.c1++; S.sent++;
+      if (Math.random() < 0.12) pending.push({ at: T.t + rnd(15, 60), d: c.d });
+    } else {
+      c.art.status = "公開済"; c.art.pubAt = T.t; a.c2++; S.pub++;
+      promoQ.push(c.art); pulse(a.el, promoter.el, "var(--orange)");
+      log(`note に公開：「${c.art.title}」（${yen(c.art.price)}）`, "ok"); renderArts();
+    }
+  }
+  if (pubQ.length && (Math.random() < 0.4 || !sendQ.length)) {
+    const art = pubQ.shift(); a.cur = { type: "pub", art };
+    return set(a, "send", "公開中", `note に公開 ▶ ${art.title}`, rnd(4, 6));
+  }
+  if (sendQ.length) {
+    const d = sendQ.shift(); a.cur = { type: "send", d };
+    return set(a, "send", "送信中", `${d.lead.ch === "フォーム" ? "フォームを確認して送信" : "DM を貼り付けて送信"} ▶ ${d.lead.shop}`, rnd(1.6, 2.6));
+  }
+  return set(a, "idle", "待機", "送信・公開の待ちなし", 1.5);
+}
+function checkReplies() {
+  for (let i = pending.length - 1; i >= 0; i--) {
+    if (pending[i].at > T.t) continue;
+    const d = pending.splice(i, 1)[0].d;
+    const r = { id: ++seq, shop: d.lead.shop, area: d.lead.area, ch: d.lead.ch, ap: d.ap.name, at: now(), status: "返信あり" };
+    S.replies++; d.ap.c3++; replies.unshift(r); replyQ.push(r);
+    pulse(human.el, deptOf("ad").head, "var(--gold)");
+    log(`返信あり：${r.shop}（${r.ch}）← AP ${r.ap} の文面`, "win");
+    renderReplies();
+  }
+}
+
+// note 販売部
+function rsNext(a) {
+  if (a.state === "work" && a.idea) { ideas.push(a.idea); a.c1++; touch("n-templates"); pulse(a.el, editor.el, "var(--cyan)"); log(`${a.name} が企画を追加：「${a.idea.title}」`, "kn"); a.idea = null; }
+  if (ideas.length > 4) return set(a, "work", "調査中", "既存の有料記事の価格帯を確認", rnd(5, 7));
+  const title = pick(TITLES);
+  a.idea = { id: ++seq, title, status: "企画", sold: 0, price: 0 };
+  return set(a, "work", "調査中", `読者の悩みと売れ筋を調査 ▶ ${title.slice(0, 14)}…`, rnd(7, 10));
+}
+function edNext(a) {
+  if (a.state === "review" && a.cur) {
+    const art = a.cur; a.cur = null; a.c1++;
+    if (Math.random() < 0.85) { art.status = "公開待ち"; a.c2++; pubQ.push(art); pulse(a.el, human.el, "var(--amber)"); log(`${a.name} が校正OK：「${art.title}」→ 公開待ち`, "ok"); }
+    else { art.status = "差し戻し"; a.c3++; art.writer.queue.unshift(art); touch("n-mistakes", 3); log(`${a.name} が差し戻し：「${art.title}」（${pick(["数字が社長確認待ち", "無料部分が薄い", "誇大な表現がある"])}）`, "ng"); }
+    renderArts();
+  }
+  if (a.state === "work" && a.pickArt) {
+    const art = a.pickArt; a.pickArt = null;
+    const w = writers.slice().sort((x, y) => x.queue.length - y.queue.length)[0];
+    art.writer = w; art.status = "執筆"; w.queue.push(art); articles.unshift(art);
+    pulse(a.el, w.el, "var(--green)"); renderArts();
+  }
+  if (reviewQ.length) { a.cur = reviewQ.shift(); a.cur.status = "校正中"; touch("n-review"); renderArts(); return set(a, "review", "校正中", `review.md で校正 ▶ ${a.cur.title}`, rnd(4, 6)); }
+  if (ideas.length && writers.some(w => w.queue.length < 2)) {
+    const art = ideas.shift(); art.price = pick(PRICES); a.pickArt = art;
+    return set(a, "work", "企画決定", `価格 ${yen(art.price)}・担当を決める ▶ ${art.title}`, rnd(2.5, 3.5));
+  }
+  return set(a, "work", "作業中", pick(["公開済み記事の感想を読む", "次月の企画を検討", "無料部分の終わり方を見直す"]), rnd(4, 6));
+}
+function wrNext(a) {
+  if (a.state === "write" && a.cur) {
+    if (a.phase === "outline") { a.phase = "body"; touch("n-templates"); return set(a, "write", "執筆中", `本文を執筆 ▶ ${a.cur.title}`, rnd(9, 15)); }
+    const art = a.cur; a.cur = null; a.c1++; art.status = "校正待ち"; reviewQ.push(art);
+    pulse(a.el, editor.el, "var(--violet)"); renderArts();
+    return set(a, "wrap", "後処理", `drafts/${art.id}.md を提出`, 1.5);
+  }
+  if (a.queue.length) { a.cur = a.queue.shift(); a.phase = "outline"; return set(a, "write", "構成中", `構成と有料ラインを決める ▶ ${a.cur.title}`, rnd(3, 5)); }
+  return set(a, "idle", "待機", "企画待ち", 2);
+}
+function prNext(a) {
+  if (a.state === "work" && a.art) { a.c1 += 3; touch("n-hooks"); log(`${a.name} が Threads 投稿案を3本作成：「${a.art.title}」`, "kn"); a.art = null; }
+  if (promoQ.length) { a.art = promoQ.shift(); return set(a, "work", "作成中", `Threads 投稿案を作成 ▶ ${a.art.title}`, rnd(5, 7)); }
+  return set(a, "work", "確認中", "投稿の反応（表示・リンク）を確認", rnd(4, 7));
+}
+function anNext(a) {
+  if (a.state === "work" && a.job === "hooks") { touch("n-hooks", 1); log(`${a.name} が売れたタイトルを note/hooks.md に追加`, "kn"); }
+  a.job = null;
+  if (S.sold && Math.random() < 0.35) { a.job = "hooks"; return set(a, "work", "分析中", "売れた記事のタイトル・冒頭を分析", rnd(5, 7)); }
+  return set(a, "work", "集計中", "記事ごとの販売数・売上を集計", rnd(4, 6));
+}
+function salesTick() {
+  articles.filter(x => x.status === "公開済").forEach(art => {
+    if (Math.random() < 0.012 * speed) {
+      art.sold++; S.sold++; S.rev += art.price; analyst.c1++; analyst.c2 += art.price;
+      pulse(analyst.el, center.el, "var(--gold)");
+      log(`note が売れました：「${art.title}」${yen(art.price)}`, "win"); renderArts();
+    }
+  });
 }
 function centerNext(a) {
   if (a.state === "work" && a.label === "報告") { S.reports++; $("#owner-rl").textContent = `本日の報告 ${S.reports}件`; pulse(a.el, $("#c-owner"), "var(--cyan)"); }
   const r = Math.random();
-  if (r < 0.25) return set(a, "work", "報告", `社長へ報告：アポ ${S.appts}件・処理済 ${S.done}件`, 4);
-  if (r < 0.5) return set(a, "work", "配分中", `リストを割り振り ▶ A・Bチーム`, 5);
-  if (r < 0.7) return set(a, "work", "確認中", "mistakes.md を読んで CLAUDE.md を見直し", 5);
+  if (r < 0.25) return set(a, "work", "報告", `社長へ報告：アポ ${S.appts}件・note 売上 ${yen(S.rev)}`, 4);
+  if (r < 0.5) return set(a, "work", "配分中", "送り先を A・B チームに割り振り", 5);
+  if (r < 0.7) return set(a, "work", "確認中", "両部の mistakes.md を読んで CLAUDE.md を見直し", 5);
   return set(a, "work", "監視中", "全体の稼働を確認", rnd(4, 7));
 }
-const NEXT = { ap: apNext, sv: svNext, list: listNext, mk: mkNext, ad: adNext, center: centerNext };
+const NEXT = { ap: apNext, sv: svNext, list: listNext, mk: mkNext, ad: adNext, center: centerNext, human: humanNext, rs: rsNext, ed: edNext, wr: wrNext, pr: prNext, an: anNext };
+writers.forEach(w => w.queue = []);
 
 /* ── render ── */
 const fmt = s => { s = Math.max(0, Math.floor(s * DISPLAY_SCALE)); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); };
@@ -468,30 +628,32 @@ function renderAgent(a) {
   }
   q.tm.textContent = fmt(T.t - a.since);
   if (q.prog) q.prog.style.width = a.state === "idle" ? "0%" : Math.min(100, (T.t - a.since) / (a.until - a.since) * 100) + "%";
-  if (a.kind === "ap") { q.c1.textContent = a.calls; q.c2.textContent = a.conn; q.c3.textContent = a.appt; }
-  else if (a.kind === "sv") { q.c1.textContent = a.conn; q.c2.textContent = a.calls; q.c3.textContent = a.appt; }
-  else if (a.kind === "ad") q.c1.textContent = a.calls;
-  else if (a.kind === "list") { q.c1.textContent = a.calls; q.c2.textContent = a.rate ? a.rate + "%" : "-"; }
-  else if (a.kind === "mk") { q.c1.textContent = a.calls; q.c2.textContent = a.conn; }
+  const v = a.kind === "list" ? [a.c1, a.rate ? a.rate + "%" : "-"] : a.kind === "an" ? [a.c1, yen(a.c2)] : [a.c1, a.c2, a.c3];
+  q.n.forEach((el, i) => { if (el) el.textContent = v[i]; });
 }
 function renderKpis() {
-  const active = aps.filter(a => a.state !== "brk").length;
-  $("#k-active").textContent = active;
-  $("#k-calls").textContent = S.calls.toLocaleString();
-  $("#k-conn").textContent = S.conn;
-  $("#k-connr").textContent = (S.calls ? Math.round(S.conn / S.calls * 100) : 0) + "%";
+  $("#k-drafts").textContent = S.drafts;
+  $("#k-sent").textContent = S.sent;
+  $("#k-reply").textContent = S.replies;
+  $("#k-replyr").textContent = (S.sent ? (S.replies / S.sent * 100).toFixed(1) : 0) + "%";
   $("#k-appt").textContent = S.appts;
-  $("#k-apptr").textContent = "対通話 " + (S.conn ? (S.appts / S.conn * 100).toFixed(1) : 0) + "%";
   $("#k-pool").textContent = pool.length;
-  $("#k-case").textContent = caseQueue.length + agents.filter(a => a.kind === "ad" && a.cur).length;
-  $("#k-done").textContent = "/ " + S.done;
+  $("#k-pub").textContent = S.pub;
+  $("#k-sold").textContent = S.sold;
+  $("#k-rev").textContent = yen(S.rev);
+  $("#q-send").textContent = sendQ.length;
+  $("#q-pub").textContent = pubQ.length;
   DEPTS.forEach(d => { d.cnt.textContent = byDept(d.id).filter(a => !["idle", "brk"].includes(a.state)).length; });
 }
-const CHIP = { "SV確認待ち": "c-wait", "SV確認中": "c-sv", "事務待ち": "c-wait", "事務処理中": "c-ad", "完了": "c-ok", "差し戻し": "c-ng" };
-function renderAppts() {
-  const ul = $("#appts");
-  ul.innerHTML = apptList.slice(0, 30).map(x => `<li><span class="sh">${x.shop}<span class="mt">・${x.area}</span></span><span class="chip ${CHIP[x.status] || ""}">${x.status}</span><span class="mt num">${x.at} 獲得 ${x.ap}（SV ${x.sv}）→ 訪問 ${x.date}</span></li>`).join("");
-  $("#appt-sub").textContent = `本日 ${apptList.length}件・完了 ${apptList.filter(x => x.status === "完了").length}件`;
+const CHIP = { "返信あり": "c-wait", "返事作成中": "c-ad", "日程確定": "c-sv", "アポ": "c-ok", "見送り": "c-ng",
+  "企画": "c-wait", "執筆": "c-ad", "校正待ち": "c-sv", "校正中": "c-sv", "差し戻し": "c-ng", "公開待ち": "c-wait", "公開済": "c-ok" };
+function renderReplies() {
+  $("#appts").innerHTML = replies.slice(0, 30).map(x => `<li><span class="sh">${x.shop}<span class="mt">・${x.area}</span></span><span class="chip ${CHIP[x.status] || ""}">${x.status}</span><span class="mt num">${x.at} 返信（${x.ch}）AP ${x.ap}${x.date ? " → 説明 " + x.date : ""}${x.memo ? " ／ " + x.memo : ""}</span></li>`).join("");
+  $("#appt-sub").textContent = `本日 返信 ${replies.length}件・アポ ${replies.filter(x => x.status === "アポ").length}件`;
+}
+function renderArts() {
+  $("#arts").innerHTML = articles.slice(0, 20).map(x => `<li><span class="sh">${x.title}</span><span class="chip ${CHIP[x.status] || ""}">${x.status}</span><span class="mt num">${yen(x.price)}・${x.writer ? x.writer.name : "-"}${x.status === "公開済" ? `・販売 ${x.sold}部（${yen(x.sold * x.price)}）` : ""}</span></li>`).join("");
+  $("#art-sub").textContent = `公開 ${articles.filter(x => x.status === "公開済").length}本・販売 ${S.sold}部`;
 }
 function log(t, k) {
   const ul = $("#log"); const li = document.createElement("li");
@@ -501,15 +663,14 @@ function log(t, k) {
 }
 
 /* ── sparkline ── */
-const buckets = Array.from({ length: 40 }, () => ri(3, 9));
-let bIdx = 0;
+const buckets = Array.from({ length: 40 }, () => ri(2, 7));
 function bucketAdd() { buckets[buckets.length - 1]++; }
 function renderSpark() {
   const max = Math.max(6, ...buckets), W = 170, H = 30, step = W / (buckets.length - 1);
   const pts = buckets.map((v, i) => [i * step, H - 3 - (v / max) * (H - 6)]);
   const line = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
   const last = pts[pts.length - 1];
-  $("#spark").innerHTML = `<path d="${line} L${W} ${H} L0 ${H} Z" fill="var(--cyan)" fill-opacity=".12"/><path d="${line}" fill="none" stroke="var(--cyan)" stroke-width="1.3"/><circle cx="${last[0] - 2}" cy="${last[1]}" r="2.4" fill="var(--cyan)"/>`;
+  $("#spark").innerHTML = `<path d="${line} L${W} ${H} L0 ${H} Z" fill="var(--green)" fill-opacity=".12"/><path d="${line}" fill="none" stroke="var(--green)" stroke-width="1.3"/><circle cx="${last[0] - 2}" cy="${last[1]}" r="2.4" fill="var(--green)"/>`;
 }
 
 /* ── wires ── */
@@ -524,14 +685,15 @@ function curve(a, b) {
   return `M${x1} ${y1} C${x1} ${my} ${x2} ${my} ${x2} ${y2}`;
 }
 function drawTree() {
-  const g = $("#g-tree"); let h = `<path class="w-tree" d="${curve($("#c-owner"), center.el)}"/>`;
-  DEPTS.forEach(d => { h += `<path class="w-tree" d="${curve(center.el, d.head)}"/>`; });
-  g.innerHTML = h;
+  let h = `<path class="w-tree" d="${curve($("#c-owner"), center.el)}"/>`;
+  SALES.forEach(d => { h += `<path class="w-tree" d="${curve(center.el, d.head)}"/>`; });
+  NOTE.forEach(d => { h += `<path class="w-tree" d="${curve(center.el, d.head)}" stroke-dasharray="3 5"/>`; });
+  $("#g-tree").innerHTML = h;
 }
 function drawMon() {
-  const g = $("#g-mon"); let h = "";
+  let h = "";
   [svA, svB].forEach(s => { if (s.state === "monitor" && s.mon) h += `<path class="w-mon" d="${curve(s.el, s.mon.el)}"/>`; });
-  g.innerHTML = h;
+  $("#g-mon").innerHTML = h;
 }
 function pulse(from, to, color) {
   if (!from || !to || document.hidden) return;
@@ -554,12 +716,12 @@ function step() {
   if (paused) return;
   T.t += 0.2 * speed;
   agents.forEach(a => { if (T.t >= a.until) NEXT[a.kind](a); });
+  checkReplies(); salesTick();
   agents.forEach(renderAgent);
   renderKpis(); drawMon();
 }
 function tickClock() { $("#clock").textContent = new Date().toTimeString().slice(0, 8); }
 setInterval(() => { if (paused) return; buckets.shift(); buckets.push(0); renderSpark(); }, 5000);
-
 $("#pause").addEventListener("click", e => {
   paused = !paused; e.currentTarget.textContent = paused ? "動かす" : "動きを止める";
   $("#app").classList.toggle("paused", paused);
@@ -570,36 +732,43 @@ $("#speed").addEventListener("click", e => {
 
 /* ── seed: 営業日の途中から始める（例示データ） ── */
 function seed() {
-  for (let i = 0; i < 170; i++) pool.push(makeLead(i < 4));
-  const hour = new Date().getHours(), f = Math.max(0.15, Math.min(1, (hour - 9) / 9));
+  for (let i = 0; i < 150; i++) pool.push(makeLead(i < 4));
+  const hour = new Date().getHours(), f = Math.max(0.2, Math.min(1, (hour - 9) / 9));
   aps.forEach(a => {
-    a.calls = Math.round(ri(40, 70) * f); a.conn = Math.round(a.calls * rnd(0.26, 0.36)); a.appt = Math.round(a.conn * (0.06 + a.lv * 0.008));
-    S.calls += a.calls; S.conn += a.conn; S.appts += a.appt;
+    a.c1 = Math.round(ri(18, 32) * f); a.c2 = Math.round(a.c1 * rnd(0.82, 0.92)); a.c3 = Math.round(a.c2 * 0.1 + Math.random());
+    S.drafts += a.c1; S.replies += a.c3;
   });
-  const past = aps.flatMap(a => Array.from({ length: a.appt }, () => a));
-  past.forEach((a, i) => {
-    const l = makeLead(false), d = new Date(Date.now() - (past.length - i) * 9 * 60000);
-    apptList.unshift({ id: ++seq, shop: l.shop, area: l.area, ap: a.name, sv: a.sv.name, date: apptDate(), at: d.toTimeString().slice(0, 5), status: i < past.length - 2 ? (Math.random() < 0.08 ? "差し戻し" : "完了") : "事務待ち" });
+  S.sent = aps.reduce((n, a) => n + a.c2, 0) - ri(3, 6); human.c1 = S.sent;
+  [svA, svB].forEach(s => { const t = aps.filter(x => x.sv === s); s.c1 = t.reduce((n, a) => n + a.c1, 0); s.c2 = t.reduce((n, a) => n + a.c2, 0); s.c3 = s.c1 - s.c2; });
+  aps.forEach(a => { for (let i = 0; i < a.c3; i++) { const l = makeLead(false); replies.push({ id: ++seq, shop: l.shop, area: l.area, ch: l.ch, ap: a.name, at: new Date(Date.now() - ri(10, 300) * 60000).toTimeString().slice(0, 5), status: "見送り", memo: pick(NG_REPLY) }); } });
+  replies.sort((x, y) => y.at.localeCompare(x.at));
+  replies.forEach((r, i) => { if (i % 2 === 0) { r.status = "アポ"; r.date = apptDate(); r.memo = ""; S.appts++; } });
+  replies.slice(0, 2).forEach(r => { r.status = "返信あり"; r.date = ""; r.memo = ""; replyQ.push(r); });
+  S.appts = replies.filter(r => r.status === "アポ").length;
+  agents.filter(a => a.kind === "ad").forEach((a, i) => { a.c1 = Math.round(S.replies / 3); a.c2 = Math.round(S.appts / 3); });
+  lister.c1 = ri(160, 240); lister.rate = ri(36, 52); mk.c1 = ri(5, 12); mk.c2 = ri(2, 5);
+  for (let i = 0; i < 6; i++) sendQ.push({ lead: makeLead(false), ap: pick(aps) });
+  // note：公開済3本・執筆中など
+  const t = TITLES.slice().sort(() => Math.random() - .5);
+  [["公開済", 0], ["公開済", 1], ["公開済", 2], ["公開待ち", 0], ["校正待ち", 1], ["執筆", 2]].forEach(([st, w], i) => {
+    const art = { id: ++seq, title: t[i], price: pick(PRICES), status: st, writer: writers[w], sold: st === "公開済" ? ri(1, 9) : 0 };
+    articles.push(art);
+    if (st === "公開済") { S.pub++; S.sold += art.sold; S.rev += art.sold * art.price; }
+    if (st === "公開待ち") pubQ.push(art);
+    if (st === "校正待ち") reviewQ.push(art);
+    if (st === "執筆") writers[w].queue.push(art);
   });
-  apptList.filter(x => x.status === "事務待ち").forEach(x => caseQueue.push(x));
-  S.done = apptList.filter(x => x.status === "完了").length;
-  agents.filter(a => a.kind === "ad").forEach((a, i) => a.calls = Math.round(S.done / 3) + (i === 0 ? S.done % 3 : 0));
-  [svA, svB].forEach(s => { const mine = apptList.filter(x => x.sv === s.name); s.conn = mine.filter(x => x.status !== "事務待ち").length; s.appt = mine.filter(x => x.status === "差し戻し").length; s.calls = s.conn - s.appt; });
-  lister.calls = ri(180, 260); lister.rate = ri(58, 74); mk.calls = ri(6, 14); mk.conn = ri(2, 5);
+  ideas.push({ id: ++seq, title: t[6], status: "企画", sold: 0, price: 0 });
+  human.c2 = S.pub; analyst.c1 = S.sold; analyst.c2 = S.rev; editor.c1 = S.pub + 2; editor.c2 = S.pub + 1; researcher.c1 = 7;
+  writers.forEach(w => w.c1 = articles.filter(x => x.writer === w).length);
   S.reports = Math.max(1, Math.floor(f * 6)); $("#owner-rl").textContent = `本日の報告 ${S.reports}件`;
-  // 画面を開いた瞬間から動いている状態にする
   agents.forEach(a => NEXT[a.kind](a));
-  aps.forEach((a, i) => {
-    const s = i % 4;
-    if (s === 1 || s === 2) { a.lead = pool.shift(); a.calls++; S.calls++; a.conn++; S.conn++; set(a, "talk", "通話中", `通話 ▶ ${a.lead.shop}（${a.lead.genre}）`, rnd(2, 12)); }
-    else if (s === 3) set(a, "wrap", "後処理", `見込み → 資料送付・再コール予約`, rnd(1, 3));
-    a.since = T.t - rnd(0.5, 6);
-  });
-  apptList.slice(0, 12).reverse().forEach(x => log(`${x.ap} がアポ獲得：${x.shop}（${x.area}）`, "win"));
-  log("ソラ（センター長）が本日のリストを A・B チームに配分", "kn");
+  aps.forEach((a, i) => { if (i % 3 === 0) { a.lead = pool.shift(); set(a, "write", "作成中", `${a.lead.ch === "フォーム" ? "フォーム文面" : "DM文面"}を作成 ▶ ${a.lead.shop}`, rnd(2, 7)); } a.since = T.t - rnd(0.5, 5); });
+  replies.slice(0, 10).reverse().forEach(x => log(`返信あり：${x.shop}（${x.ch}）← AP ${x.ap}`, "win"));
+  log("ソラ（センター長）が本日の送り先を A・B チームに配分", "kn");
 }
 
-renderFiles(); buildBoard(); seed(); renderAppts(); renderSpark();
+renderFiles(); buildBoard(); seed(); renderReplies(); renderArts(); renderSpark();
 agents.forEach(renderAgent); renderKpis(); tickClock();
 requestAnimationFrame(() => { drawTree(); drawMon(); });
 addEventListener("resize", () => requestAnimationFrame(drawTree));

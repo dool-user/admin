@@ -38,6 +38,7 @@ with tab_search:
         check = st.checkbox('Uber Eats で掲載の有無を確認する', value=True)
         include_found = st.checkbox('Uber Eats 掲載ありの店も表示する', value=False)
         headed = st.checkbox('確認中のブラウザを表示する（動作確認用）', value=False)
+        contacts = st.checkbox('問い合わせフォーム・Instagram を探す（DM・フォーム営業用）', value=True)
 
     if source in ('google', 'both'):
         st.caption('Googleマップは Google Places API を使います（環境変数 GOOGLE_MAPS_API_KEY が必要・従量課金）。')
@@ -47,7 +48,7 @@ with tab_search:
         crit = Criteria(
             source=source, prefecture=pref_name, city=None if city_name == ALL else city_name,
             genre_large=None if large == ALL else large, genre_small=None if small == ALL else small,
-            phone=phone, limit=int(limit), check_uber=check, include_found=include_found, uber_headed=headed,
+            phone=phone, limit=int(limit), check_uber=check, include_found=include_found, uber_headed=headed, find_contacts=contacts,
             screenshot_dir=str(ROOT / 'output' / 'screenshots'),
         )
         logs = []

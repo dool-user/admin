@@ -33,6 +33,11 @@ class Shop:
     ubereats_status: str = UBER_SKIPPED
     ubereats_hit: str = ''      # 掲載ありと判定した Uber Eats 上の店名
     ubereats_url: str = ''
+    website: str = ''           # 店の公式サイト
+    instagram: str = ''         # Instagram アカウントのURL
+    form_url: str = ''          # 問い合わせフォームのURL
+    contact_ng: str = ''        # 「営業お断り」などの表記（あれば送らない）
+    channel: str = ''           # 送る手段：フォーム / Instagram DM / 空（送らない）
     fetched_at: str = field(default_factory=lambda: now_jst().strftime('%Y-%m-%d %H:%M'))
 
     @property
@@ -45,7 +50,8 @@ COLUMNS = [
     ('取得元', 'source'), ('店名', 'name'), ('ジャンル', 'genre'), ('都道府県', 'prefecture'), ('市区町村', 'city'),
     ('住所', 'address'), ('電話番号', 'phone'), ('オープン日', 'open_date'), ('評価', 'rating'),
     ('Uber Eats', 'ubereats_status'), ('Uber Eats 該当店', 'ubereats_hit'), ('Uber Eats URL', 'ubereats_url'),
-    ('URL', 'url'), ('URL（もう一方）', 'other_url'), ('ID', 'source_id'), ('取得日時', 'fetched_at'),
+    ('送る手段', 'channel'), ('問い合わせフォーム', 'form_url'), ('Instagram', 'instagram'), ('営業お断り表記', 'contact_ng'),
+    ('公式サイト', 'website'), ('URL', 'url'), ('URL（もう一方）', 'other_url'), ('ID', 'source_id'), ('取得日時', 'fetched_at'),
 ]
 
 

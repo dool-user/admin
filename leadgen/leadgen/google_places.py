@@ -3,7 +3,7 @@
 Googleマップの画面を自動操作して抜き出すのは Google の利用規約で禁止されているため、公式 API を使います。
   https://developers.google.com/maps/documentation/places/web-service/text-search
 - 1回の検索で最大20件 × 3ページ（計60件）まで
-- 電話番号（nationalPhoneNumber）を取るため、料金は Text Search Enterprise の区分になります
+- 電話番号（nationalPhoneNumber）・公式サイト（websiteUri）を取るため、料金は Text Search Enterprise の区分になります
 - 環境変数 GOOGLE_MAPS_API_KEY に API キーを設定してください
 """
 import os
@@ -17,7 +17,7 @@ ENDPOINT = 'https://places.googleapis.com/v1/places:searchText'
 FIELDS = ','.join([
     'places.id', 'places.displayName', 'places.formattedAddress', 'places.nationalPhoneNumber',
     'places.location', 'places.googleMapsUri', 'places.primaryTypeDisplayName', 'places.businessStatus',
-    'places.rating', 'nextPageToken',
+    'places.rating', 'places.websiteUri', 'nextPageToken',
 ])
 
 
@@ -39,6 +39,7 @@ def to_shop(p):
         lng=(p.get('location') or {}).get('longitude'),
         rating=str(p.get('rating', '')),
         source_id=p.get('id', ''),
+        website=p.get('websiteUri', ''),
     )
 
 

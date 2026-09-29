@@ -74,6 +74,10 @@ def run_daily(config_path, log=print, stop=lambda: False, dry_run=False):
     if not cfg.get('include_found', False):
         shops = [s for s in shops if s.ubereats_status != UBER_FOUND]
 
+    if cfg.get('find_contacts', False) and shops:
+        from .contacts import fill_contacts
+        fill_contacts(shops, log=log, stop=stop)
+
     out = write_csv(shops, cfg['output_dir'] / f'tabelog_new_{now_jst():%Y%m%d}.csv')
     log(f'出力: {out}（{len(shops)}件）' + ('　※初回のため、一覧に出ている店をまとめて取得しました' if first_run else ''))
     if not dry_run:

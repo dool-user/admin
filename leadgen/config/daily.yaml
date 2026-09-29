@@ -31,3 +31,6 @@ include_found: false
 # 出力先と、取得済みの店を覚えておくファイル
 output_dir: output
 state_file: state/tabelog_seen.json
+
+# 公式サイトから問い合わせフォーム・Instagram・「営業お断り」表記を探す（DM・フォーム営業用）
+find_contacts: true

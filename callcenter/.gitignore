@@ -1,0 +1,4 @@
+sender.yaml
+.browser/
+__pycache__/
+.pytest_cache/

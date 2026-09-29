@@ -29,6 +29,7 @@ class Criteria:
     tabelog_delay: float = 2.0
     uber_headed: bool = False
     screenshot_dir: str | None = None
+    find_contacts: bool = False     # True なら公式サイトから問い合わせフォーム・Instagram を探す
 
 
 def _match_genre(genre_text, items):
@@ -123,6 +124,7 @@ def merge(tabelog, google):
             hit.source = '両方'
             hit.other_url = g.url
             hit.phone = hit.phone or g.phone
+            hit.website = hit.website or g.website
             if hit.lat is None:
                 hit.lat, hit.lng = g.lat, g.lng
         else:
@@ -153,6 +155,9 @@ def run(c, log=print, stop=lambda: False):
         check_uber(shops, c, log, stop)
     if not c.include_found:
         shops = [s for s in shops if s.ubereats_status != UBER_FOUND]
+    if c.find_contacts and shops:
+        from .contacts import fill_contacts
+        fill_contacts(shops, log=log, stop=stop)
     return shops
 
 
@@ -166,6 +171,17 @@ def write_csv(shops, path):
         for s in shops:
             w.writerow(to_row(s))
     return path
+
+
+def read_csv(path):
+    """write_csv で出力したCSV → [Shop]（列が足りない古いCSVも読める）"""
+    from .models import Shop
+    shops = []
+    with Path(path).open(encoding='utf-8-sig', newline='') as f:
+        for row in csv.DictReader(f):
+            d = {key: row.get(label, '') for label, key in COLUMNS}
+            shops.append(Shop(**d))
+    return shops
 
 
 def post_webhook(shops, title, url=None, log=print):
