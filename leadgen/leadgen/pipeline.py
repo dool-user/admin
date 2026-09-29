@@ -53,6 +53,9 @@ def collect_tabelog(c, log=print, stop=lambda: False):
     pref = master.prefecture(c.prefecture)
     city = master.city(pref, c.city) if c.city else None
     items = master.genre_items(c.genre_large, c.genre_small)
+    if items and all(g.get('google_only') for g in items):
+        log('食べログ: この業種は食べログにないため、Googleマップだけで探します')
+        return []
     client = TabelogClient(delay=c.tabelog_delay, log=log)
     # ジャンルURLがある小区分はそのURLで、ない場合は全ジャンルの一覧をジャンル表記で絞り込む
     slugs = [g['tabelog'] for g in items if g.get('tabelog')] if items else [None]

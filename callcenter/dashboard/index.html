@@ -139,6 +139,15 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
 .files .tip{font-size:10.5px;color:var(--muted);margin:6px 2px 0}
 
 .appts{list-style:none;margin:0;padding:0;display:grid;gap:5px;max-height:260px;overflow:auto}
+.accs{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.accs li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:2px 8px;align-items:center;font-size:11px}
+.accs .id{font:700 10.5px var(--f-num);color:var(--muted)}
+.accs .gn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.accs .yen{font:700 10.5px var(--f-num);text-align:right}
+.accs .bar{grid-column:2/4;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.accs .bar b{display:block;height:100%;background:var(--gold);min-width:2px}
+.accs .off{color:var(--dim)}
+.accs .off .bar b{background:var(--dim)}
 .queue{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .queue div{border:1px dashed color-mix(in srgb,var(--amber) 55%,transparent);border-radius:6px;padding:6px 9px}
 .queue small{display:block;color:var(--muted);font-size:10px}
@@ -182,9 +191,10 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
       <div class="kpi"><small>送れる店の残り</small><b id="k-pool">0</b><em>件</em></div>
     </div>
     <div class="kgroup" style="--c:var(--orange)"><span>note</span>
+      <div class="kpi"><small>今月の売上（10アカウント）</small><b id="k-month" class="g">¥0</b><em>/ ¥1,000万</em></div>
       <div class="kpi"><small>公開済の記事</small><b id="k-pub" class="w">0</b><em>本</em></div>
       <div class="kpi"><small>本日の販売</small><b id="k-sold">0</b><em>部</em></div>
-      <div class="kpi"><small>本日の売上</small><b id="k-rev" class="g">¥0</b></div>
+      <div class="kpi"><small>本日の売上</small><b id="k-rev" class="w">¥0</b></div>
     </div>
     <div class="spark"><span>直近の文面作成数</span><svg id="spark" viewBox="0 0 170 30" preserveAspectRatio="none" aria-hidden="true"></svg></div>
   </header>
@@ -210,10 +220,10 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
         </div>
       </div>
 
-      <div class="div-h" style="--c:var(--green)"><span class="tag">SALES</span>営業部（DM・フォーム）<small>Uber Eats 未出店の飲食店に、出店説明のアポを取る</small></div>
+      <div class="div-h" style="--c:var(--green)"><span class="tag">SALES</span>営業部（DM・フォーム）<small>店舗に MEO対策ツールを案内し、15分のデモのアポを取る</small></div>
       <div class="depts" id="depts-sales"></div>
 
-      <div class="div-h" style="--c:var(--orange)"><span class="tag">NOTE</span>note 販売部<small>有料記事を企画・執筆し、Threads などで集客して売る</small></div>
+      <div class="div-h" style="--c:var(--orange)"><span class="tag">NOTE</span>note 販売部<small>10アカウントで有料記事を売る・目標 1アカウント単月100万円</small></div>
       <div class="depts nt" id="depts-note"></div>
 
       <div class="legend">
@@ -238,6 +248,10 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline
       <section class="pn">
         <h2>返信・アポ台帳 <small id="appt-sub">本日</small></h2>
         <ul class="appts" id="appts"></ul>
+      </section>
+      <section class="pn">
+        <h2>note アカウント <small>今月の売上 ／ 目標 ¥100万</small></h2>
+        <ul class="accs" id="accs"></ul>
       </section>
       <section class="pn">
         <h2>note 記事台帳 <small id="art-sub"></small></h2>
@@ -270,18 +284,26 @@ const DISPLAY_SCALE = 10; // 画面の経過時間表示はデモ時間×10
 const GENRES = {
   "ラーメン": ["麺屋", "らーめん", "中華そば"], "焼肉": ["焼肉", "炭火焼肉"], "カフェ": ["カフェ", "喫茶"],
   "中華": ["中華料理", "餃子の"], "居酒屋": ["酒場", "居酒屋"], "カレー": ["カレー", "スパイス食堂"],
-  "寿司": ["鮨", "寿司処"], "ベーカリー": ["ベーカリー", "パン工房"], "韓国料理": ["韓国料理", "オモニの台所"], "定食": ["食堂", "定食屋"]
+  "寿司": ["鮨", "寿司処"], "美容室": ["hair salon", "美容室"], "整骨院": ["整骨院", "はり灸整骨院"], "歯科": ["歯科", "デンタルクリニック"],
+  "ネイル": ["ネイルサロン"], "学習塾": ["個別指導塾", "学習塾"]
 };
 const SFX = ["こうき", "まるやま", "一燈", "はるか", "大吉", "さくら", "みなと", "たけだ", "ひだまり", "源", "つばめ", "とらや", "こはく", "あおば", "ふくろう", "なごみ"];
 const AREAS = ["渋谷区", "新宿区", "世田谷区", "目黒区", "品川区", "豊島区", "杉並区", "台東区", "横浜市中区", "川崎市中原区", "さいたま市大宮区", "船橋市", "千葉市中央区", "藤沢市"];
-const NG_REPLY = ["今は検討していない", "人手が足りない", "手数料が気になる", "本部の確認が必要"];
-const TITLES = [
-  "Claude Code で営業チームを組んだ手順", "食べログ新規開店リストを毎朝自動で作る方法", "Uber Eats 未掲載店だけを抽出するツールの作り方",
-  "問い合わせフォーム営業で返信をもらう文面の型", "CLAUDE.md と review.md だけで始める AI 組織", "mistakes.md で AI の失敗を資産にする",
-  "Meta 広告と LP の計測を1日で整える", "Instagram DM で飲食店に嫌われない書き方", "AI に営業文面を書かせるときの NG ワード集",
-  "SV 1人で AP 5人を回す点検リスト"
+const NG_REPLY = ["今は検討していない", "他社の MEO を契約中", "費用が合わない", "本部の確認が必要"];
+const ACCOUNTS = [
+  { id: "A01", g: "AI活用（Claude Code）", tier: "A", on: true }, { id: "A02", g: "AI×営業（DM・フォーム）", tier: "A", on: true },
+  { id: "A03", g: "MEO・Googleマップ集客", tier: "A", on: true }, { id: "A04", g: "SNS運用（Threads）", tier: "B", on: false, st: "2か月目" },
+  { id: "A05", g: "副業×AI", tier: "B", on: false, st: "2か月目" }, { id: "A06", g: "LP・広告運用", tier: "B", on: false, st: "3か月目" },
+  { id: "A07", g: "デザイン・動画", tier: "B", on: false, st: "作り手待ち" }, { id: "A08", g: "育児・教育", tier: "C", on: false, st: "監修者待ち" },
+  { id: "A09", g: "恋愛・人間関係", tier: "C", on: false, st: "監修者待ち" }, { id: "A10", g: "お金・家計", tier: "C", on: false, st: "監修者待ち" }
 ];
-const PRICES = [480, 980, 1480, 1980, 2980];
+ACCOUNTS.forEach(x => { x.month = 0; x.today = 0; });
+const TITLES = [
+  ["A01", "Claude Code で17人の営業チームを組んだ手順"], ["A01", "CLAUDE.md と review.md だけで始める AI への仕事の渡し方"], ["A01", "mistakes.md で AI の失敗を資産にする"],
+  ["A02", "問い合わせフォーム営業で返信をもらう文面の型"], ["A02", "SV 1人で AP 5人を回す点検の仕組み"], ["A02", "Instagram DM で店舗に嫌われない書き方"],
+  ["A03", "Googleマップで見つけてもらうために今日できること10個"], ["A03", "やってはいけない口コミ集めと安全な頼み方"], ["A03", "MEO 業者に頼む前に確認する7つのこと"]
+];
+const PRICES = [980, 1480, 1980, 2980, 4980];
 const WEEK = "日月火水木金土";
 let seq = 0;
 function makeLead(hot) {
@@ -425,7 +447,7 @@ function apNext(a) {
     default:
       if (!pool.length) return set(a, "idle", "待機", "リスト待ち", 2);
       a.lead = pool.shift();
-      return set(a, "dial", "下調べ", `${a.lead.ch === "フォーム" ? "HP・フォーム" : "Instagram"}を確認 ▶ ${a.lead.shop}（${a.lead.area}）`, rnd(2, 4));
+      return set(a, "dial", "下調べ", `口コミ数・${a.lead.ch === "フォーム" ? "フォーム" : "Instagram"}を確認 ▶ ${a.lead.shop}（${a.lead.area}）`, rnd(2, 4));
   }
 }
 function svNext(a) {
@@ -471,7 +493,7 @@ function listNext(a) {
   }
   if (pool.length > 200) return set(a, "work", "作業中", "送信結果をリストに反映", rnd(5, 8));
   a.phase = "extract";
-  return set(a, "work", "抽出中", `Uber Eats 未掲載を抽出 ▶ ${pick(AREAS)}・${pick(Object.keys(GENRES))}`, rnd(7, 10));
+  return set(a, "work", "抽出中", `Googleマップで口コミの少ない店舗を抽出 ▶ ${pick(AREAS)}・${pick(Object.keys(GENRES))}`, rnd(7, 10));
 }
 const MK_JOBS = [
   a => ["Meta広告の入稿・CPA確認", () => {}],
@@ -486,7 +508,7 @@ function mkNext(a) {
   const [label, fn] = MK_JOBS[a.ji](a); a.job = fn;
   return set(a, "work", "作業中", label, rnd(6, 10));
 }
-const AD_STEPS = ["返信を読む", "返事の案と日程2択を作成", "案件票を作成"];
+const AD_STEPS = ["返信を読む", "返事の案とデモ日程2択を作成", "案件票・デモ案内を作成"];
 function adNext(a) {
   if (a.cur) {
     const r = a.cur;
@@ -553,9 +575,9 @@ function checkReplies() {
 function rsNext(a) {
   if (a.state === "work" && a.idea) { ideas.push(a.idea); a.c1++; touch("n-templates"); pulse(a.el, editor.el, "var(--cyan)"); log(`${a.name} が企画を追加：「${a.idea.title}」`, "kn"); a.idea = null; }
   if (ideas.length > 4) return set(a, "work", "調査中", "既存の有料記事の価格帯を確認", rnd(5, 7));
-  const title = pick(TITLES);
-  a.idea = { id: ++seq, title, status: "企画", sold: 0, price: 0 };
-  return set(a, "work", "調査中", `読者の悩みと売れ筋を調査 ▶ ${title.slice(0, 14)}…`, rnd(7, 10));
+  const [acc, title] = pick(TITLES);
+  a.idea = { id: ++seq, acc, title, status: "企画", sold: 0, price: 0 };
+  return set(a, "work", "調査中", `${acc} の売れ筋と読者の悩みを調査 ▶ ${title.slice(0, 12)}…`, rnd(7, 10));
 }
 function edNext(a) {
   if (a.state === "review" && a.cur) {
@@ -602,15 +624,16 @@ function salesTick() {
   articles.filter(x => x.status === "公開済").forEach(art => {
     if (Math.random() < 0.012 * speed) {
       art.sold++; S.sold++; S.rev += art.price; analyst.c1++; analyst.c2 += art.price;
+      const acc = ACCOUNTS.find(x => x.id === art.acc); if (acc) { acc.month += art.price; acc.today += art.price; renderAccs(); }
       pulse(analyst.el, center.el, "var(--gold)");
-      log(`note が売れました：「${art.title}」${yen(art.price)}`, "win"); renderArts();
+      log(`note が売れました（${art.acc}）：「${art.title}」${yen(art.price)}`, "win"); renderArts();
     }
   });
 }
 function centerNext(a) {
   if (a.state === "work" && a.label === "報告") { S.reports++; $("#owner-rl").textContent = `本日の報告 ${S.reports}件`; pulse(a.el, $("#c-owner"), "var(--cyan)"); }
   const r = Math.random();
-  if (r < 0.25) return set(a, "work", "報告", `社長へ報告：アポ ${S.appts}件・note 売上 ${yen(S.rev)}`, 4);
+  if (r < 0.25) return set(a, "work", "報告", `社長へ報告：デモのアポ ${S.appts}件・note 今月 ${yen(ACCOUNTS.reduce((n, x) => n + x.month, 0))}`, 4);
   if (r < 0.5) return set(a, "work", "配分中", "送り先を A・B チームに割り振り", 5);
   if (r < 0.7) return set(a, "work", "確認中", "両部の mistakes.md を読んで CLAUDE.md を見直し", 5);
   return set(a, "work", "監視中", "全体の稼働を確認", rnd(4, 7));
@@ -638,6 +661,7 @@ function renderKpis() {
   $("#k-replyr").textContent = (S.sent ? (S.replies / S.sent * 100).toFixed(1) : 0) + "%";
   $("#k-appt").textContent = S.appts;
   $("#k-pool").textContent = pool.length;
+  $("#k-month").textContent = yen(ACCOUNTS.reduce((n, x) => n + x.month, 0));
   $("#k-pub").textContent = S.pub;
   $("#k-sold").textContent = S.sold;
   $("#k-rev").textContent = yen(S.rev);
@@ -651,8 +675,11 @@ function renderReplies() {
   $("#appts").innerHTML = replies.slice(0, 30).map(x => `<li><span class="sh">${x.shop}<span class="mt">・${x.area}</span></span><span class="chip ${CHIP[x.status] || ""}">${x.status}</span><span class="mt num">${x.at} 返信（${x.ch}）AP ${x.ap}${x.date ? " → 説明 " + x.date : ""}${x.memo ? " ／ " + x.memo : ""}</span></li>`).join("");
   $("#appt-sub").textContent = `本日 返信 ${replies.length}件・アポ ${replies.filter(x => x.status === "アポ").length}件`;
 }
+function renderAccs() {
+  $("#accs").innerHTML = ACCOUNTS.map(x => `<li class="${x.on ? "" : "off"}"><span class="id">${x.id}</span><span class="gn">${x.g}</span><span class="yen">${x.on ? yen(x.month) : x.st}</span><span class="bar"><b style="width:${Math.min(100, x.month / 10000)}%"></b></span></li>`).join("");
+}
 function renderArts() {
-  $("#arts").innerHTML = articles.slice(0, 20).map(x => `<li><span class="sh">${x.title}</span><span class="chip ${CHIP[x.status] || ""}">${x.status}</span><span class="mt num">${yen(x.price)}・${x.writer ? x.writer.name : "-"}${x.status === "公開済" ? `・販売 ${x.sold}部（${yen(x.sold * x.price)}）` : ""}</span></li>`).join("");
+  $("#arts").innerHTML = articles.slice(0, 20).map(x => `<li><span class="sh">${x.title}</span><span class="chip ${CHIP[x.status] || ""}">${x.status}</span><span class="mt num">${x.acc}・${yen(x.price)}・${x.writer ? x.writer.name : "-"}${x.status === "公開済" ? `・販売 ${x.sold}部（${yen(x.sold * x.price)}）` : ""}</span></li>`).join("");
   $("#art-sub").textContent = `公開 ${articles.filter(x => x.status === "公開済").length}本・販売 ${S.sold}部`;
 }
 function log(t, k) {
@@ -750,15 +777,17 @@ function seed() {
   for (let i = 0; i < 6; i++) sendQ.push({ lead: makeLead(false), ap: pick(aps) });
   // note：公開済3本・執筆中など
   const t = TITLES.slice().sort(() => Math.random() - .5);
+  // 今月のここまで（例）：立ち上げ1か月目を想定した小さな数字
+  ACCOUNTS.filter(x => x.on).forEach(x => { x.month = ri(8, 40) * 980; });
   [["公開済", 0], ["公開済", 1], ["公開済", 2], ["公開待ち", 0], ["校正待ち", 1], ["執筆", 2]].forEach(([st, w], i) => {
-    const art = { id: ++seq, title: t[i], price: pick(PRICES), status: st, writer: writers[w], sold: st === "公開済" ? ri(1, 9) : 0 };
+    const art = { id: ++seq, acc: t[i][0], title: t[i][1], price: pick(PRICES), status: st, writer: writers[w], sold: st === "公開済" ? ri(1, 9) : 0 };
     articles.push(art);
-    if (st === "公開済") { S.pub++; S.sold += art.sold; S.rev += art.sold * art.price; }
+    if (st === "公開済") { S.pub++; S.sold += art.sold; S.rev += art.sold * art.price; const acc = ACCOUNTS.find(x => x.id === art.acc); acc.month += art.sold * art.price; acc.today += art.sold * art.price; }
     if (st === "公開待ち") pubQ.push(art);
     if (st === "校正待ち") reviewQ.push(art);
     if (st === "執筆") writers[w].queue.push(art);
   });
-  ideas.push({ id: ++seq, title: t[6], status: "企画", sold: 0, price: 0 });
+  ideas.push({ id: ++seq, acc: t[6][0], title: t[6][1], status: "企画", sold: 0, price: 0 });
   human.c2 = S.pub; analyst.c1 = S.sold; analyst.c2 = S.rev; editor.c1 = S.pub + 2; editor.c2 = S.pub + 1; researcher.c1 = 7;
   writers.forEach(w => w.c1 = articles.filter(x => x.writer === w).length);
   S.reports = Math.max(1, Math.floor(f * 6)); $("#owner-rl").textContent = `本日の報告 ${S.reports}件`;
@@ -768,7 +797,7 @@ function seed() {
   log("ソラ（センター長）が本日の送り先を A・B チームに配分", "kn");
 }
 
-renderFiles(); buildBoard(); seed(); renderReplies(); renderArts(); renderSpark();
+renderFiles(); buildBoard(); seed(); renderReplies(); renderArts(); renderAccs(); renderSpark();
 agents.forEach(renderAgent); renderKpis(); tickClock();
 requestAnimationFrame(() => { drawTree(); drawMon(); });
 addEventListener("resize", () => requestAnimationFrame(drawTree));

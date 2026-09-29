@@ -70,6 +70,15 @@ python -m leadgen areas --pref 東京都 # 市区町村の一覧
 python -m leadgen daily             # 新規開店リストを今すぐ作る
 ```
 
+## MEO（Googleマップ集客）の営業先を探す
+
+業種の大区分「店舗ビジネス（Googleマップのみ）」（美容室・整骨院・歯科・学習塾など）は、食べログを使わず Googleマップだけで探します。
+MEO の営業では Uber Eats の確認は不要なので `--no-uber` を付けます。「Google口コミ数」列が少ない店ほど、MEO の提案が伝わりやすい目安になります。
+
+```bash
+python -m leadgen search --source google --pref 東京都 --city 世田谷区 --large "店舗ビジネス（Googleマップのみ）" --small 美容室 --no-uber --contacts
+```
+
 ## 連絡先（問い合わせフォーム・Instagram）を探す
 
 `search --contacts`、画面のチェック、`config/daily.yaml` の `find_contacts: true` で有効になります。作成済みのCSVにあとから足すこともできます。

@@ -17,7 +17,7 @@ ENDPOINT = 'https://places.googleapis.com/v1/places:searchText'
 FIELDS = ','.join([
     'places.id', 'places.displayName', 'places.formattedAddress', 'places.nationalPhoneNumber',
     'places.location', 'places.googleMapsUri', 'places.primaryTypeDisplayName', 'places.businessStatus',
-    'places.rating', 'places.websiteUri', 'nextPageToken',
+    'places.rating', 'places.userRatingCount', 'places.websiteUri', 'nextPageToken',
 ])
 
 
@@ -38,6 +38,7 @@ def to_shop(p):
         lat=(p.get('location') or {}).get('latitude'),
         lng=(p.get('location') or {}).get('longitude'),
         rating=str(p.get('rating', '')),
+        reviews=str(p.get('userRatingCount', '')),
         source_id=p.get('id', ''),
         website=p.get('websiteUri', ''),
     )

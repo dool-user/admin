@@ -62,3 +62,16 @@
 弁当・テイクアウト:
   - {name: 弁当, tabelog: '', google: 弁当, match: [弁当]}
   - {name: おにぎり, tabelog: '', google: おにぎり, match: [おにぎり]}
+
+# MEO（Googleマップ集客）の営業先。食べログにない業種なので Googleマップだけで探す（google_only）
+店舗ビジネス（Googleマップのみ）:
+  - {name: 美容室, tabelog: '', google: 美容室, match: [], google_only: true}
+  - {name: ネイル・まつげ, tabelog: '', google: ネイルサロン, match: [], google_only: true}
+  - {name: エステ, tabelog: '', google: エステサロン, match: [], google_only: true}
+  - {name: 整体・整骨院, tabelog: '', google: 整骨院, match: [], google_only: true}
+  - {name: 歯科, tabelog: '', google: 歯医者, match: [], google_only: true}
+  - {name: 学習塾, tabelog: '', google: 学習塾, match: [], google_only: true}
+  - {name: パーソナルジム, tabelog: '', google: パーソナルジム, match: [], google_only: true}
+  - {name: 工務店・リフォーム, tabelog: '', google: リフォーム会社, match: [], google_only: true}
+  - {name: 自動車整備, tabelog: '', google: 自動車整備, match: [], google_only: true}
+  - {name: ペットサロン, tabelog: '', google: トリミングサロン, match: [], google_only: true}

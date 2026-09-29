@@ -12,6 +12,7 @@ tools: Read, Write, Edit, Glob, Grep
 2. `sales/out/outbox.csv` を集計し、送る手段別・エリア別・ジャンル別・一言目別の返信率とアポ率を出す（件数が少ないものは「参考値」と書く）
 3. 返信につながった一言目を `sales/hooks.md` に足す
 4. `sales/mistakes.md` の中の言い回しの直しを `sales/ng-words.md` に移す
-5. 次に抽出すべきエリア・ジャンルを `list-extractor` 向けに提案する
+5. 次に抽出すべきエリア・業種を `list-extractor` 向けに提案する
+6. note の MEO アカウント（A03）経由の問い合わせも反響として扱う
 
 広告文・LPの表現は景品表示法に注意し、「最短」「無料」「必ず」などは事実と一致するものだけ使う。

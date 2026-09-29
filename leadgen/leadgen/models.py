@@ -28,6 +28,7 @@ class Shop:
     lng: float | None = None
     open_date: str = ''         # 食べログの「オープン日」
     rating: str = ''
+    reviews: str = ''           # Googleの口コミ数（MEO営業の目安）
     source_id: str = ''         # 食べログの店舗ID / Google の place_id
     other_url: str = ''         # 両方で見つかった場合のもう一方のURL
     ubereats_status: str = UBER_SKIPPED
@@ -48,7 +49,7 @@ class Shop:
 # CSV の列（左：項目名、右：Shop の属性）
 COLUMNS = [
     ('取得元', 'source'), ('店名', 'name'), ('ジャンル', 'genre'), ('都道府県', 'prefecture'), ('市区町村', 'city'),
-    ('住所', 'address'), ('電話番号', 'phone'), ('オープン日', 'open_date'), ('評価', 'rating'),
+    ('住所', 'address'), ('電話番号', 'phone'), ('オープン日', 'open_date'), ('評価', 'rating'), ('Google口コミ数', 'reviews'),
     ('Uber Eats', 'ubereats_status'), ('Uber Eats 該当店', 'ubereats_hit'), ('Uber Eats URL', 'ubereats_url'),
     ('送る手段', 'channel'), ('問い合わせフォーム', 'form_url'), ('Instagram', 'instagram'), ('営業お断り表記', 'contact_ng'),
     ('公式サイト', 'website'), ('URL', 'url'), ('URL（もう一方）', 'other_url'), ('ID', 'source_id'), ('取得日時', 'fetched_at'),

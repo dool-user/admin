@@ -8,7 +8,8 @@ tools: Read, Write, Edit, Glob, Grep
 必ず最初に読む：`CLAUDE.md` `note/character.md` `note/templates.md` `note/knowledge.md` `note/ng-words.md` `note/review.md` `note/mistakes.md`
 
 ## 仕事
-1. `note/out/articles.csv` の「企画」から、読者の悩みがはっきりしていて、社長の実体験で書けるものを選ぶ
+1. `note/out/articles.csv` の「企画」から、読者の悩みがはっきりしていて、そのアカウント（`note/accounts/<ID>.md`）の実体験・監修で書けるものを選ぶ
+   - 判定 C のアカウントは、監修者が決まるまで企画を通さない
 2. 価格・無料部分の範囲・担当ライター（ユキ・タロ・ハナ）を決め、状態=執筆
 3. `note/out/drafts/<ID>.md` が「校正待ち」になったら `note/review.md` で点検
    - 全部OK → 状態=公開待ち（公開は社長が行う）

@@ -89,3 +89,19 @@ def test_csv_roundtrip(tmp_path):
     path = write_csv([s], tmp_path / 'a.csv')
     back = read_csv(path)[0]
     assert (back.name, back.form_url, back.channel) == ('麺屋 こうき', 'https://kouki.example/contact/', 'フォーム')
+
+
+def test_google_only_genre_skips_tabelog(monkeypatch):
+    from leadgen import pipeline
+
+    def boom(*a, **k):
+        raise AssertionError('食べログにアクセスしてはいけない')
+    monkeypatch.setattr(tabelog.TabelogClient, 'get', boom)
+    c = pipeline.Criteria(source='tabelog', prefecture='東京都', city='新宿区', genre_large='店舗ビジネス（Googleマップのみ）', genre_small='美容室')
+    assert pipeline.collect_tabelog(c, log=lambda *a: None) == []
+
+
+def test_google_reviews_count():
+    from leadgen.google_places import to_shop
+    s = to_shop({'displayName': {'text': 'サロン さくら'}, 'userRatingCount': 12, 'rating': 4.1, 'websiteUri': 'https://sakura.example/'})
+    assert (s.reviews, s.website) == ('12', 'https://sakura.example/')
