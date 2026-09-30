@@ -18,6 +18,7 @@
 - **引越しチーム（A11）も同じ：** ライター3人（アオイ・リク・サヤ）が毎日1本ずつ無料コラムを書き、制度確認係ジン → 編集長ミナトの点検を通したものをストックにする（ルールは `moving/`）
 - 編集長は下書きを `review.md` で点検し、合格したものを「ストック」にする（公開は開設後に社長が行う）
 - ストックの記事は、開設の日にどの順で出すかを打合せで決め、`out/articles.csv` のメモに「公開順」を入れる
+- 新しい下書きには `python tools/build_note_images.py <ID>` で画像（見出し画像・ポイント図・チェックリスト図）を付ける。日本語フォントは `npm pack @fontsource/noto-sans-jp` を作業用フォルダに展開し、`NOTE_FONT_CSS=<展開先>/package/400.css;<展開先>/package/700.css;<展開先>/package/900.css` を付けて実行する
 - 下書きが増えたら `python tools/build_note_preview.py` でプレビュー（https://claude.ai/artifact/WEZk2xT5rnQRcinpd67j28 ）を作り直して同じ URL に公開する
 - 開設されたら、このモードは終わり。社長が「開設した」と伝えた日から通常の流れに戻す
 

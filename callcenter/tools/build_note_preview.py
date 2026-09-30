@@ -34,6 +34,7 @@ def load():
             'title': title or r['タイトル'], 'price': int(str(r['価格'] or 0).replace(',', '')), 'status': r['状態'],
             'writer': r['担当'], 'memo': memo, 'free': free.strip(), 'paid': paid.strip(),
             'chars': len(re.sub(r'\s', '', body)), 'asks': len(re.findall(r'【社長確認', body)),
+            'header': f"images/{r['ID']}/header.png" if (NOTE / 'out' / 'images' / r['ID'] / 'header.png').exists() else '',
         })
     return items
 
@@ -44,6 +45,11 @@ def main():
     out = NOTE / 'preview' / 'index.html'
     out.parent.mkdir(exist_ok=True)
     out.write_text(tpl.replace('/*__DATA__*/[]', data), encoding='utf-8')
+    # 画像はプレビューと同じ場所（note/preview/images/）に写す
+    import shutil
+    src = NOTE / 'out' / 'images'
+    if src.exists():
+        shutil.copytree(src, out.parent / 'images', dirs_exist_ok=True)
     print(out)
 
 
