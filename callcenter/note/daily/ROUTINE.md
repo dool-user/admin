@@ -1,6 +1,6 @@
 # 毎日の自動実行（ルーティン）の中身
 
-毎朝、Claude のクラウドセッションが新しく立ち上がり、次を行う。止めたい・時刻を変えたいときは、社長が Claude に「note 日報のルーティンを止めて／◯時に変えて」と伝える。
+毎朝 8:50（日本時間）、この組織を作った Claude のセッションに定期実行の指示が届き、次を行う（9/30 までは毎回新しいセッションで動かしていたが、リポジトリに保存できなかったため変更）。止めたい・時刻を変えたいときは、社長が Claude に「note 日報のルーティンを止めて／◯時に変えて」と伝える。
 
 1. リポジトリ `dool-user/admin` の最新を取り、`callcenter/` があるブランチで作業する
 2. `callcenter/CLAUDE.md` と `callcenter/note/daily/README.md` を読み、その日の PDCA を1周させる
@@ -9,7 +9,7 @@
    - 編集長（`note-editor.md`）が指示書を出し、`note/pdca.csv` に仮説を足す。判定日が来た仮説は結果と判定を入れる
    - 指示された原稿の直し・下書きを、ライターのサブエージェントで進める
 3. `note/daily/<日付>/report.md` を書き、日報スライド https://claude.ai/artifact/U32ALmZP3rm6m2mQSH3kaE （Slides）をその日の内容に差し替える。スライドの元ファイルは前日の `note/daily/<前日>/slides/project/` を写して直し、その日のフォルダにも残す
-4. 変更をコミットしてプッシュする（ブランチ `claude/note-daily-report`）。main には直接入れない
+4. 変更をコミットしてプッシュする（ブランチ `claude/call-center-dashboard-mruqz7`）。main には直接入れない
 
 ## 社長から毎日もらう数字（ないと Check ができない）
 - note：記事ごとの 表示・スキ・コメント・販売数・売上、フォロワー数、メンバーシップの加入・退会
