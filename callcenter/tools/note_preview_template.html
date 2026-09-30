@@ -61,7 +61,7 @@ details.memo pre{white-space:pre-wrap;margin:8px 0 0;font:inherit}
 .body li{margin:2px 0}
 .body hr{border:0;border-top:1px solid var(--line);margin:32px 0}
 .body a{color:var(--accent);word-break:break-all}
-.body a[href*="CWFkkuGqYeCwwmTvRcQTtM"]{display:inline-block;background:var(--accent);color:var(--surface);border-radius:999px;padding:2px 14px;text-decoration:none;font-weight:700}
+.body a[href*="CWFkkuGqYeCwwmTvRcQTtM"],.body a[href*="HP1RqgcZVdAGmyTCiDmq8i"]{display:inline-block;background:var(--accent);color:var(--surface);border-radius:999px;padding:2px 14px;text-decoration:none;font-weight:700}
 .body strong{color:var(--ink)}
 .body code{font-size:.88em;background:var(--paid);border-radius:4px;padding:1px 5px;word-break:break-all}
 .body pre{background:var(--paid);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.7}
@@ -99,14 +99,16 @@ mark.ask{background:var(--ask);color:var(--ask-ink);border-radius:4px;padding:1p
 "use strict";
 const DATA = /*__DATA__*/[];
 const $ = s => document.querySelector(s);
-const yen = n => "¥" + n.toLocaleString();
+const yen = n => n ? "¥" + n.toLocaleString() : "無料";
 const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 let filter = "all", current = null, showPaid = false;
 
-const FORM_PREVIEW = "https://claude.ai/artifact/CWFkkuGqYeCwwmTvRcQTtM"; // 相談フォームの確認用画面（公開後は本物の URL が記事に入る）
+const FORM_PREVIEW = "https://claude.ai/artifact/CWFkkuGqYeCwwmTvRcQTtM";
+const MOVING_PREVIEW = "https://claude.ai/artifact/HP1RqgcZVdAGmyTCiDmq8i"; // 引越し相談フォームの確認用画面 // 相談フォームの確認用画面（公開後は本物の URL が記事に入る）
 function md(src) {
+  src = src.replace(/\]\(https:\/\/【社長確認：引越し相談フォームのURL】(\?src=\w+)?\)/g, "](" + MOVING_PREVIEW + ")\u0001");
   src = src.replace(/\]\(https:\/\/【社長確認：フォームを公開したURL】(\?src=\w+)?\)/g, "](" + FORM_PREVIEW + ')<mark class="ask">【社長確認：フォームを公開したURL】</mark>');
-  const withAsk = src.replace(/<mark class="ask">【社長確認：フォームを公開したURL】<\/mark>/g, "\u0000").replace(/【社長確認[^】]*】/g, m => `<mark class="ask">${esc(m)}</mark>`).replace(/\u0000/g, ' <mark class="ask">【社長確認：フォームを公開したURL】</mark>');
+  const withAsk = src.replace(/<mark class="ask">【社長確認：フォームを公開したURL】<\/mark>/g, "\u0000").replace(/【社長確認[^】]*】/g, m => `<mark class="ask">${esc(m)}</mark>`).replace(/\u0000/g, ' <mark class="ask">【社長確認：フォームを公開したURL】</mark>').replace(/\u0001/g, ' <mark class="ask">【社長確認：引越し相談フォームのURL】</mark>');
   const html = window.marked ? marked.parse(withAsk, { gfm: true, breaks: false }) : `<pre>${esc(src)}</pre>`;
   return html.replace(/<table>/g, '<div class="tbl"><table>').replace(/<\/table>/g, "</table></div>");
 }

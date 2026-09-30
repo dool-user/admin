@@ -4,7 +4,7 @@ note の A03（MEO）アカウントの記事から「自分でやるのは難�
 
 ## 公開までにやること
 1. `index.html` の `CONFIG` の「★要変更」を書き換える（会社名・無料の範囲・返信の目安・プライバシーポリシーの URL）
-2. `gas/meo-form-receiver.gs` をデプロイし、発行された URL を `CONFIG.endpoint` に入れる（空のあいだは送信されない確認用の表示）
+2. `gas/consult-form-receiver.gs` をデプロイし、発行された URL を `CONFIG.endpoint` に入れる（空のあいだは送信されない確認用の表示）
 3. 公開する。電気開通 LP とは別のサービスなので、Cloudflare Pages で **別のプロジェクト**（公開フォルダ `meo/`）にするのがおすすめ（手順は `docs/deploy.md` と同じ）
 4. 公開した URL を、note 記事（N007・N008・N009）の【社長確認：フォームを公開したURL】に入れる。記事ごとに `?src=N007` のように付けると、どの記事から来たかがシートの `src` 列に残る
 

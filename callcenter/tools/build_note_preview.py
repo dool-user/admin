@@ -31,7 +31,7 @@ def load():
         free, _, paid = body.partition('--- ここから有料 ---')
         items.append({
             'id': r['ID'], 'acc': r['アカウント'], 'accName': ACCOUNTS.get(r['アカウント'], ''),
-            'title': title or r['タイトル'], 'price': int(r['価格'] or 0), 'status': r['状態'],
+            'title': title or r['タイトル'], 'price': int(str(r['価格'] or 0).replace(',', '')), 'status': r['状態'],
             'writer': r['担当'], 'memo': memo, 'free': free.strip(), 'paid': paid.strip(),
             'chars': len(re.sub(r'\s', '', body)), 'asks': len(re.findall(r'【社長確認', body)),
         })
