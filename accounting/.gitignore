@@ -1,0 +1,5 @@
+# 通帳・カード明細・請求書などの生データと成果物はコミットしない
+inbox/*
+!inbox/.gitkeep
+output/*
+!output/.gitkeep
