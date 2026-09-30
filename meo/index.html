@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Googleマップ集客 無料相談</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@700&display=swap">
+<style>
+/* Layout: 1列の相談フォーム。上に「何を相談できるか」と約束3つ、下にフォーム。店舗オーナーがスマホで2分で送れる長さ */
+:root{
+  --bg:#F5F6F2; --surface:#FFFFFF; --ink:#1B2621; --body:#3A4540; --muted:#66716B; --line:#DDE2DC;
+  --accent:#1F6F54; --accent-ink:#FFFFFF; --soft:#E7F0EB; --err:#B3261E;
+  --f-body:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+  --f-title:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131815; --surface:#1B211E; --ink:#E9EEEB; --body:#CBD3CE; --muted:#96A19B; --line:#2E3632;
+  --accent:#6FC7A2; --accent-ink:#0F1A15; --soft:#1F2D26; --err:#F2B8B5; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131815; --surface:#1B211E; --ink:#E9EEEB; --body:#CBD3CE; --muted:#96A19B; --line:#2E3632;
+  --accent:#6FC7A2; --accent-ink:#0F1A15; --soft:#1F2D26; --err:#F2B8B5; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--body);font-family:var(--f-body);font-size:16px;line-height:1.8;padding-inline:16px;padding-block:32px 56px}
+.wrap{max-width:640px;margin:0 auto;display:grid;gap:24px}
+.eyebrow{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.08em;margin:0}
+h1{font-family:var(--f-title);font-size:clamp(24px,5.4vw,32px);line-height:1.45;color:var(--ink);margin:6px 0 10px;text-wrap:balance}
+.lead{margin:0}
+.promise{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.promise li{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.promise b{color:var(--ink)}
+.promise span.n{flex:none;font-weight:700;color:var(--accent)}
+form{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px clamp(16px,4vw,32px);display:grid;gap:20px}
+.f{display:grid;gap:6px;min-width:0}
+.f label,.f legend{font-weight:700;color:var(--ink);font-size:15px}
+.req,.opt{font-size:11.5px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.req{background:var(--accent);color:var(--accent-ink)} .opt{background:var(--soft);color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+input[type=text],input[type=tel],input[type=email],input[type=url],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:6px;min-width:0}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px}
+.checks label,.radio label{font-weight:400;display:flex;gap:8px;align-items:flex-start;color:var(--body);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer}
+.radio{display:flex;flex-wrap:wrap;gap:6px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+.privacy{font-size:13px;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 12px;margin:0}
+.agree{display:flex;gap:8px;align-items:flex-start;font-weight:500;color:var(--ink)}
+button[type=submit]{font:inherit;font-weight:700;font-size:17px;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:14px 20px;cursor:pointer}
+button[type=submit]:disabled{opacity:.6;cursor:default}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.error{color:var(--err);font-size:14px;margin:0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{background:var(--surface);border:1px solid var(--accent);border-radius:14px;padding:28px;text-align:center}
+.done h2{font-family:var(--f-title);color:var(--ink);font-size:22px;margin:0 0 8px}
+.foot{font-size:12.5px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <p class="eyebrow">Googleマップ集客（MEO）</p>
+    <h1>「自分でやるのは難しい」と思ったら、ご相談ください</h1>
+    <p class="lead">Googleビジネスプロフィールの整え方、口コミへの向き合い方、業者との契約の見直しまで。お店の状況を伺って、できることをご案内します。</p>
+  </header>
+
+  <ul class="promise" aria-label="お約束">
+    <li><span class="n">1</span><span><b>相談は無料です。</b><span id="c-free"></span></span></li>
+    <li><span class="n">2</span><span><b>無理な勧誘はしません。</b>ご案内だけで終わっても大丈夫です。</span></li>
+    <li><span class="n">3</span><span><b>順位の保証はしていません。</b>Googleの表示順位はGoogleが決めるためです。</span></li>
+  </ul>
+
+  <form id="form" novalidate>
+    <div class="f"><label for="shop">お店の名前<span class="req">必須</span></label><input id="shop" name="shop" type="text" autocomplete="organization" required></div>
+    <div class="row2">
+      <div class="f"><label for="industry">業種<span class="req">必須</span></label>
+        <select id="industry" name="industry" required>
+          <option value="">選んでください</option><option>飲食店</option><option>美容室・ネイル・エステ</option><option>整体・整骨院・治療院</option>
+          <option>歯科・クリニック</option><option>学習塾・教室</option><option>ジム・フィットネス</option><option>工務店・リフォーム</option><option>その他</option>
+        </select></div>
+      <div class="f"><label for="area">エリア<span class="req">必須</span></label><input id="area" name="area" type="text" placeholder="例：東京都 世田谷区" required></div>
+    </div>
+    <div class="f"><label for="gmap">Googleマップのお店のURL<span class="opt">任意</span></label><input id="gmap" name="gmap" type="url" inputmode="url" placeholder="https://maps.app.goo.gl/…"><p class="hint">分からなければ空欄で大丈夫です。</p></div>
+    <fieldset class="f"><legend>お困りのこと<span class="opt">いくつでも</span></legend>
+      <div class="checks">
+        <label><input type="checkbox" name="topics" value="検索しても出てこない">検索しても出てこない</label>
+        <label><input type="checkbox" name="topics" value="口コミが少ない・悪い口コミ">口コミが少ない・悪い口コミ</label>
+        <label><input type="checkbox" name="topics" value="情報の更新が手間">情報や写真の更新が手間</label>
+        <label><input type="checkbox" name="topics" value="オーナー権限が分からない">オーナー権限が分からない</label>
+        <label><input type="checkbox" name="topics" value="業者との契約を見直したい">業者との契約を見直したい</label>
+        <label><input type="checkbox" name="topics" value="何から始めればいいか分からない">何から始めればいいか分からない</label>
+      </div>
+    </fieldset>
+    <div class="f"><label for="note">詳しく（任意）</label><textarea id="note" name="note" placeholder="例：新しくオープンしたばかりで、店名で検索しても出てきません"></textarea></div>
+    <div class="row2">
+      <div class="f"><label for="name">お名前<span class="req">必須</span></label><input id="name" name="name" type="text" autocomplete="name" required></div>
+      <div class="f"><label for="role">お立場<span class="opt">任意</span></label>
+        <select id="role" name="role"><option value="">選んでください</option><option>オーナー</option><option>店長</option><option>スタッフ</option><option>その他</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="f"><label for="tel">電話番号</label><input id="tel" name="tel" type="tel" autocomplete="tel" inputmode="tel"></div>
+      <div class="f"><label for="email">メールアドレス</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email"></div>
+    </div>
+    <p class="hint">電話番号かメールアドレスの、どちらか1つは入れてください。</p>
+    <fieldset class="f"><legend>ご希望の連絡方法</legend>
+      <div class="radio">
+        <label><input type="radio" name="contact" value="メール" checked>メール</label>
+        <label><input type="radio" name="contact" value="電話">電話</label>
+        <label><input type="radio" name="contact" value="どちらでも">どちらでも</label>
+      </div>
+    </fieldset>
+    <div class="hp" aria-hidden="true"><label for="website">空欄のまま</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+    <input type="hidden" name="src" id="src"><input type="hidden" name="landing_url" id="landing_url"><input type="hidden" name="referrer" id="referrer">
+    <p class="privacy" id="privacy"></p>
+    <label class="agree"><input type="checkbox" id="agree" required>個人情報の取り扱いに同意して送信します</label>
+    <p class="error" id="error" hidden></p>
+    <button type="submit" id="submit">無料で相談する</button>
+  </form>
+
+  <section class="done" id="done" hidden aria-live="polite">
+    <h2>送信しました</h2>
+    <p id="done-msg">内容を確認して、ご希望の方法でご連絡します。</p>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</main>
+
+<script>
+/* ★設定（公開前に書き換える）*/
+var CONFIG = {
+  endpoint: '',                       // gas/meo-form-receiver.gs をデプロイした URL。空のあいだは送信せず確認用の表示だけ
+  company: '★要変更 株式会社〇〇',
+  privacyUrl: '',                     // プライバシーポリシーの URL（空ならこの画面の説明だけ）
+  freeNote: '★要変更（無料の範囲を1行で。例：初回30分のオンライン相談）',
+  replyDays: '2営業日以内'            // ★要変更 返信の目安
+};
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var params = new URLSearchParams(location.search);
+  $('src').value = params.get('src') || params.get('utm_content') || '';
+  $('landing_url').value = location.href.split('#')[0];
+  $('referrer').value = document.referrer || '';
+  $('c-free').textContent = CONFIG.freeNote.indexOf('★') === 0 ? '' : '（' + CONFIG.freeNote + '）';
+  $('privacy').innerHTML = 'いただいた情報は、このご相談への連絡と対応のためだけに使い、' +
+    'ご本人の同意なく第三者に渡しません。運営：' + CONFIG.company.replace(/[<>&]/g, '') +
+    (CONFIG.privacyUrl ? '　<a href="' + CONFIG.privacyUrl.replace(/"/g, '') + '" target="_blank" rel="noopener">プライバシーポリシー</a>' : '');
+  $('foot').textContent = '© ' + CONFIG.company.replace(/^★要変更\s*/, '');
+
+  var form = $('form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = [];
+    ['shop', 'industry', 'area', 'name'].forEach(function (id) { if (!$(id).value.trim()) err.push(form.querySelector('label[for="' + id + '"]').firstChild.textContent); });
+    if (!$('tel').value.trim() && !$('email').value.trim()) err.push('電話番号かメールアドレス');
+    if ($('email').value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value)) err.push('メールアドレスの形');
+    if (!$('agree').checked) err.push('個人情報の取り扱いへの同意');
+    if (err.length) { $('error').textContent = '入力をご確認ください：' + err.join('・'); $('error').hidden = false; return; }
+    $('error').hidden = true;
+
+    var data = new FormData(form);
+    data.set('topics', data.getAll('topics').join('、'));
+    var finish = function (demo) {
+      form.hidden = true; $('done').hidden = false;
+      $('done-msg').textContent = demo
+        ? '（確認用の画面のため、実際には送信されていません）'
+        : '内容を確認して、' + CONFIG.replyDays + 'にご希望の方法でご連絡します。';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    if (!CONFIG.endpoint) { finish(true); return; }
+    $('submit').disabled = true; $('submit').textContent = '送信しています…';
+    fetch(CONFIG.endpoint, { method: 'POST', body: new URLSearchParams(data), mode: 'no-cors' })
+      .then(function () { finish(false); })
+      .catch(function () {
+        $('submit').disabled = false; $('submit').textContent = '無料で相談する';
+        $('error').textContent = '送信できませんでした。通信の状態を確かめて、もう一度お試しください。'; $('error').hidden = false;
+      });
+  });
+})();
+</script>
+</body>
+</html>
