@@ -30,7 +30,7 @@ docs/deploy.md            … 公開手順書
 
 ## 公開前にやること
 
-1. `lp/assets/js/config.js` の「★要変更」をすべて差し替える（電話番号＝通常／夜間。運営会社はグラハムコミュニケーションズ株式会社で設定済み）
+1. `lp/assets/js/config.js` の「★要変更」をすべて差し替える（電話番号＝通常／夜間、運営会社名・所在地・会社サイト＝`brand`。運営会社は現在 ○○ の仮置き）
 2. 本番ドメインを `python3 scripts/set_domain.py ドメイン名` で反映する（canonical・og:url・robots.txt・sitemap.xml）
 3. `gas/form-receiver.gs`（リポジトリ直下）をデプロイし、発行されたURLを `formEndpoint` に設定する
    （空欄のままだとデモモードになり、送信しても thanks.html に移動するだけ）

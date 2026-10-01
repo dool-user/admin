@@ -7,9 +7,9 @@ window.LP_CONFIG = {
   // サービス名・運営会社
   brand: {
     name: 'でんき開通サポート',
-    company: 'グラハムコミュニケーションズ株式会社',
-    address: '〒162-0801 東京都新宿区山吹町346-6 KAGURAZAKA VIGAS 5F',
-    url: 'https://grahamcommunications.co.jp/',
+    company: '○○', // ★要変更：運営会社名（正式な社名が決まったら差し替え）
+    address: '○○', // ★要変更：所在地
+    url: '', // ★要変更：会社サイトのURL（空なら運営会社ページの「会社サイト」行を出さない）
   },
 
   // ★要変更：電話番号（通常 / 夜間。?tel=yakan で夜間番号に切替）

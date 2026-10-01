@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>運営会社｜でんき開通サポート</title>
-  <meta name="description" content="でんき開通サポート（引越し時の電気・ガス・水道・インターネットの利用開始手続きの取次サービス）の運営会社、グラハムコミュニケーションズ株式会社の情報です。">
+  <meta name="description" content="でんき開通サポート（引越し時の電気・ガス・水道・インターネットの利用開始手続きの取次サービス）の運営会社の情報です。">
   <link rel="canonical" href="https://denki-kaitsu-support.com/company.html">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
@@ -35,9 +35,9 @@
       <h1 class="section__title"><span class="section__title-en">COMPANY</span>運営会社</h1>
       <table class="company-table">
         <tr><th scope="row">サービス名</th><td data-brand-name>でんき開通サポート</td></tr>
-        <tr><th scope="row">運営会社</th><td data-brand-company>グラハムコミュニケーションズ株式会社</td></tr>
-        <tr><th scope="row">所在地</th><td data-brand-address>〒162-0801 東京都新宿区山吹町346-6 KAGURAZAKA VIGAS 5F</td></tr>
-        <tr><th scope="row">会社サイト</th><td><a href="https://grahamcommunications.co.jp/" target="_blank" rel="noopener" data-brand-url>grahamcommunications.co.jp</a></td></tr>
+        <tr><th scope="row">運営会社</th><td data-brand-company>○○</td></tr>
+        <tr><th scope="row">所在地</th><td data-brand-address>○○</td></tr>
+        <tr data-brand-url-row hidden><th scope="row">会社サイト</th><td><a href="#" target="_blank" rel="noopener" data-brand-url></a></td></tr>
       </table>
       <p class="company-note">当サービスは、東京電力グループを含む電力会社・ガス会社・水道局とは異なる民間の取次サービスです。各社の公式窓口ではありません。</p>
       <a class="company-back" href="./">← トップページへ戻る</a>
@@ -53,7 +53,10 @@
       set('[data-brand-name]', function (e) { e.textContent = b.name; });
       set('[data-brand-company]', function (e) { e.textContent = b.company; });
       set('[data-brand-address]', function (e) { e.textContent = b.address; });
-      if (b.url) set('[data-brand-url]', function (e) { e.href = b.url; e.textContent = b.url.replace(/^https?:\/\//, '').replace(/\/$/, ''); });
+      if (b.url) {
+        set('[data-brand-url]', function (e) { e.href = b.url; e.textContent = b.url.replace(/^https?:\/\//, '').replace(/\/$/, ''); });
+        set('[data-brand-url-row]', function (e) { e.hidden = false; });
+      }
     })();
   </script>
 </body>
