@@ -72,6 +72,8 @@ SUB = {
     'A01': ('AIで営業チームを作る', '#2B4C9B', ['Claude Code', '業務の自動化', 'AIへの仕事の渡し方']),
     'A02': ('AIと人で回す店舗営業', '#1E7A6E', ['フォーム営業', 'Instagram DM', '点検の仕組み']),
     'A03': ('お店のGoogleマップ集客', '#1F6F54', ['MEO', 'Googleビジネスプロフィール', '口コミのルール']),
+    # 10/1：ツナグラボは1アカウント（A01〜A03 をマガジンで分ける）。アカウントのヘッダーはこれを使う
+    'ALL': ('AIで営業と集客をつなぐ', '#2B4C9B', ['AIで営業チーム', 'フォーム・DM営業', 'Googleマップ集客']),
 }
 NODES = '''<svg viewBox="0 0 400 400" style="width:100%;height:100%">
   <path d="M120 130L280 130M120 130L200 280M280 130L200 280" stroke="{line}" stroke-width="26" stroke-linecap="round" fill="none"/>
