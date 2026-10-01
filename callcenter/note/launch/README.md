@@ -43,6 +43,9 @@
 A11（引越し）は、質問シートの 4（相談フォームの URL）・6（提携先の会社名と免許番号）・7（紹介料の書き方）がそろってから出す。相談につなぐのが目的のアカウントなので、フォームなしでは出さない。
 
 ## 3. note への貼り方
+
+**公開キット（コピーボタン付き）：https://claude.ai/artifact/DhfRUFcRx597KyWfqfA6CW** （作り直し：`python tools/build_note_publish.py <ID...>` → `python tools/build_note_kit.py <ID...>` → `note/launch/kit/index.html` を同じパスで publish。files に `images/<ID>/<名前>.png`）。表は note にないので箇条書きに直してある。
+
 1. 下書きプレビュー（https://claude.ai/artifact/WEZk2xT5rnQRcinpd67j28 ）で記事を開き、見出し画像を保存して note の見出し画像に入れる
 2. 本文は `out/publish/<ID>.md` を貼る。見出し（##）は note の「大見出し」、###は「小見出し」に直す
 3. 「［画像：…をここにアップロード］」の場所に `out/images/<ID>/` の画像を入れる

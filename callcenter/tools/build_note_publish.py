@@ -6,6 +6,7 @@
 - 【社長確認】が残る行は消す（N001 の「始めた時期」のように、タグだけ外せばよい箇所は KEEP_LINE に書く）
 - 相談フォームの URL が未定の記事は、相談の案内の段落ごと外す（フォーム公開後に足す）
 - 画像は note に別でアップロードするので「［画像：ファイル名］」の目印に置き換える
+- note のエディタには表がないので、表は「見出し列：残りの列」の箇条書きに直す
 """
 import re
 import sys
@@ -14,6 +15,27 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 NOTE = ROOT / 'note' / 'out'
 KEEP_LINE = {'N001'}  # 【社長確認：…】のタグだけ外し、文は残す
+
+
+def cells(row):
+    return [c.strip() for c in row.strip().strip('|').split('|')]
+
+
+def tables_to_lists(text):
+    out, block = [], []
+    for line in text.split('\n') + ['']:
+        if line.startswith('|'):
+            block.append(line)
+            continue
+        if block:
+            head = cells(block[0])
+            body = [cells(b) for b in block[2:]] if len(block) > 1 and set(block[1]) <= set('|-: ') else [cells(b) for b in block[1:]]
+            for row in body:
+                rest = '／'.join(f'{h}：{v}' if h else v for h, v in zip(head[1:], row[1:]) if v)
+                out.append(f'- **{row[0]}**' + (f'　{rest}' if rest else ''))
+            block = []
+        out.append(line)
+    return '\n'.join(out[:-1])
 
 
 def build(aid):
@@ -33,6 +55,7 @@ def build(aid):
                 continue
         lines.append(line)
     text = '\n'.join(lines)
+    text = tables_to_lists(text)
     text = re.sub(r'<!-- 画像：.*?-->\n', '', text)
     text = re.sub(r'!\[([^\]]*)\]\(\.\./images/[^/]+/([^)]+)\)', r'［画像：\2（\1）をここにアップロード］', text)
     text = re.sub(r'\n{3,}', '\n\n', text).strip() + '\n'
