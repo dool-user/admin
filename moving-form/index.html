@@ -127,10 +127,11 @@ button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 
 <script>
 /* ★設定（公開前に書き換える）*/
+var GAS_SRC = /*__GAS_SRC__*/null;  // Apps Script（doGet）で開いたとき、記事ID（?src=）がここに入る
 var CONFIG = {
-  endpoint: '',                       // gas/consult-form-receiver.gs をデプロイした URL。空のあいだは送信せず確認用の表示だけ
-  company: '★要変更 株式会社〇〇',
-  privacyUrl: '',                     // プライバシーポリシーの URL
+  endpoint: '',                       // 静的ページで使うときだけ：gas/consult-form-receiver.gs の URL。Apps Script の中で開くときは不要（自動で送る）
+  company: 'まるっと窓口',
+  privacyUrl: '',                     // 会社の HP・プライバシーポリシーへのリンクは載せない（10/1 社長）
   feeNote: '条件は物件によって違うため、ご相談のときにご説明します',
   partner: '★要変更 提携先の不動産会社名・宅建業の免許番号',
   disclose: '★要変更（紹介料を受け取る場合の書き方。例：ご紹介するサービスによって、当社が紹介料を受け取る場合があります）',
@@ -140,7 +141,7 @@ var CONFIG = {
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var params = new URLSearchParams(location.search);
-  $('src').value = params.get('src') || params.get('utm_content') || '';
+  $('src').value = (GAS_SRC !== null ? GAS_SRC : params.get('src') || params.get('utm_content')) || '';
   $('landing_url').value = location.href.split('#')[0];
   $('referrer').value = document.referrer || '';
   $('c-fee').textContent = CONFIG.feeNote.indexOf('★') === 0 ? '' : '（' + CONFIG.feeNote + '）';
@@ -172,14 +173,21 @@ var CONFIG = {
         : '内容を確認して、' + CONFIG.replyDays + 'にご希望の方法でご連絡します。';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-    if (!CONFIG.endpoint) { finish(true); return; }
+    var fail = function () {
+      $('submit').disabled = false; $('submit').textContent = '相談する';
+      $('error').textContent = '送信できませんでした。通信の状態を確かめて、もう一度お試しください。'; $('error').hidden = false;
+    };
+    var gas = window.google && google.script && google.script.run;
+    if (!gas && !CONFIG.endpoint) { finish(true); return; }
     $('submit').disabled = true; $('submit').textContent = '送信しています…';
+    if (gas) {
+      var obj = {}; data.forEach(function (v, k) { obj[k] = v; });
+      google.script.run.withSuccessHandler(function () { finish(false); }).withFailureHandler(fail).submitForm(obj);
+      return;
+    }
     fetch(CONFIG.endpoint, { method: 'POST', body: new URLSearchParams(data), mode: 'no-cors' })
       .then(function () { finish(false); })
-      .catch(function () {
-        $('submit').disabled = false; $('submit').textContent = '相談する';
-        $('error').textContent = '送信できませんでした。通信の状態を確かめて、もう一度お試しください。'; $('error').hidden = false;
-      });
+      .catch(fail);
   });
 })();
 </script>

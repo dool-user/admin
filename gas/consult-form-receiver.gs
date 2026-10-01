@@ -10,6 +10,10 @@
  *  4. デプロイ → 新しいデプロイ → 種類「ウェブアプリ」／実行ユーザー：自分／アクセスできるユーザー：全員
  *  5. 発行された URL を、2つのフォームの CONFIG.endpoint に設定（同じ URL でよい）
  *
+ * 引越しのフォームをこの Apps Script で公開する（サーバー不要。10/1〜）：
+ *  - Apps Script の「ファイル +」→ HTML で「moving-form」という名前のファイルを作り、moving-form/index.html の中身を全部貼る
+ *  - デプロイした URL（…/exec）がそのままフォームの URL になる。note の記事には「URL?src=記事ID」で入れる
+ *
  * 列 src には、どの note 記事から来たか（例：N007）が入る。
  *  - MEO：営業部のマーケ担当が反響リードとして取り込む
  *  - 引越し：引越しチームの相談受付（モモ）が callcenter/moving/out/inquiries.csv に記録する
@@ -27,13 +31,34 @@ var FORMS = {
   },
 };
 
+// フォームのページを出す（引越し相談）。?src=N019 のように記事IDを受け取る
+function doGet(e) {
+  var src = String((e && e.parameter && e.parameter.src) || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 20);
+  var html = HtmlService.createHtmlOutputFromFile('moving-form').getContent()
+    .replace('/*__GAS_SRC__*/null', JSON.stringify(src));
+  return HtmlService.createHtmlOutput(html)
+    .setTitle('引越しの無料相談｜まるっと窓口')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+// doGet で出したフォームから google.script.run で呼ばれる
+function submitForm(p) {
+  if (!p || p.website) return { ok: true }; // bot
+  save_(p);
+  return { ok: true };
+}
+
 function doPost(e) {
   if (!e || !e.parameter) {
     testNotify();
     return json_({ ok: true, test: true });
   }
-  var p = e.parameter;
-  if (p.website) return json_({ ok: true }); // bot
+  if (e.parameter.website) return json_({ ok: true }); // bot
+  save_(e.parameter);
+  return json_({ ok: true });
+}
+
+function save_(p) {
   var f = FORMS[p.form] || FORMS.meo;
 
   var lock = LockService.getScriptLock();
@@ -54,7 +79,6 @@ function doPost(e) {
     lock.releaseLock();
   }
   notify_(f, row);
-  return json_({ ok: true });
 }
 
 function notify_(f, row) {

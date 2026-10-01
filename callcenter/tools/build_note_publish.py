@@ -7,7 +7,11 @@
 - 相談フォームの URL が未定の記事は、相談の案内の段落ごと外す（フォーム公開後に足す）
 - 画像は note に別でアップロードするので「［画像：ファイル名］」の目印に置き換える
 - note のエディタには表がないので、表は「見出し列：残りの列」の箇条書きに直す
+- フォームの URL・「仲介手数料無料」を書いてよいかは note/launch/settings.json で決める。
+  フォームの URL が入っていれば記事に入れ、その下に URL だけの行も置く（note でリンクのカードになる）
+- 文として成り立つ確認（紹介料の書き方・提携先の名前など）は、タグだけ外して文を残す（STRIP_TAG）
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -15,6 +19,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 NOTE = ROOT / 'note' / 'out'
 KEEP_LINE = {'N001'}  # 【社長確認：…】のタグだけ外し、文は残す
+STRIP_TAG = ('書き方', '紹介料の有無と書き方', '提携先の不動産会社名と宅建業の免許番号', '対応できる範囲',
+             '紹介できるサービス', '提携業者の範囲')
+SETTINGS = json.loads((NOTE.parent / 'launch' / 'settings.json').read_text(encoding='utf-8'))
+FORM_TAGS = {'引越し相談フォームのURL': 'moving_form_url', 'フォームを公開したURL': 'meo_form_url'}
+CHUKAI = '仲介手数料を無料にできる物件があります。条件は物件によって違うため、ご相談のときにご説明します。'
 
 
 def cells(row):
@@ -46,6 +55,19 @@ def build(aid):
     # 「難しいと思ったら」の相談の節は、フォーム URL が未定なら節ごと外す
     text = re.sub(r'\n## 「自分でやるのは難しい」と思ったら\n.*?(?=\n## |\n---|\Z)',
                   lambda m: '' if '【社長確認' in m.group(0) else m.group(0), text, flags=re.S)
+    for tag, key in FORM_TAGS.items():
+        if SETTINGS.get(key):
+            url = SETTINGS[key].rstrip('?&')
+            # リンクの行の下に、URL だけの行を足す（note の「埋め込み」でカードになる）
+            text = re.sub(r'^(.*)https://【社長確認：' + tag + r'】\?src=(\w+)(.*)$',
+                          lambda m: f'{m.group(1)}{url}?src={m.group(2)}{m.group(3)}\n\n{url}?src={m.group(2)}', text, flags=re.M)
+    if not SETTINGS.get('chukai_free_ok'):
+        text = text.replace(CHUKAI, '')
+        text = re.sub(r'[^。\n]*仲介手数料を無料にできる[^。\n]*。', '', text)
+    for tag in STRIP_TAG:
+        text = text.replace(f'【社長確認：{tag}】', '')
+    text = text.replace('お部屋探し（お部屋探しは、提携する不動産会社をご紹介します（物件のご案内・契約・仲介は提携先の不動産会社が行います））',
+                        'お部屋探し（提携する不動産会社をご紹介します。物件のご案内・契約・仲介は提携先の不動産会社が行います）')
     lines = []
     for line in text.split('\n'):
         if '【社長確認' in line:
