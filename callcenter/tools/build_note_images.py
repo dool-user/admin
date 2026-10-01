@@ -19,16 +19,19 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from note_scenes import SCENES, pick  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 NOTE = ROOT / 'note'
 DRAFTS = NOTE / 'out' / 'drafts'
 IMAGES = NOTE / 'out' / 'images'
 
 THEME = {  # アカウントごとの色と絵
-    'A01': {'accent': '#2B4C9B', 'tint': '#EEF2FB', 'icon': 'network'},
-    'A02': {'accent': '#1E7A6E', 'tint': '#EAF5F2', 'icon': 'mail'},
-    'A03': {'accent': '#1F6F54', 'tint': '#EBF4EE', 'icon': 'pin'},
-    'A11': {'accent': '#C4622D', 'tint': '#FBF0E8', 'icon': 'house'},
+    'A01': {'soft': '#C9D6F2', 'accent': '#2B4C9B', 'tint': '#EEF2FB', 'icon': 'network'},
+    'A02': {'soft': '#BFE0D8', 'accent': '#1E7A6E', 'tint': '#EAF5F2', 'icon': 'mail'},
+    'A03': {'soft': '#C2DFCC', 'accent': '#1F6F54', 'tint': '#EBF4EE', 'icon': 'pin'},
+    'A11': {'soft': '#F3CFB8', 'accent': '#C4622D', 'tint': '#FBF0E8', 'icon': 'house'},
 }
 DEFAULT_THEME = {'accent': '#3A4656', 'tint': '#F1F2F4', 'icon': 'network'}
 
@@ -91,27 +94,31 @@ BASE_CSS = '''*{box-sizing:border-box;margin:0}body{font-family:"Noto Sans JP","
 
 def page(body, w, h, theme, extra=''):
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8">{font_css()}<style>{BASE_CSS}
-:root{{--a:{theme['accent']};--t:{theme['tint']}}}{extra}</style></head>
+:root{{--a:{theme['accent']};--t:{theme['tint']};--s:{theme.get('soft', theme['tint'])}}}{extra}</style></head>
 <body style="width:{w}px;{'height:%dpx;' % h if h else ''}">{body}</body></html>'''
 
 
 def header_html(a, title, theme):
-    icon = ICONS[theme['icon']]
-    size = 88 if len(title) <= 28 else 76 if len(title) <= 40 else 66
+    """見出し画像：左にタイトル、右に本題の絵（note_scenes.py。タイトルの言葉で選ぶ）"""
+    scene = SCENES[pick(title, a['acc'])]
+    size = 84 if len(title) <= 28 else 72 if len(title) <= 40 else 62
     free = a['price'] in ('0', '')
-    css = f'''.hd{{width:1920px;height:1006px;background:var(--t);position:relative;overflow:hidden;padding:120px 130px}}
+    css = f'''.hd{{width:1920px;height:1006px;background:var(--t);position:relative;overflow:hidden;padding:0 0 0 130px;display:flex;align-items:center}}
 .band{{position:absolute;left:0;top:0;width:28px;height:100%;background:var(--a)}}
-.chip{{display:inline-block;font-size:34px;font-weight:700;color:#fff;background:var(--a);border-radius:999px;padding:10px 30px}}
-h1{{font-size:{size}px;font-weight:900;line-height:1.35;margin-top:56px;width:1180px;letter-spacing:.01em;text-wrap:balance}}
-.foot{{position:absolute;left:130px;bottom:96px;font-size:32px;font-weight:700;color:#4A5260;display:flex;gap:28px}}
-.foot b{{color:var(--a)}}
-svg{{position:absolute;right:140px;top:250px;width:470px;height:520px}}
-svg *{{fill:var(--a);stroke:var(--a)}} svg .hole{{fill:var(--t);stroke:none}} svg .acc2{{fill:#F2B544;stroke:#F2B544}}
-.dots{{position:absolute;right:-60px;bottom:-60px;width:420px;height:420px;border-radius:50%;background:var(--a);opacity:.08}}'''
-    body = f'''<div class="hd"><div class="band"></div><div class="dots"></div>
-<span class="chip">{html.escape(a['accName'])}</span><h1>{html.escape(title)}</h1>
-<svg viewBox="0 0 420 480" aria-hidden="true">{icon}</svg>
-<div class="foot"><span><b>{'無料で読めます' if free else '保存版'}</b></span><span>{a['id']}</span></div></div>'''
+.txt{{width:940px;display:flex;flex-direction:column;gap:44px;position:relative;z-index:1}}
+.chip{{align-self:flex-start;font-size:32px;font-weight:700;color:#fff;background:var(--a);border-radius:999px;padding:10px 30px}}
+h1{{font-size:{size}px;font-weight:900;line-height:1.38;letter-spacing:.01em;text-wrap:balance}}
+.foot{{font-size:30px;font-weight:700;color:#4A5260}} .foot b{{color:var(--a)}}
+.blob{{position:absolute;right:-120px;top:50%;transform:translateY(-50%);width:980px;height:980px;border-radius:50%;background:var(--a);opacity:.1}}
+.blob2{{position:absolute;right:520px;bottom:-160px;width:300px;height:300px;border-radius:50%;background:#F2B544;opacity:.22}}
+svg{{position:absolute;right:90px;top:50%;transform:translateY(-50%);width:640px;height:640px}}
+svg .a{{fill:var(--a)}} svg .s{{fill:var(--s)}} svg .t{{fill:var(--t)}} svg .y{{fill:#F2B544}} svg .w{{fill:#fff}} svg .k{{fill:#2A2F38}}
+svg .ln-a{{stroke:var(--a)}} svg .ln-s{{stroke:var(--s)}} svg .ln-y{{stroke:#F2B544}} svg .ln-w{{stroke:#fff}} svg .ln-k{{stroke:#2A2F38}}
+svg [class^="ln-"]{{fill:none;stroke-linecap:round;stroke-linejoin:round}}'''
+    body = f'''<div class="hd"><div class="band"></div><div class="blob"></div><div class="blob2"></div>
+<svg viewBox="0 0 600 600" aria-hidden="true">{scene}</svg>
+<div class="txt"><span class="chip">{html.escape(a['accName'])}</span><h1>{html.escape(title)}</h1>
+<div class="foot"><b>{'無料で読めます' if free else '保存版'}</b></div></div></div>'''
     return page(body, 1920, 1006, theme, css)
 
 
@@ -197,7 +204,7 @@ def render(pairs):
 def insert(text, marker, line, before):
     """before（正規表現）の直前に画像の行を1回だけ入れる"""
     if marker in text:
-        text = re.sub(r'\n?' + re.escape(marker) + r'\n!\[[^\n]*\n', '\n', text)
+        text = re.sub(r'\n*' + re.escape(marker) + r'\n!\[[^\n]*\n+', '\n\n', text)
     m = re.search(before, text, re.M)
     if not m:
         return text

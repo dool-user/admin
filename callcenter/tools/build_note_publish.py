@@ -10,6 +10,7 @@
 - フォームの URL・「仲介手数料無料」を書いてよいかは note/launch/settings.json で決める。
   フォームの URL が入っていれば記事に入れ、その下に URL だけの行も置く（note でリンクのカードになる）
 - 文として成り立つ確認（紹介料の書き方・提携先の名前など）は、タグだけ外して文を残す（STRIP_TAG）
+- スマホで読みやすいように、ふつうの段落は1文ごとに改行し、2文ごとに段落を分ける（mobile_breaks。10/1 社長の指示）
 """
 import json
 import re
@@ -47,6 +48,44 @@ def tables_to_lists(text):
     return '\n'.join(out[:-1])
 
 
+OPEN, CLOSE = '「（『【', '」）』】'
+
+
+def sentences(line):
+    """「。」で文に分ける（かぎかっこ・かっこの中では分けない）"""
+    out, cur, depth = [], '', 0
+    for ch in line:
+        cur += ch
+        if ch in OPEN:
+            depth += 1
+        elif ch in CLOSE:
+            depth = max(0, depth - 1)
+        elif ch in '。！？' and depth == 0:
+            out.append(cur.strip())
+            cur = ''
+    if cur.strip():
+        if out and re.fullmatch(r'[）」』】\s]*', cur.strip()):
+            out[-1] += cur.strip()
+        else:
+            out.append(cur.strip())
+    return out
+
+
+def mobile_breaks(text):
+    out, code = [], False
+    for line in text.split('\n'):
+        if line.startswith('```'):
+            code = not code
+        plain = (not code and line.strip() and not re.match(r'\s*(-\s|\*\s|>|#|\||\d+\.\s|［画像|https?://|--- ここから有料)', line))
+        ss = sentences(line) if plain else []
+        if len(ss) <= 1:
+            out.append(line)
+            continue
+        paras = ['\n'.join(ss[i:i + 2]) for i in range(0, len(ss), 2)]
+        out.append('\n\n'.join(paras))
+    return '\n'.join(out)
+
+
 def build(aid):
     text = (NOTE / 'drafts' / f'{aid}.md').read_text(encoding='utf-8')
     text = re.sub(r'\A\s*<!--.*?-->\s*', '', text, flags=re.S)
@@ -78,6 +117,9 @@ def build(aid):
         lines.append(line)
     text = '\n'.join(lines)
     text = tables_to_lists(text)
+    # 冒頭の「**こんな人向け：** 本文」は、見出しと本文を分けて置く（スマホで読みやすく）
+    text = re.sub(r'^\*\*([^*\n]{2,14})：\*\*\s*', r'**\1**\n', text, flags=re.M)
+    text = mobile_breaks(text)
     text = re.sub(r'<!-- 画像：.*?-->\n', '', text)
     text = re.sub(r'!\[([^\]]*)\]\(\.\./images/[^/]+/([^)]+)\)', r'［画像：\2（\1）をここにアップロード］', text)
     text = re.sub(r'\n{3,}', '\n\n', text).strip() + '\n'

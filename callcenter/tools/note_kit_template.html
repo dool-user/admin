@@ -95,7 +95,7 @@ const STEPS = ['新規作成', '見出し画像', 'タイトル', '本文', '画
 
 function md(src, id) {
   const marked_ = src.replace(/［画像：([^（]+)（([^）]*)）をここにアップロード］/g, (_, f, alt) => `\n\n<p class="mark">［画像：${f}（${alt}）をここに入れる］</p>\n\n`);
-  return window.marked ? marked.parse(marked_, { gfm: true }) : `<pre>${esc(src)}</pre>`;
+  return window.marked ? marked.parse(marked_, { gfm: true, breaks: true }) : `<pre>${esc(src)}</pre>`;
 }
 function bodyHTML(a) {
   return md(a.free, a.id) + (a.paid ? `<p class="paidline">――― ここから有料（有料エリアの線をここに引いたら、この行は消す）―――</p>` + md(a.paid, a.id) : '');
