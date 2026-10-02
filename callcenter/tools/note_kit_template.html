@@ -162,12 +162,13 @@ function show(i) {
     ${step(3, '本文を貼る', `<p>本文の欄に貼り付け。見出し・太字・箇条書きはそのまま入ります（崩れたら、見出しは note の「大見出し」「小見出し」で直してください）。</p><div class="row"><button class="btn" type="button" data-copy="body">本文をコピー</button><button class="btn sec" type="button" data-copy="plain">文字だけコピー</button><span class="toast" role="status"></span></div><details><summary>中身を見る</summary><div class="body">${html}</div></details>`)}
     ${step(4, '本文の中に画像を入れる', `<p>本文の「［画像：〜をここに入れる］」の行に、同じ名前の画像を入れて、その行を消す。</p><div class="imgs">${imgs.map(f => `<figure><img src="images/${a.id}/${f}" alt="${esc(f)}"><figcaption>${esc(f)}</figcaption></figure>`).join('') || '<p>なし</p>'}</div>`)}
     ${step(5, '有料エリアの線を引く', a.paid ? `<p>「公開に進む」→ 販売設定で「有料」を選び、価格に <b>${a.price.toLocaleString('ja-JP')}</b> を入れる。「有料エリア設定」で、本文の「――― ここから有料 ―――」の行のすぐ上に線を合わせる。そのあと、この行を本文から消す。</p>` : '<p>無料記事なので不要。</p>')}
-    ${step(6, '公開設定をして投稿', `<p>マガジン「${esc(a.magazine)}」に追加して、「投稿する」。</p>`)}
+    ${step(6, '公開設定をして投稿', `<p>公開設定の「ハッシュタグ」に下のタグを入れる（本文の無料部分の最後にも同じ行が入っています）。マガジン「${esc(a.magazine)}」に追加して、「投稿する」。</p>${a.tags ? `<div class="val">${esc(a.tags)}</div><div class="row"><button class="btn" type="button" data-copy="tags">ハッシュタグをコピー</button><span class="toast" role="status"></span></div>` : ''}`)}
     ${step(7, '公開した URL をチャットに貼る', `<p>公開した記事の URL をこのチャットに貼ってください。記事一覧に記録し、明日の日報から数字を追います。</p>`)}
   </ol>`;
   $('#main').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => {
     const k = b.dataset.copy;
     if (k === 'title') copyText(a.title, b);
+    else if (k === 'tags') copyText(a.tags, b);
     else if (k === 'plain') copyText(plain, b);
     else copyRich(html, plain, b);
   });

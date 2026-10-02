@@ -35,6 +35,7 @@ def main(ids):
         title = re.match(r'#\s+(.+)\n', text).group(1).strip()
         body = text.split('\n', 1)[1].strip()
         free, _, paid = body.partition('--- ここから有料 ---')
+        tags = next((l for l in body.split('\n') if re.match(r'#[^\s#]', l)), '')
         draft = (NOTE / 'out' / 'drafts' / f'{aid}.md').read_text(encoding='utf-8')
         links = re.findall(r'^- (.+?)：(https://support\.google\.com/[^\s（]+)', draft.split('### 社長に原文を確認')[-1], re.M) if '### 社長に原文を確認' in draft else []
         imgs = sorted(p.name for p in (NOTE / 'out' / 'images' / aid).glob('*.png'))
@@ -42,7 +43,7 @@ def main(ids):
         acc = ACCOUNT[r['アカウント']]
         items.append({'id': aid, 'title': title, 'price': int(r['価格'].replace(',', '') or 0), 'account': acc,
                       'accountUrl': URL[acc], 'magazine': MAGAZINE[r['アカウント']], 'free': free.strip(), 'paid': paid.strip(),
-                      'images': imgs, 'checks': CHECKS.get(aid, []), 'links': [{'name': n, 'url': u} for n, u in links]})
+                      'images': imgs, 'checks': CHECKS.get(aid, []), 'links': [{'name': n, 'url': u} for n, u in links], 'tags': tags})
     tpl = (Path(__file__).parent / 'note_kit_template.html').read_text(encoding='utf-8')
     data = json.dumps(items, ensure_ascii=False).replace('</', '<\\/')
     (out / 'index.html').write_text(tpl.replace('/*__DATA__*/[]', data), encoding='utf-8')

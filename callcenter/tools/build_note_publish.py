@@ -11,11 +11,16 @@
   フォームの URL が入っていれば記事に入れ、その下に URL だけの行も置く（note でリンクのカードになる）
 - 文として成り立つ確認（紹介料の書き方・提携先の名前など）は、タグだけ外して文を残す（STRIP_TAG）
 - スマホで読みやすいように、ふつうの段落は1文ごとに改行し、2文ごとに段落を分ける（mobile_breaks。10/1 社長の指示）
+- ハッシュタグ（tools/note_tags.py）を無料部分の最後に1行で入れる（有料部分の中だと買った人にしか見えないため。10/2 社長の指示）
 """
+import csv
 import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from note_tags import tag_line  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 NOTE = ROOT / 'note' / 'out'
@@ -122,6 +127,13 @@ def build(aid):
     text = mobile_breaks(text)
     text = re.sub(r'<!-- 画像：.*?-->\n', '', text)
     text = re.sub(r'!\[([^\]]*)\]\(\.\./images/[^/]+/([^)]+)\)', r'［画像：\2（\1）をここにアップロード］', text)
+    acc = {r['ID']: r['アカウント'] for r in csv.DictReader((NOTE / 'articles.csv').open(encoding='utf-8-sig'))}.get(aid, '')
+    title = re.match(r'#\s+(.+)', text).group(1).strip()
+    tags = tag_line(title, acc)
+    if '--- ここから有料 ---' in text:
+        text = text.replace('--- ここから有料 ---', tags + '\n\n--- ここから有料 ---', 1)
+    else:
+        text = text.rstrip() + '\n\n' + tags
     text = re.sub(r'\n{3,}', '\n\n', text).strip() + '\n'
     left = text.count('【社長確認')
     out = NOTE / 'publish' / f'{aid}.md'
