@@ -14,7 +14,7 @@
 | A01 | 「Claude は2回、ありもしない数字を作った」がそのまま題になった体験記（Claude Code で会社を回す連載）。データがない所をもっともらしい値で埋め、本物の数字と見分けがつかない自信で出す、という趣旨 | 事実（要約） | https://qiita.com/noracorn92/items/575ddf59dd8cd0e9becc |
 | A01 | 対策として「確信のない事実・統計・引用は、先に『未確認』と書かせる」「CLAUDE.md に出し方・してはいけないこと・渡す情報・過去の失敗を書く」が挙がる | 事実（要約） | https://zenn.dev/ojt/articles/claude-code-hallucination-fact-checking ・ https://www.c-sidepro.com/blog/column/5760/ |
 | A01 | Anthropic 公式に「ハルシネーションを減らす」のページがある（日本語） | 事実（要約・公式の原文は未確認） | https://platform.claude.com/docs/ja/test-and-evaluate/strengthen-guardrails/reduce-hallucinations |
-| A01 | 読者側の困りごとの場面：AI に市場調査をさせた統計を資料に入れ、会議の前に上司に出典を聞かれて調べたら、統計も引用元の会社名も架空だった、という事例の紹介。＝困るのは「社外・上司に出す直前」 | 事実（要約・紹介記事の事例で、当事者の確認はできない） | https://shift-ai.co.jp/blog/3181/ ・ https://ai-souken.com/article/collection-of-chatgpt-errors |
+| A01 | 読者側の困りごとの場面：AI に市場調査をさせた統計を資料に入れ、会議の前に上司に出典を聞かれて調べたら、統計も引用元の会社名も架空だった、という事例の紹介。＝困るのは「社外・上司に出す直前」 | 事実（要約・紹介記事の事例で、当事者の確認はできない。どちらの記事の事例かも要約からは特定できない） | https://shift-ai.co.jp/blog/3181/ ・ https://www.ai-souken.com/article/collection-of-chatgpt-errors |
 | A01 | 「1体の AI レビューに欲張って失敗し、3エージェントに分けた」体験記。同じ観点で見させると基準が打ち消し合い「まあ概ね良いのでは」に落ちる。観点ごとに分け、結果は一方向のレポートにして、採否は人が決める | 事実（要約） | https://tech-lab.sios.jp/archives/53091 |
 | A01 | AI エージェント同士が影響し合うと「多数派に従う」力で集団として偏る、という研究の紹介（論文の原文は未確認） | 事実（要約） | https://www.alphaxiv.org/ja/abs/2605.10721 |
 | A01 | 公式ドキュメント：サブエージェントは独自のシステムプロンプト・ツール・権限を持ち、独自のコンテキストで動いて結果を返す | 事実（要約・公式の原文は未確認） | https://code.claude.com/docs/ja/sub-agents |
