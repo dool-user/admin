@@ -131,6 +131,8 @@ MOVING = [
 ]
 RULES = [
     (r'勝手に変わ|停止|制限|再審査', 'alert'),
+    (r'年末年始|営業時間', 'calendar'),
+    (r'台帳|二度送らない|二重', 'check'),
     (r'口コミ|レビュー|★', 'review'),
     (r'Googleマップ|MEO|ビジネスプロフィール|店舗が今日', 'map'),
     (r'Instagram|DM', 'phone'),
