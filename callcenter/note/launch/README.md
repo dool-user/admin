@@ -44,6 +44,9 @@ A11（引越し）は、質問シートの 4（相談フォームの URL）・6�
 
 ## 3. note への貼り方
 
+**最初の有料記事の前に（1回だけ）：** note は初めて有料記事を出すとき「本人情報の登録」を求めます。登録した内容は、あとで自分では直せない（お問い合わせで直す）とされています（公式ヘルプ・原文未確認）。入力の前に画面の説明を読んでから入れてください。売上の振込口座は、売上が出てからの登録でも間に合います。
+
+
 **公開キット（コピーボタン付き）：https://claude.ai/artifact/DhfRUFcRx597KyWfqfA6CW** （作り直し：`python tools/build_note_publish.py <ID...>` → `python tools/build_note_kit.py <ID...>` → `note/launch/kit/index.html` を同じパスで publish。files に `images/<ID>/<名前>.png`）。表は note にないので箇条書きに直してある。
 
 1. 下書きプレビュー（https://claude.ai/artifact/WEZk2xT5rnQRcinpd67j28 ）で記事を開き、見出し画像を保存して note の見出し画像に入れる
