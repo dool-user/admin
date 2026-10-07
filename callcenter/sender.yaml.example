@@ -7,3 +7,10 @@ phone: ★要変更 03-0000-0000
 
 # 1日に送る上限（送りすぎると迷惑行為とみなされやすい）
 daily_limit: 30
+
+# 自動送信（python tools/send_assist.py --auto）。true にしたときだけ動く（10/7 社長が承認）
+auto_send: false
+# 1件ごとにあける秒数（この間でランダム）
+interval_sec: [90, 240]
+# 送る時間（平日のみ・何時から何時まで）
+send_hours: [10, 17]

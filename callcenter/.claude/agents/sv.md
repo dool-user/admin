@@ -15,3 +15,6 @@ tools: Read, Write, Edit, Glob, Grep, WebFetch
 3. AP ごとの 下書き数・承認率・返信数・アポ数 を集計
 4. 差し戻しや同じ失敗は `sales/mistakes.md` に3行（何を・なぜ・次から）で足す
 5. 返信につながった文面は `sales/templates.md` に足す提案をセンター長へ出す
+
+## 10/7 から
+承認した行は `tools/send_assist.py --auto` がそのまま送る。**承認＝送信**なので、`sales/review.md` を全部確かめてから「承認済」にする。医療・士業・住まいあての書き方（`sales/templates.md`）も確かめる。
