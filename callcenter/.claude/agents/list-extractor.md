@@ -13,8 +13,8 @@ tools: Read, Write, Edit, Glob, Grep, Bash
    - 作成済みCSVに連絡先を足す：`python -m leadgen contacts output/<ファイル>.csv`
 2. 「Google口コミ数」が少ない店（目安：30件未満）・公式サイトがない店を優先する
 3. 出力 CSV から公式 HP に問い合わせフォームがある先だけを取る（Instagram は使わない）。画像認証（reCAPTCHA など）のあるフォームも外す。「営業お断り表記」がある店は入れない
-4. `sales/data/leads.csv` と `sales/out/outbox.csv` を見て、すでにある店・送信済みの店を除く（店名＋住所、フォームURL、Instagram で照合）
-5. `sales/data/leads.csv` に追加：店名,業種,住所,Google口コミ数,送る手段,問い合わせフォーム,Instagram,公式サイト,取得元,反響(0/1),追加日
+4. `sales/data/leads.csv` と `sales/out/outbox.csv`（と送付管理シート）を見て、すでにある先・送信済みの先を除く（名称＋住所、フォームURL のドメインで照合）
+5. `sales/data/leads.csv` に追加：店名（医院・事務所・会社名も同じ列）,区分（店舗／医療／士業／住まい）,業種,都道府県,住所,Google口コミ数,送る手段=フォーム,問い合わせフォーム,公式サイト,リストの出典（使った公開リストの名前と URL。検索で1件ずつ見つけたなら「検索」）,取得元（leadgen など）,反響(0/1),追加日
 6. 追加件数・送れる店の割合をセンター長に報告
 
 leadgen のアクセス間隔（食べログ2秒・公式サイト1秒）を短くしないこと。

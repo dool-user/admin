@@ -2,3 +2,5 @@ sender.yaml
 .browser/
 __pycache__/
 .pytest_cache/
+sales/out/sheet_pending.jsonl
+sales/out/screens/

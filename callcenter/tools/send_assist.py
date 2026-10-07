@@ -11,6 +11,7 @@
 - 必須の欄を埋められないフォームは送らず「要手動」（人が送る）
 - 送る時間は平日の send_hours（初期値 10〜17時）だけ。1件ごとに interval_sec（初期値 90〜240秒の間でランダム）あける。1日の上限 daily_limit を守る
 - 送信後の画面を sales/out/screens/<ID>.png に残す。完了の表示が見えたら「送信済」、見えなければ「送信不明」（上限の数には入れる）
+- 送信済・送信不明・見送り・要手動は、1件ごとに送付管理のスプレッドシートにも記録する（sender.yaml の sheet_webhook。tools/sheet_log.py）
 
 - フォーム：ブラウザでフォームを開き、名前・会社名・メール・電話・件名・本文を入力して、送信ボタンに枠を付けて止まる
   **送信ボタンは押しません。** 内容を確かめて、人が押してください（同意のチェック・選択肢も人が選ぶ）
@@ -29,6 +30,9 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import sheet_log  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTBOX = ROOT / 'sales' / 'out' / 'outbox.csv'
@@ -242,6 +246,7 @@ def run_auto(args, sender, fields, rows):
                 if memo:
                     r['メモ'] = (r.get('メモ', '') + ' ' + memo).strip()
                 save_outbox(fields, rows, args.outbox)
+                sheet_log.log(sender, sheet_log.row_to_record(r))
                 print(f"  {r['ID']} {r['店名']} → {state} {memo}")
 
             if recently_sent(rows, r['送り先URL'], now):
@@ -320,6 +325,7 @@ def main(argv=None):
                     print(f'  「{ng.group(0)}」の表記があります。入力しません → 見送りにします')
                     r['状態'], r['メモ'] = '見送り', (r.get('メモ', '') + f' 営業お断り表記：{ng.group(0)}').strip()
                     save_outbox(fields, rows, args.outbox)
+                    sheet_log.log(sender, sheet_log.row_to_record(r))
                     continue
                 done = fill_form(page, values(sender, r))
                 print(f"  入力した欄：{'・'.join(done) or 'なし（手で入力してください）'}")
@@ -337,6 +343,7 @@ def main(argv=None):
             else:
                 r['状態'], r['送信日時'] = '送信済', datetime.now(JST).strftime('%Y-%m-%d %H:%M')
             save_outbox(fields, rows, args.outbox)
+            sheet_log.log(sender, sheet_log.row_to_record(r))
         ctx.close()
     print(f'本日の送信 {sent_today(rows, today)}件')
 

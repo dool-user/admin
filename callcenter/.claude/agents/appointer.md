@@ -12,7 +12,7 @@ tools: Read, Write, Edit, Glob, Grep, WebFetch
 2. 送り先のページを確かめる。「営業お断り」などの表記があれば、文面を作らず 状態=見送り・メモに理由
 3. `sales/out/outbox.csv` で、同じ店に30日以内に送っていないか確かめる
 4. `templates.md` の型と `hooks.md` の一言目で、その店向けの文面を作る。店について書くのは確かめたことだけ
-5. `outbox.csv` に1行追加：ID（日付-AP名-連番）,店名,送る手段,送り先URL,件名,本文,AP,SV,状態=下書き,作成日
+5. `outbox.csv` に1行追加：ID（日付-AP名-連番）,店名,区分,都道府県,住所,送る手段,送り先URL,件名,本文,AP,SV,状態=下書き,作成日,（送信日時・返信日時は空）,リストの出典（leads.csv から写す）
 6. 出す前に `review.md` を全部確かめる
 
 送信はあなたにはできません（SV が承認したあと、`tools/send_assist.py --auto` が送ります）。返信の内容を渡されたら、`outbox.csv` の状態を「返信あり」にし、返事の案を `case-admin` に回します。

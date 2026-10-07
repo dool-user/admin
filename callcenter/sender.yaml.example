@@ -14,3 +14,7 @@ auto_send: false
 interval_sec: [90, 240]
 # 送る時間（平日のみ・何時から何時まで）
 send_hours: [10, 17]
+
+# 送付管理のスプレッドシート（gas/sales-log-receiver.gs をデプロイした URL と合言葉）。空なら記録しない
+sheet_webhook: ''
+sheet_token: ''

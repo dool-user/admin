@@ -30,6 +30,7 @@
 3. リストを AP 10人に均等に割り振る。AP は並列で、1店ごとの文面を `sales/out/outbox.csv` に「下書き」で入れる
 4. 各チームの `sv` が `sales/review.md` で点検 → 「承認済」か「差し戻し」
 5. `python tools/send_assist.py --auto` が承認済のフォームを自動で送る（1日の上限・間隔・送る時間は `sender.yaml`）。送れなかった先は「要手動」になり、人が `python tools/send_assist.py` で1件ずつ送る
+   - **送付した案件はスプレッドシート「営業部 送付管理（HP問い合わせフォーム）」で管理する（10/7 社長の指示）。** 送信ツールが送信済・送信不明・見送り・要手動を1件ずつ書き込む（受け口 `gas/sales-log-receiver.gs`、設定は `sender.yaml` の `sheet_webhook`）。返信・アポは `case-admin` が `tools/sheet_log.py` で同じ ID の行に入れる
 6. 返信は `case-admin` が返事の案・日程調整・案件票を作る。アポは `sales/out/appointments.csv`
 
 ## note 事業部
