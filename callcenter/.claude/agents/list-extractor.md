@@ -18,7 +18,11 @@ tools: Read, Write, Edit, Glob, Grep, Bash
    - 飲食以外：`python -m leadgen search --source google --pref 東京都 --city 世田谷区 --large "店舗ビジネス（Googleマップのみ）" --small 美容室 --no-uber --contacts`
    - MEO の営業なので Uber Eats の確認は不要（`--no-uber`）
    - 作成済みCSVに連絡先を足す：`python -m leadgen contacts output/<ファイル>.csv`
-2. 「Google口コミ数」が少ない店（目安：30件未満）・公式サイトがない店を優先する
+2. **狙う先は `sales/knowledge.md`「狙う先」（10/9 現場の知見）。** 「すでに集客に取り組んでいるが、まだ伸ばせる店」を先にする（9月までの「口コミが少ない店・HP がない店を優先」はやめた）
+   - 業種：整骨院・接骨院（高単価）／美容院・エステ／居酒屋（席数多め）・フレンチ・イタリアン・ランチ＋ディナーの飲食店／医療系
+   - 目印：HP あり・Instagram を運用・口コミがある程度・GBP をある程度更新。Instagram は leads.csv の Instagram 列に入れる（DM は送らない）
+   - 人が Googleマップで見て分かることは列に入れる：GBPの様子（例：「写真も投稿も少しで止まっている」「一時期多かったが止まった」）・昼夜営業（あり）・駅近（あり）
+   - 入れ終わったら `python tools/lead_score.py` で優先度と狙う理由を付け、優先度の高い順に AP に回す
 3. 出力 CSV から公式 HP に問い合わせフォームがある先だけを取る（Instagram は使わない）。画像認証（reCAPTCHA など）のあるフォームも外す。「営業お断り表記」がある店は入れない
 4. `sales/data/leads.csv` と `sales/out/outbox.csv`（と送付管理シート）を見て、すでにある先・送信済みの先を除く（名称＋住所、フォームURL のドメインで照合）
 5. `sales/data/leads.csv` に追加：店名（医院・事務所・会社名も同じ列）,区分（店舗／医療／士業／住まい）,業種,都道府県,住所,Google口コミ数,送る手段=フォーム,問い合わせフォーム,公式サイト,リストの出典（使った公開リストの名前と URL。検索で1件ずつ見つけたなら「検索」）,取得元（leadgen など）,反響(0/1),追加日

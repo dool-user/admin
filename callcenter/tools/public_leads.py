@@ -33,7 +33,7 @@ HP_SEARCH = ROOT / 'sales' / 'data' / 'hp_search.csv'
 OUTBOX = ROOT / 'sales' / 'out' / 'outbox.csv'
 JST = timezone(timedelta(hours=9))
 LEAD_FIELDS = ['店名', '区分', '業種', '都道府県', '住所', 'Google口コミ数', '送る手段', '問い合わせフォーム', '公式サイト',
-               'リストの出典', '取得元', '反響', '追加日']
+               'Instagram', 'GBPの様子', '昼夜営業', '駅近', 'リストの出典', '取得元', '反響', '追加日', '優先度', '狙う理由']
 HP_FIELDS = ['名称', '区分', '都道府県', '住所', '法人番号', 'リストの出典', '公式サイト', '確認者', 'メモ']
 PREFS = re.compile(r'^(北海道|東京都|大阪府|京都府|.{2,3}県)')
 COLS = {
@@ -186,6 +186,8 @@ def find_forms(leads, limit, log=print):
             continue
         n += 1
         c = finder.find(r['公式サイト'])
+        if c.instagram and not r.get('Instagram'):
+            r['Instagram'] = c.instagram  # 狙う目印（DM は送らない）
         if c.contact_ng:
             log(f"  外す（営業お断り：{c.contact_ng}）{r['店名']}")
             continue
