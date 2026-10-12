@@ -112,6 +112,14 @@ def main(argv=None):
     for v, x in t.items():
         s = x['送信'] or 1
         print(f"{v:>4}  {x['送信']:>4}  {x['返信']:>4}  {x['アポ']:>4}  {x['返信']/s:>6.1%}  {x['アポ']/s:>6.1%}")
+    st = defaultdict(int)
+    for r in rows:
+        st[r.get('状態', '')] += 1
+    complaints = sum(1 for r in rows if '苦情' in r.get('メモ', ''))
+    tried = sum(st[k] for k in ('送信済', '送信不明', '返信あり', 'アポ', '要手動'))
+    bad = st['送信不明'] + st['要手動']
+    print(f"送信の状態：送信済 {st['送信済']}／送信不明 {st['送信不明']}／要手動 {st['要手動']}／見送り {st['見送り']}／苦情 {complaints}"
+          + (f"（送信不明＋要手動 {bad / tried:.0%}。2割以下で苦情0なら上限を1段上げてよいか社長に聞く）" if tried else ''))
     print('判定（返信率）：' + judge(t, '返信', args.min))
     print('判定（アポ率）：' + judge(t, 'アポ', args.min))
 

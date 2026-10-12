@@ -5,7 +5,7 @@ name_kana: ★要変更 ヤマダ タロウ
 email: ★要変更 sales@example.com
 phone: ★要変更 03-0000-0000
 
-# 1日に送る上限（送りすぎると迷惑行為とみなされやすい）
+# 1日に送る上限（10/12 社長と決定：30件で始め、問題がなければ 50 → 100 と段階的に上げる。決まりは sales/ab-tests.md「送る件数の上げ方」）
 daily_limit: 30
 
 # 自動送信（python tools/send_assist.py --auto）。true にしたときだけ動く（10/7 社長が承認）
