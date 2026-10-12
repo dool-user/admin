@@ -12,7 +12,7 @@
  */
 var TOKEN = 'change-me'; // ★要変更（sender.yaml の sheet_token と同じにする）
 var SHEET = '送付管理';
-var COLUMNS = ['記録日時', '送信日時', 'ID', '区分', '名称', '都道府県', '住所', '送り先URL', '件名', '状態', 'メモ',
+var COLUMNS = ['記録日時', '送信日時', 'ID', '区分', '名称', '都道府県', '住所', '送り先URL', '文面案', '件名', '状態', 'メモ',
   'リストの出典', '返信', '返信日', 'アポ日時', '担当'];
 
 function doPost(e) {
@@ -35,6 +35,9 @@ function save_(p) {
     var sheet = ss.getSheetByName(SHEET) || ss.getSheets()[0];
     if (sheet.getLastRow() === 0) sheet.appendRow(COLUMNS);
     var head = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(String);
+    COLUMNS.forEach(function (k) { // あとから足した列（例：文面案）は右端に足す
+      if (head.indexOf(k) < 0) { sheet.getRange(1, head.length + 1).setValue(k); head.push(k); }
+    });
     var idCol = head.indexOf('ID');
     var n = sheet.getLastRow();
     var at = -1;

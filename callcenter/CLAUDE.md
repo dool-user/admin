@@ -28,6 +28,7 @@
 1. `list-extractor` が、送り先（医院・事務所・会社・店）の公式 HP と問い合わせフォームを探し `sales/data/leads.csv` に追加（「営業お断り」表記・画像認証のあるフォームは入れない。リストの作り方は使うサービスの利用規約を確かめてから）
 2. `marketer` が反響（LP・広告からの問い合わせ）を先頭に入れる
 3. リストを AP 10人に均等に割り振る。AP は並列で、1店ごとの文面を `sales/out/outbox.csv` に「下書き」で入れる
+   - **文面は A/B テストで良いものに変えていく（10/12 社長の指示）。** `python tools/ab_test.py assign` で区分ごとに案A・案B を交互に割り当て、`report` で各100通を送ったあとに判定する。決まりとテストの登録は `sales/ab-tests.md`
 4. 各チームの `sv` が `sales/review.md` で点検 → 「承認済」か「差し戻し」
 5. `python tools/send_assist.py --auto` が承認済のフォームを自動で送る（1日の上限・間隔・送る時間は `sender.yaml`）。送れなかった先は「要手動」になり、人が `python tools/send_assist.py` で1件ずつ送る
    - **送付した案件はスプレッドシート「営業部 送付管理（HP問い合わせフォーム）」で管理する（10/7 社長の指示）。** 送信ツールが送信済・送信不明・見送り・要手動を1件ずつ書き込む（受け口 `gas/sales-log-receiver.gs`、設定は `sender.yaml` の `sheet_webhook`）。返信・アポは `case-admin` が `tools/sheet_log.py` で同じ ID の行に入れる
