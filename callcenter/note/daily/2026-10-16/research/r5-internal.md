@@ -1,5 +1,5 @@
 # リサーチメモ（シオン・自社データ派）2026-10-16（金）
-> 外の情報は見ていない。チャットはセンター長の確認。公開の有無は未確認。
+> 外の情報は見ていない。チャットはセンター長確認。公開の有無は未確認。
 
 ## 今日の結論
 - **10/7 の念押しは 10/16 08:51 も返事なし。** 理由は不明（候補①〜⑤は減らさない）。
@@ -9,8 +9,8 @@
 ## 見つけたこと
 | アカウント | 見つけたこと | 事実／推測 | 出典 |
 |---|---|---|---|
-| 全体 | inbox は README のみ。articles.csv 33行（校正待ち28・企画5）で URL・販売数は0行 | 事実（0） | note/inbox/・note/out/articles.csv |
-| A03・A11 | フォーム URL 2つとも空・相談0件 | 事実（0） | note/launch/settings.json・moving/out/inquiries.csv |
+| 全体 | inbox は README のみ。articles.csv 33行（校正待ち28・企画5）、URL・販売数は0行 | 事実（0） | note/inbox/・note/out/articles.csv |
+| A03・A11 | フォーム URL 2つ空・相談0件 | 事実（0） | note/launch/settings.json・moving/out/inquiries.csv |
 | 全体 | 10/15：なし（終日）・6,683字 | 事実 | note/daily/log.csv |
 
 ## DS への一言
