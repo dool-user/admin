@@ -11,7 +11,7 @@
 |---|---|---|---|
 | 全体 | inbox は README のみ。articles 33行（校正待ち28・企画5）、URL・販売数は0行 | 事実（0） | note/inbox/・out/articles.csv |
 | A03・A11 | フォーム URL 2つ空・相談0件 | 事実（0） | launch/settings.json・moving/out/inquiries.csv |
-| 全体 | 11/4：なし（チャット・コミットとも）・7,005字（daily 全体） | 事実 | センター長の確認・daily/log.csv |
+| 全体 | 11/4：なし（チャット・コミットとも）・daily 全体7,005字 | 事実 | センター長の確認・daily/log.csv |
 
 ## DS への一言
 - 「なし」は発言の有無の1語だけ。原因の判定に使わず、曜日・連続で読まない。お願いの1文は変えず、念押しも確認も重ねない。
