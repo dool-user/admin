@@ -4,12 +4,12 @@
 ## 今日の結論
 - **10/7 の念押しは 11/15 08:51 も返事なし。** 理由は不明（候補①〜⑤は残す）。
 - 記録：11/14 なし。届いた URL・答えは0。
-- 判定日が来た仮説はなし（pdca.csv。未判定8行は公開日起点、公開日は0行）。
+- 判定日が来た仮説はなし（pdca.csv）。
 
 ## 見つけたこと
 | アカウント | 見つけたこと | 事実／推測 | 出典 |
 |---|---|---|---|
-| 全体 | inbox は README のみ。articles 33行（校正待ち28・企画5）、公開日・URL・販売数0行 | 事実（0） | note/inbox/・out/articles.csv |
+| 全体 | inbox は README のみ。articles 33行（校正待ち28・企画5）、URL・販売数は0行 | 事実（0） | note/inbox/・out/articles.csv |
 | A03・A11 | フォーム URL 2つ空・相談0件 | 事実（0） | launch/settings.json・moving/out/inquiries.csv |
 | 全体 | 11/14：なし（チャット・コミットとも）・daily全体6,939字 | 事実 | センター長の確認・daily/log.csv |
 
